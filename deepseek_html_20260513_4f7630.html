@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🌐 Dual-Page Gun.js IDE: Editor & Preview</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, 'Segoe UI', 'Courier New', monospace;
+            background: #0b0d15;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        /* Splash / Launcher Container */
+        .launcher {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(18, 22, 35, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #c084fc, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub {
+            color: #8b92b0;
+            border-left: 3px solid #60a5fa;
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin: 2rem 0 1.5rem;
+            justify-content: center;
+        }
+
+        .page-card {
+            background: #11131f;
+            border-radius: 1.5rem;
+            flex: 1;
+            min-width: 240px;
+            padding: 1.6rem;
+            transition: transform 0.2s ease, border-color 0.2s;
+            border: 1px solid #2a2f42;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .page-card:hover {
+            transform: translateY(-6px);
+            border-color: #60a5fa;
+            background: #14182a;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .page-icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.4rem;
+        }
+
+        .page-desc {
+            font-size: 0.8rem;
+            color: #7e85a6;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: #5f6c92;
+        }
+
+        .network-status {
+            background: #0f111c;
+            border-radius: 80px;
+            padding: 0.6rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            border: 1px solid #23273b;
+        }
+
+        .status-led {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #2ecc71;
+            box-shadow: 0 0 5px #2ecc71;
+            margin-right: 6px;
+        }
+
+        button {
+            background: #2d334f;
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.1s;
+        }
+
+        button:hover {
+            background: #4f5b8c;
+        }
+
+        .footnote {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #4e5679;
+            margin-top: 2rem;
+        }
+
+        .toast-global {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            backdrop-filter: blur(8px);
+            color: #b9ffdb;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            z-index: 10000;
+            font-family: monospace;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+</head>
+<body>
+<div class="launcher" id="launcherRoot">
+    <h1>✧  Decentralized IDE  ✧</h1>
+    <div class="sub">two independent pages · gun.js peer-to-peer sync</div>
+
+    <div class="card-grid">
+        <div class="page-card" id="openEditorBtn">
+            <div class="page-icon">✏️</div>
+            <div class="page-title">Editor Panel</div>
+            <div class="page-desc">Write HTML, auto-save, sync to network</div>
+            <div class="badge-row"><span>⌨️ CodeMirror-style</span> <span>⚡ Auto sync</span></div>
+        </div>
+        <div class="page-card" id="openPreviewBtn">
+            <div class="page-icon">🔍</div>
+            <div class="page-title">Preview Panel</div>
+            <div class="page-desc">Live render, real‑time updates from peers</div>
+            <div class="badge-row"><span>📱 Iframe sandbox</span><span>🔄 reactive</span></div>
+        </div>
+    </div>
+
+    <div class="network-status">
+        <span><span class="status-led"></span> Gun.js Network: <span id="peerCount">0</span> peer(s)</span>
+        <span>📡 Data store: <span id="storageHint">p2p + local fallback</span></span>
+        <button id="resetNetworkHint" style="background:#323a5a;">⟳ Reset global page</button>
+    </div>
+    <div class="footnote">
+        ⚡ Both panels are <strong>separate windows/pages</strong> — open each in its own browser tab.<br>
+        Any change in the Editor saves to Gun.js, and the Preview updates instantly across all instances.
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // GLOBAL GUN INSTANCE + SHARED REF (single source of truth)
+    // --------------------------------------------------------------
+    const gun = Gun({
+        peers: ['https://gun.eco.dev/gun']
+    });
+    const pageSourceRef = gun.get('dual-panel-gun-page');
+    const sourceNode = pageSourceRef.get('html-content');
+
+    // Default elegant "Hello World" starter HTML
+    const DEFAULT_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Live Preview | Gun.js</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: radial-gradient(circle at 10% 30%, #0a0f1e, #03050b);
+            font-family: system-ui, 'Segoe UI', 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .glass-card {
+            background: rgba(20, 28, 44, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2rem;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+            text-align: center;
+            transition: 0.2s;
+        }
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(120deg, #b38eff, #6fcbff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #bfc9f0;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            background: #3b4b7a;
+            border: none;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 1rem;
+        }
+        button:hover {
+            background: #5e7bc2;
+            transform: scale(1.02);
+        }
+        .badge {
+            margin-top: 1.5rem;
+            font-size: 0.7rem;
+            color: #7889b3;
+        }
+        .emoji-big {
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-card">
+        <div class="emoji-big">🌐✨</div>
+        <h1>decentralized preview</h1>
+        <p>This content is rendered from the <strong>Gun.js</strong> shared state.<br>
+        Open the <strong>Editor Panel</strong> in another tab, make changes & save — this view updates live!</p>
+        <button onclick="alert('🎉 P2P magic via Gun.js!')">⚡ click me</button>
+        <div class="badge">🔁 live sync | dual-panel architecture</div>
+    </div>
+</body>
+</html>`;
+
+    // Helper: show global toast (floating)
+    let toastTimer = null;
+    function showLaunchToast(msg, isError = false) {
+        const existingToast = document.querySelector('.toast-global');
+        if(existingToast) existingToast.remove();
+        const toastDiv = document.createElement('div');
+        toastDiv.className = 'toast-global';
+        toastDiv.textContent = msg;
+        if(isError) toastDiv.style.background = "#c44536";
+        document.body.appendChild(toastDiv);
+        if(toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            if(toastDiv) toastDiv.style.opacity = '0';
+            setTimeout(() => toastDiv?.remove(), 300);
+        }, 2800);
+    }
+
+    // Peers counter
+    let onlinePeers = new Set();
+    gun.on('hi', peer => {
+        onlinePeers.add(peer);
+        updatePeerDisplay();
+    });
+    gun.on('bye', peer => {
+        onlinePeers.delete(peer);
+        updatePeerDisplay();
+    });
+
+    function updatePeerDisplay() {
+        const peerSpan = document.getElementById('peerCount');
+        if(peerSpan) peerSpan.innerText = onlinePeers.size;
+    }
+    setInterval(() => {
+        if(document.getElementById('peerCount')) {
+            document.getElementById('peerCount').innerText = onlinePeers.size;
+        }
+    }, 1800);
+
+    // Ensure default data exists if no content in gun
+    function initializeGunContent() {
+        sourceNode.once((data) => {
+            if (!data || typeof data !== 'string' || data.trim().length === 0) {
+                console.log("No content found, seeding default HTML into Gun.js");
+                sourceNode.put(DEFAULT_HTML, (ack) => {
+                    if (!ack || ack.err) console.warn("seed error", ack);
+                    else showLaunchToast("📡 Initialized default page on network");
+                    localStorage.setItem('gun_dual_backup', DEFAULT_HTML);
+                });
+            } else {
+                // also backup to localStorage
+                localStorage.setItem('gun_dual_backup', data);
+            }
+        });
+    }
+
+    // Reset to default (global action)
+    function resetGlobalToDefault() {
+        sourceNode.put(DEFAULT_HTML, (ack) => {
+            if(ack && ack.err) {
+                showLaunchToast("❌ reset failed: " + ack.err, true);
+            } else {
+                showLaunchToast("🔄 Master reset: default HTML synced to all panels");
+                localStorage.setItem('gun_dual_backup', DEFAULT_HTML);
+            }
+        });
+    }
+
+    // Helper to open a dedicated page (separate window/tab)
+    function openEditorPage() {
+        // create a full-featured editor page as a Blob URL (isolated but shares gun instance)
+        const editorHTML = generateEditorPageHTML();
+        const blob = new Blob([editorHTML], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const newWindow = window.open(url, '_blank');
+        if (!newWindow) {
+            showLaunchToast("⚠️ Popup blocked! Allow popups to open separate panels.", true);
+        } else {
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            showLaunchToast("✏️ Editor panel opened in new tab");
+        }
+    }
+
+    function openPreviewPage() {
+        const previewHTML = generatePreviewPageHTML();
+        const blob = new Blob([previewHTML], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const newWindow = window.open(url, '_blank');
+        if (!newWindow) {
+            showLaunchToast("⚠️ Preview blocked. Please enable popups for full dual-page experience.", true);
+        } else {
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            showLaunchToast("🔍 Preview panel opened – live updates active");
+        }
+    }
+
+    // ---------- Build Editor Page (self-contained Gun listener + editor) ----------
+    function generateEditorPageHTML() {
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✏️ Decentralized Editor | Gun.js</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: #0a0c17;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .toolbar {
+            background: #11141f;
+            padding: 12px 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-bottom: 1px solid #2b2f44;
+        }
+        .toolbar button {
+            background: #2d374e;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 30px;
+            color: #e2e8f0;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 0.8rem;
+        }
+        .toolbar button:hover { background: #4c5a88; transform: scale(0.98); }
+        .save-btn { background: #2c6e4f; }
+        .save-btn:hover { background: #3c9e6f; }
+        .status-area {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: #98a2c7;
+            display: flex;
+            gap: 12px;
+        }
+        textarea {
+            flex: 1;
+            background: #01020a;
+            color: #bbe1c4;
+            border: none;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            outline: none;
+        }
+        .info-bar {
+            background: #0e1020;
+            padding: 6px 20px;
+            font-size: 11px;
+            color: #6f7a9e;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #20243a;
+        }
+        .badge { background: #1e243b; padding: 2px 10px; border-radius: 40px; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+</head>
+<body>
+    <div class="toolbar">
+        <span style="font-weight:bold; color:#b7c2f0;">✏️ EDITOR · gun.js</span>
+        <button id="manualSaveBtn" class="save-btn">💾 SAVE TO NETWORK</button>
+        <button id="resetDefaultBtn">⟳ RESET TO DEFAULT</button>
+        <div class="status-area">
+            <span id="peerIndicator">🌐 peers: 0</span>
+            <span id="syncBadge" style="color:#9fc088;">● live</span>
+        </div>
+    </div>
+    <textarea id="htmlEditor" spellcheck="false" placeholder="<!-- write your HTML, CSS, JS here -->"></textarea>
+    <div class="info-bar">
+        <span>⚡ Auto-save (2 sec after typing) | Ctrl+S to force sync</span>
+        <span class="badge">decentralized · realtime sync</span>
+    </div>
+    <script>
+        const gunEditor = Gun({ peers: ['https://gun.eco.dev/gun'] });
+        const sourceRef = gunEditor.get('dual-panel-gun-page').get('html-content');
+        const editorTextarea = document.getElementById('htmlEditor');
+        const peerSpan = document.getElementById('peerIndicator');
+        const syncBadgeSpan = document.getElementById('syncBadge');
+        let currentContent = '';
+        let saveTimeout = null;
+        let onlinePeersSet = new Set();
+
+        // peers tracking
+        gunEditor.on('hi', peer => { onlinePeersSet.add(peer); updatePeerCount(); });
+        gunEditor.on('bye', peer => { onlinePeersSet.delete(peer); updatePeerCount(); });
+        function updatePeerCount() { if(peerSpan) peerSpan.innerText = '🌐 peers: ' + onlinePeersSet.size; }
+        setInterval(() => { if(peerSpan) peerSpan.innerText = '🌐 peers: ' + onlinePeersSet.size; }, 2000);
+
+        function syncToGun(html) {
+            if(!html.trim()) return;
+            syncBadgeSpan.style.opacity = '0.6';
+            syncBadgeSpan.innerHTML = '⏳ syncing...';
+            sourceRef.put(html, (ack) => {
+                if(ack && ack.err) console.warn(ack.err);
+                syncBadgeSpan.innerHTML = '✅ synced';
+                setTimeout(() => { if(syncBadgeSpan) syncBadgeSpan.innerHTML = '● live'; }, 1300);
+            });
+            localStorage.setItem('gun_editor_backup', html);
+            currentContent = html;
+        }
+
+        function loadInitial() {
+            sourceRef.once((data) => {
+                let initial = (data && typeof data === 'string' && data.length > 200) ? data : localStorage.getItem('gun_editor_backup');
+                if(!initial || initial.trim() === "") {
+                    initial = \`${escapeJsString(DEFAULT_HTML)}\`;
+                }
+                editorTextarea.value = initial;
+                currentContent = initial;
+                // also iframe preview? we are editor only, no need.
+            });
+            // subscribe to remote updates!
+            sourceRef.on((newVal) => {
+                if(newVal && typeof newVal === 'string' && newVal !== currentContent && newVal !== editorTextarea.value) {
+                    editorTextarea.value = newVal;
+                    currentContent = newVal;
+                    syncBadgeSpan.innerHTML = '🔄 remote update';
+                    setTimeout(() => { if(syncBadgeSpan) syncBadgeSpan.innerHTML = '● live'; }, 2000);
+                }
+            });
+        }
+
+        // Event: manual save
+        document.getElementById('manualSaveBtn').addEventListener('click', () => {
+            syncToGun(editorTextarea.value);
+        });
+        document.getElementById('resetDefaultBtn').addEventListener('click', () => {
+            const defaultHtml = \`${escapeJsString(DEFAULT_HTML)}\`;
+            editorTextarea.value = defaultHtml;
+            syncToGun(defaultHtml);
+        });
+        editorTextarea.addEventListener('input', () => {
+            if(saveTimeout) clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                const newHtml = editorTextarea.value;
+                if(newHtml !== currentContent) syncToGun(newHtml);
+            }, 2000);
+        });
+        document.addEventListener('keydown', (e) => {
+            if((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                syncToGun(editorTextarea.value);
+            }
+        });
+        loadInitial();
+        updatePeerCount();
+    </script>
+</body>
+</html>`;
+    }
+
+    // generate preview page (live render via iframe + gun listener)
+    function generatePreviewPageHTML() {
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Live Preview | Gun.js Decentralized</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: #06080f;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: system-ui, sans-serif;
+        }
+        .preview-header {
+            background: #141824;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2a2f46;
+        }
+        .preview-header h3 { color: #b5c5ff; font-size: 1rem; font-weight: 500; }
+        .badge { background: #21263f; padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; color:#a9b7e8; }
+        iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background: white;
+        }
+        .status-line {
+            background: #0b0e18;
+            padding: 6px 20px;
+            font-size: 0.7rem;
+            color: #7a85b0;
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+</head>
+<body>
+    <div class="preview-header">
+        <h3>🔍 LIVE PREVIEW · Gun.js mirror</h3>
+        <span class="badge" id="liveStatus">🟢 listening</span>
+    </div>
+    <iframe id="previewFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals" title="live preview"></iframe>
+    <div class="status-line">
+        <span>⚡ Real-time sync: changes from Editor appear instantly</span>
+        <span id="updateHint">📡 connected to p2p network</span>
+    </div>
+    <script>
+        const gunPreview = Gun({ peers: ['https://gun.eco.dev/gun'] });
+        const previewSource = gunPreview.get('dual-panel-gun-page').get('html-content');
+        const previewIframe = document.getElementById('previewFrame');
+        const statusSpan = document.getElementById('updateHint');
+        let lastRendered = '';
+
+        function renderHtml(htmlString) {
+            if(!htmlString || htmlString === lastRendered) return;
+            lastRendered = htmlString;
+            const blob = new Blob([htmlString], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            previewIframe.src = url;
+            setTimeout(() => URL.revokeObjectURL(url), 800);
+            statusSpan.innerHTML = '✅ preview updated ' + new Date().toLocaleTimeString();
+            setTimeout(() => { if(statusSpan) statusSpan.innerHTML = '📡 realtime sync active'; }, 1800);
+        }
+
+        previewSource.on((data) => {
+            if(data && typeof data === 'string' && data.trim().length > 0) {
+                renderHtml(data);
+            } else {
+                // fallback default
+                const fallback = \`${escapeJsString(DEFAULT_HTML)}\`;
+                renderHtml(fallback);
+            }
+        });
+        // force initial request
+        previewSource.once((d) => {
+            if(!d || typeof d !== 'string') renderHtml(\`${escapeJsString(DEFAULT_HTML)}\`);
+        });
+        // extra heartbeat
+        setInterval(() => {
+            const led = document.getElementById('liveStatus');
+            if(led) led.innerHTML = '🟢 live';
+        }, 3000);
+    </script>
+</body>
+</html>`;
+    }
+
+    // helper escape for embedding default html inside template strings
+    function escapeJsString(str) {
+        return str.replace(/`/g, '\\`').replace(/\\/g, '\\\\').replace(/\${/g, '\\${');
+    }
+
+    // attach UI handlers
+    document.getElementById('openEditorBtn').addEventListener('click', openEditorPage);
+    document.getElementById('openPreviewBtn').addEventListener('click', openPreviewPage);
+    document.getElementById('resetNetworkHint').addEventListener('click', () => {
+        resetGlobalToDefault();
+    });
+
+    // initialize Gun content
+    initializeGunContent();
+    updatePeerDisplay();
+    showLaunchToast("🚀 Dual-page ready — open Editor & Preview in separate tabs", false);
+</script>
+</body>
+</html>
