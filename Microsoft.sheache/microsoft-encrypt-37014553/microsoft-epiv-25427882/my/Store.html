@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ubisoft — Official Store</title>
-    <meta name="description" content="Buy Ubisoft games, seasons passes, and virtual currency. Best deals and new releases.">
+    <title>Ubisoft Store — Games, Editions & Deals</title>
+    <meta name="description" content="Shop Ubisoft games, editions and exclusive deals on the official Ubisoft Store.">
     <link rel="icon" href="https://static-dm.ubisoft.com/1wd-ubisoft-com/prod//_next/static/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -24,30 +24,44 @@
             --border-hover: rgba(255, 255, 255, 0.12);
             --glass: rgba(12, 12, 18, 0.7);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --success: #00cc66;
-            --warning: #ff9500;
-            --danger: #ff3b5c;
+            --discount: #00cc66;
+            --sale-red: #ff3355;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #333 var(--bg-color); }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
-
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color); color: var(--text-primary);
+            line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+        }
         .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: hidden; }
         .ambient-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15; animation: orbFloat 20s ease-in-out infinite; }
         .ambient-orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; }
         .ambient-orb:nth-child(2) { width: 500px; height: 500px; background: #6b00ff; top: 50%; right: -150px; animation-delay: -7s; animation-duration: 25s; }
         .ambient-orb:nth-child(3) { width: 400px; height: 400px; background: var(--accent-secondary); bottom: -100px; left: 30%; animation-delay: -14s; animation-duration: 22s; }
-        @keyframes orbFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 25% { transform: translate(50px, -30px) scale(1.1); } 50% { transform: translate(-20px, 40px) scale(0.95); } 75% { transform: translate(30px, 20px) scale(1.05); } }
-
-        .noise-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-repeat: repeat; }
-
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 5%; height: 64px; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(20px) saturate(1.5); -webkit-backdrop-filter: blur(20px) saturate(1.5); border-bottom: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 40px) scale(0.95); }
+            75% { transform: translate(30px, 20px) scale(1.05); }
+        }
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 5%; height: 64px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(20px) saturate(1.5);
+            -webkit-backdrop-filter: blur(20px) saturate(1.5);
+            border-bottom: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         nav.scrolled { background: rgba(5, 5, 8, 0.85); border-bottom-color: rgba(255, 255, 255, 0.1); }
         .logo { font-size: 1.3rem; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, #8888a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-links { display: flex; align-items: center; }
@@ -55,23 +69,320 @@
         .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); border-radius: 1px; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .nav-links a:hover { color: var(--text-primary); }
         .nav-links a:hover::after { width: 100%; }
-        .nav-links a.active { color: var(--accent-secondary); }
-        .nav-links a.active::after { width: 100%; }
-        
-        .nav-icons { display: flex; align-items: center; gap: 1rem; margin-left: 2rem; }
-        .nav-icon-btn { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.04); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.9rem; position: relative; }
-        .nav-icon-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--border-hover); color: var(--text-primary); }
-        
-        .cart-badge { position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; border-radius: 50%; background: var(--danger); color: white; font-size: 0.55rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: scale(0); }
-        .cart-badge.show { transform: scale(1); }
-        
-        .nav-cta { margin-left: 1rem !important; padding: 6px 16px !important; background: linear-gradient(135deg, var(--accent), #0050cc) !important; border-radius: 6px !important; color: white !important; font-weight: 600 !important; -webkit-text-fill-color: white !important; transition: all 0.3s !important; box-shadow: 0 2px 12px rgba(0, 112, 255, 0.2); text-decoration: none; }
+        .nav-cta { margin-left: 2rem !important; padding: 6px 16px !important; background: linear-gradient(135deg, var(--accent), #0050cc) !important; border-radius: 6px !important; color: white !important; font-weight: 600 !important; -webkit-text-fill-color: white !important; transition: all 0.3s !important; box-shadow: 0 2px 12px rgba(0, 112, 255, 0.2); }
         .nav-cta::after { display: none !important; }
         .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0, 112, 255, 0.35); }
+        .nav-cart-btn {
+            width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04); color: var(--text-secondary); display: flex;
+            align-items: center; justify-content: center; cursor: pointer; margin-left: 1.5rem;
+            transition: all 0.3s; font-size: 1rem; position: relative;
+        }
+        .nav-cart-btn:hover { background: rgba(0,112,255,0.12); border-color: rgba(0,112,255,0.3); color: var(--text-primary); }
+        .cart-badge {
+            position: absolute; top: -5px; right: -5px; width: 18px; height: 18px;
+            border-radius: 50%; background: var(--sale-red); color: white; font-size: 0.6rem;
+            font-weight: 800; display: flex; align-items: center; justify-content: center;
+            transform: scale(0); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .cart-badge.visible { transform: scale(1); }
+        .nav-search-btn {
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04); color: var(--text-secondary); display: flex;
+            align-items: center; justify-content: center; cursor: pointer; margin-left: 1.5rem;
+            transition: all 0.3s; font-size: 0.85rem; position: relative;
+        }
+        .nav-search-btn:hover { background: rgba(255,255,255,0.08); border-color: var(--border-hover); color: var(--text-primary); }
+        .nav-search-kbd { position: absolute; bottom: -6px; right: -8px; font-size: 0.55rem; font-weight: 700; color: var(--text-muted); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 3px; padding: 0 4px; line-height: 1.5; font-family: 'Inter', sans-serif; pointer-events: none; }
+        main { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 84px 5% 2rem; }
+        section { margin-bottom: 4rem; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.75rem; position: relative; }
+        .section-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+        .section-header h2 { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .section-header a { color: var(--accent-secondary); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; transition: gap 0.3s; }
+        .section-header a:hover { gap: 10px; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .btn { padding: 12px 28px; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.3px; position: relative; overflow: hidden; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent) 0%, #0050cc 100%); color: white; box-shadow: 0 4px 20px rgba(0, 112, 255, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 112, 255, 0.45); }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-ghost { background: rgba(255, 255, 255, 0.06); color: var(--text-primary); border: 1px solid var(--border-hover); backdrop-filter: blur(10px); }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        .btn-sm { padding: 8px 18px; font-size: 0.8rem; border-radius: 8px; }
+        .btn-sale { background: linear-gradient(135deg, var(--sale-red), #cc0033); color: white; box-shadow: 0 4px 20px rgba(255, 51, 85, 0.3); }
+        .btn-sale:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255, 51, 85, 0.45); }
 
-        .cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(0,112,255,0.08) 0%, transparent 70%); pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: opacity 0.3s; opacity: 0; }
+        /* ========== SALE HERO ========== */
+        .sale-hero {
+            position: relative; border-radius: 20px; overflow: hidden; min-height: 420px;
+            border: 1px solid var(--glass-border); display: flex; align-items: center;
+            user-select: none; margin-bottom: 4rem;
+        }
+        .sale-hero-bg { position: absolute; inset: 0; }
+        .sale-hero-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5) saturate(1.3); }
+        .sale-hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(100deg, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.75) 40%, rgba(5,5,8,0.3) 100%),
+                        linear-gradient(to top, rgba(5,5,8,0.9) 0%, transparent 40%);
+        }
+        .sale-hero-content { position: relative; z-index: 2; padding: 4rem; max-width: 640px; }
+        .sale-hero-badge {
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
+            background: rgba(255, 51, 85, 0.15); border: 1px solid rgba(255, 51, 85, 0.3);
+            border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--sale-red); margin-bottom: 1.25rem; backdrop-filter: blur(12px);
+        }
+        .sale-hero-badge .pulse-dot { width: 6px; height: 6px; background: var(--sale-red); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 51, 85, 0.4); } 50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(255, 51, 85, 0); } }
+        .sale-hero h1 { font-size: 2.8rem; font-weight: 900; line-height: 1.08; margin-bottom: 0.75rem; letter-spacing: -1px; }
+        .sale-hero h1 .sale-percent { color: var(--sale-red); }
+        .sale-hero p { color: var(--text-secondary); margin-bottom: 1.75rem; font-size: 1.05rem; line-height: 1.7; }
+        .sale-countdown { display: flex; gap: 12px; margin-bottom: 2rem; }
+        .countdown-block {
+            background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+            border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 64px;
+            backdrop-filter: blur(8px);
+        }
+        .countdown-value { font-size: 1.5rem; font-weight: 900; line-height: 1.2; background: linear-gradient(180deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .countdown-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+        .sale-hero-particles { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+        .sale-particle { position: absolute; width: 2px; height: 2px; background: var(--sale-red); border-radius: 50%; opacity: 0; animation: saleParticle 5s ease-in-out infinite; }
+        @keyframes saleParticle { 0% { opacity: 0; transform: translateY(0) scale(0); } 20% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-300px) scale(1); } }
+
+        /* ========== FILTER BAR ========== */
+        .filter-bar {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+            padding: 1rem 1.5rem; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; flex-wrap: wrap;
+        }
+        .filter-chip {
+            padding: 7px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03); color: var(--text-secondary);
+            display: inline-flex; align-items: center; gap: 6px; user-select: none;
+        }
+        .filter-chip:hover { background: rgba(0,112,255,0.08); border-color: rgba(0,112,255,0.2); color: var(--text-primary); }
+        .filter-chip.active { background: rgba(0,112,255,0.15); border-color: rgba(0,112,255,0.4); color: var(--accent-secondary); }
+        .filter-chip i { font-size: 0.7rem; }
+        .filter-spacer { flex: 1; }
+        .filter-sort {
+            padding: 7px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 500;
+            border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+            color: var(--text-secondary); cursor: pointer; outline: none;
+            font-family: 'Inter', sans-serif; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238888a0' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center;
+            padding-right: 32px; transition: all 0.3s;
+        }
+        .filter-sort:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .filter-sort option { background: var(--card-bg); color: var(--text-primary); }
+        .filter-count { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+        /* ========== PRODUCT GRID ========== */
+        .store-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+        .store-card {
+            background: var(--card-bg); border-radius: 14px; overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border); position: relative; display: flex;
+            flex-direction: column; cursor: pointer;
+        }
+        .store-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: 14px; padding: 1px;
+            background: linear-gradient(135deg, transparent 40%, rgba(0, 112, 255, 0.2) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 5;
+        }
+        .store-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,112,255,0.08); border-color: rgba(0, 112, 255, 0.15); background: var(--card-bg-hover); }
+        .store-card:hover::before { opacity: 1; }
+
+        .store-card-img { position: relative; overflow: hidden; aspect-ratio: 3/4; }
+        .store-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .store-card:hover .store-card-img img { transform: scale(1.06); }
+        .store-card-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--card-bg) 0%, transparent 40%); pointer-events: none; }
+
+        .store-card-badge {
+            position: absolute; top: 12px; left: 12px; z-index: 3;
+            padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1px; backdrop-filter: blur(8px);
+        }
+        .badge-new { background: rgba(0, 112, 255, 0.85); color: white; }
+        .badge-sale { background: rgba(255, 51, 85, 0.9); color: white; }
+        .badge-free { background: rgba(0, 204, 102, 0.85); color: white; }
+        .badge-preorder { background: rgba(160, 80, 255, 0.85); color: white; }
+
+        .store-card-wishlist {
+            position: absolute; top: 12px; right: 12px; z-index: 3;
+            width: 34px; height: 34px; border-radius: 8px; border: none;
+            background: rgba(5,5,8,0.5); backdrop-filter: blur(8px);
+            color: var(--text-muted); display: flex; align-items: center;
+            justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.85rem;
+        }
+        .store-card-wishlist:hover { background: rgba(5,5,8,0.7); color: var(--sale-red); transform: scale(1.1); }
+        .store-card-wishlist.wishlisted { color: var(--sale-red); }
+        .store-card-wishlist.wishlisted i { font-weight: 900; }
+
+        .store-card-content { padding: 1rem 1.25rem 1.25rem; flex-grow: 1; display: flex; flex-direction: column; position: relative; z-index: 2; margin-top: -16px; }
+        .store-card-tags { display: flex; gap: 6px; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .store-card-tag { padding: 2px 8px; background: rgba(0, 112, 255, 0.1); border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-secondary); }
+        .store-card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .store-card-edition { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.75rem; }
+
+        .store-card-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+        .price-group { display: flex; flex-direction: column; gap: 2px; }
+        .price-original { font-size: 0.75rem; color: var(--text-muted); text-decoration: line-through; font-weight: 500; }
+        .price-current { font-size: 1.1rem; font-weight: 900; }
+        .price-current.full { background: linear-gradient(135deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .price-current.discounted { color: var(--discount); }
+        .price-discount-badge { font-size: 0.7rem; font-weight: 800; color: var(--discount); background: rgba(0,204,102,0.1); padding: 2px 7px; border-radius: 4px; }
+        .price-free { font-size: 1.1rem; font-weight: 900; color: var(--discount); }
+
+        .store-card-add {
+            width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border);
+            background: rgba(0,112,255,0.1); color: var(--accent-secondary); display: flex;
+            align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.9rem;
+        }
+        .store-card-add:hover { background: var(--accent); color: white; border-color: var(--accent); transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,112,255,0.3); }
+        .store-card-add.in-cart { background: var(--discount); border-color: var(--discount); color: white; }
+        .store-card-add.in-cart:hover { background: var(--sale-red); border-color: var(--sale-red); }
+
+        /* ========== EDITION SELECTOR ========== */
+        .edition-bar {
+            display: flex; gap: 1.25rem; margin-bottom: 4rem; overflow-x: auto;
+            padding-bottom: 0.5rem; scrollbar-width: none;
+        }
+        .edition-bar::-webkit-scrollbar { display: none; }
+        .edition-option {
+            flex-shrink: 0; padding: 1rem 1.5rem; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 12px; cursor: pointer;
+            transition: all 0.3s; display: flex; align-items: center; gap: 1rem;
+            min-width: 200px;
+        }
+        .edition-option:hover { border-color: rgba(0,112,255,0.2); background: var(--card-bg-hover); }
+        .edition-option.active { border-color: rgba(0,112,255,0.5); background: rgba(0,112,255,0.08); box-shadow: 0 0 20px rgba(0,112,255,0.1); }
+        .edition-option-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .edition-option-icon.standard { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
+        .edition-option-icon.gold { background: rgba(255,180,0,0.12); color: #ffb400; }
+        .edition-option-icon.ultimate { background: rgba(160,80,255,0.12); color: #a050ff; }
+        .edition-option-info h4 { font-size: 0.85rem; font-weight: 700; }
+        .edition-option-info span { font-size: 0.72rem; color: var(--text-muted); }
+
+        /* ========== BUNDLES ========== */
+        .bundle-card {
+            position: relative; border-radius: 16px; overflow: hidden; min-height: 280px;
+            display: flex; align-items: flex-end; text-decoration: none; color: white;
+            border: 1px solid var(--border); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bundle-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bundle-card:hover img { transform: scale(1.08); }
+        .bundle-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.3) 60%); z-index: 1; }
+        .bundle-card:hover .bundle-overlay { background: linear-gradient(to top, rgba(5,5,8,0.98) 0%, rgba(0,112,255,0.08) 60%); }
+        .bundle-content { position: relative; z-index: 2; padding: 1.5rem; width: 100%; }
+        .bundle-content h3 { font-size: 1.4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; transition: transform 0.3s; }
+        .bundle-card:hover .bundle-content h3 { transform: translateX(8px); }
+        .bundle-content .bundle-games { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.4rem; margin-bottom: 1rem; }
+        .bundle-content .bundle-price { display: flex; align-items: center; gap: 10px; }
+        .bundle-content .bundle-price .bp-original { font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through; }
+        .bundle-content .bundle-price .bp-current { font-size: 1.3rem; font-weight: 900; color: var(--discount); }
+        .bundle-content .bundle-price .bp-save { font-size: 0.7rem; font-weight: 700; color: var(--discount); background: rgba(0,204,102,0.1); padding: 3px 8px; border-radius: 4px; }
+
+        /* ========== CART SIDEBAR ========== */
+        .cart-overlay {
+            position: fixed; inset: 0; z-index: 9998; background: rgba(2,2,5,0.7);
+            backdrop-filter: blur(4px); opacity: 0; visibility: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cart-overlay.active { opacity: 1; visibility: visible; }
+
+        .cart-sidebar {
+            position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 92vw;
+            z-index: 9999; background: #0a0a12; border-left: 1px solid var(--border);
+            display: flex; flex-direction: column; transform: translateX(100%);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+        }
+        .cart-sidebar.active { transform: translateX(0); }
+
+        .cart-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); flex-shrink: 0;
+        }
+        .cart-header h3 { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+        .cart-header h3 span { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+        .cart-close { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 0.85rem; }
+        .cart-close:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+
+        .cart-body { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; scrollbar-width: thin; scrollbar-color: #222 transparent; }
+        .cart-body::-webkit-scrollbar { width: 4px; }
+        .cart-body::-webkit-scrollbar-track { background: transparent; }
+        .cart-body::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+        .cart-empty { text-align: center; padding: 3rem 1rem; }
+        .cart-empty-icon { font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem; opacity: 0.3; }
+        .cart-empty h4 { font-size: 1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; }
+        .cart-empty p { font-size: 0.85rem; color: var(--text-muted); }
+
+        .cart-item {
+            display: flex; gap: 14px; padding: 1rem 0; border-bottom: 1px solid var(--border);
+            animation: cartItemIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes cartItemIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .cart-item-img { width: 56px; height: 74px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: var(--card-bg); border: 1px solid var(--border); }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cart-item-edition { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+        .cart-item-price { font-size: 0.9rem; font-weight: 800; color: var(--discount); }
+        .cart-item-price .cip-original { font-size: 0.75rem; color: var(--text-muted); text-decoration: line-through; font-weight: 500; margin-right: 6px; }
+        .cart-item-remove { width: 28px; height: 28px; border-radius: 6px; border: none; background: rgba(255,51,85,0.08); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; transition: all 0.2s; flex-shrink: 0; align-self: center; }
+        .cart-item-remove:hover { background: rgba(255,51,85,0.2); color: var(--sale-red); }
+
+        .cart-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.2); flex-shrink: 0; }
+        .cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .cart-subtotal-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .cart-subtotal-value { font-size: 1.2rem; font-weight: 900; background: linear-gradient(135deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .cart-savings { font-size: 0.75rem; color: var(--discount); font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 6px; }
+        .cart-checkout-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #0050cc); color: white; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.3s; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .cart-checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,112,255,0.4); }
+
+        /* ========== TOAST ========== */
+        .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10001; display: flex; flex-direction: column; gap: 8px; }
+        .toast {
+            padding: 12px 20px; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(16px);
+        }
+        .toast.removing { animation: toastOut 0.3s ease forwards; }
+        .toast i { color: var(--discount); }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(10px) scale(0.95); } }
+
+        /* ========== GRID HELPERS ========== */
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+        /* ========== UBISOFT+ SECTION ========== */
+        .ubisoft-plus { position: relative; border-radius: 20px; padding: 4rem 3rem; text-align: center; overflow: hidden; border: 1px solid rgba(0, 112, 255, 0.2); }
+        .ubisoft-plus-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #080818 0%, #0a1a3a 30%, #0c0c1a 70%, #12082a 100%); z-index: 0; }
+        .ubisoft-plus-glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(0,112,255,0.2) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; animation: plusGlow 4s ease-in-out infinite; }
+        @keyframes plusGlow { 0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); } }
+        .ubisoft-plus-content { position: relative; z-index: 2; }
+        .ubisoft-plus-icon { width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent), var(--accent-secondary)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem; box-shadow: 0 8px 30px rgba(0, 112, 255, 0.3); }
+        .ubisoft-plus h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.5px; }
+        .ubisoft-plus p { color: var(--text-secondary); margin-bottom: 2rem; max-width: 550px; margin-left: auto; margin-right: auto; font-size: 1.05rem; }
+
+        /* ========== CURSOR GLOW ========== */
+        .cursor-glow { position: fixed; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(0,112,255,0.06) 0%, transparent 70%); pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: opacity 0.3s; opacity: 0; }
         body:hover .cursor-glow { opacity: 1; }
 
+        /* ========== LOADING ========== */
         .loading-screen { position: fixed; inset: 0; z-index: 10000; background: var(--bg-color); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.5rem; transition: opacity 0.6s, visibility 0.6s; }
         .loading-screen.hidden { opacity: 0; visibility: hidden; }
         .loading-logo { font-size: 2rem; font-weight: 900; letter-spacing: 6px; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: loadPulse 1.5s ease-in-out infinite; }
@@ -80,159 +391,7 @@
         .loading-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); border-radius: 1px; animation: loadBar 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         @keyframes loadBar { 0% { width: 0%; } 100% { width: 100%; } }
 
-        main { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 84px 5% 2rem; }
-
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-
-        /* ====================== HERO ====================== */
-        .store-hero { position: relative; border-radius: 24px; overflow: hidden; min-height: 500px; margin-bottom: 3rem; border: 1px solid var(--glass-border); display: flex; align-items: center; }
-        .store-hero-bg { position: absolute; inset: 0; }
-        .store-hero-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5) saturate(1.3); transition: transform 6s ease-out; }
-        .store-hero:hover .store-hero-bg img { transform: scale(1.05); }
-        .store-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.6) 50%, rgba(5,5,8,0.2) 100%); }
-        .store-hero-content { position: relative; z-index: 2; padding: 4rem; max-width: 650px; }
-        .sale-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255, 59, 92, 0.2); border: 1px solid rgba(255, 59, 92, 0.4); border-radius: 6px; font-size: 0.8rem; font-weight: 800; color: var(--danger); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; animation: pulseBadge 2s infinite; }
-        @keyframes pulseBadge { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 59, 92, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(255, 59, 92, 0); } }
-        .store-hero h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 1rem; }
-        .store-hero p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem; }
-        .countdown { display: flex; gap: 1rem; margin-bottom: 2rem; }
-        .cd-unit { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; min-width: 65px; }
-        .cd-val { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, #fff, var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .cd-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-
-        .btn { padding: 12px 28px; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.3px; position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, var(--accent) 0%, #0050cc 100%); color: white; box-shadow: 0 4px 20px rgba(0, 112, 255, 0.3); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 112, 255, 0.45); }
-        .btn-ghost { background: rgba(255, 255, 255, 0.06); color: var(--text-primary); border: 1px solid var(--border-hover); backdrop-filter: blur(10px); }
-        .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-        .btn-sm { padding: 8px 16px; font-size: 0.78rem; border-radius: 8px; }
-
-        /* ====================== DEALS SLIDER ====================== */
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; }
-        .section-header h2 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        .section-header a { color: var(--accent-secondary); text-decoration: none; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: gap 0.3s; }
-        .section-header a:hover { gap: 10px; }
-
-        .deals-slider { display: flex; overflow-x: auto; gap: 1.5rem; padding-bottom: 1rem; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
-        .deals-slider::-webkit-scrollbar { display: none; }
-
-        .deal-card { min-width: 340px; border-radius: 16px; overflow: hidden; position: relative; scroll-snap-align: start; cursor: pointer; border: 1px solid var(--border); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; background: var(--card-bg); }
-        .deal-card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(0,112,255,0.15); }
-        .deal-img { height: 180px; overflow: hidden; position: relative; }
-        .deal-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
-        .deal-card:hover .deal-img img { transform: scale(1.08); }
-        .discount-badge { position: absolute; top: 12px; left: 12px; padding: 4px 10px; background: var(--danger); border-radius: 6px; font-size: 0.75rem; font-weight: 800; color: white; z-index: 5; box-shadow: 0 4px 12px rgba(255, 59, 92, 0.4); }
-        .deal-body { padding: 1.25rem; display: flex; justify-content: space-between; align-items: flex-end; }
-        .deal-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-        .deal-info .tag { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .deal-prices { text-align: right; }
-        .price-old { font-size: 0.8rem; color: var(--text-muted); text-decoration: line-through; }
-        .price-new { font-size: 1.3rem; font-weight: 900; background: linear-gradient(135deg, #fff, var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-        /* ====================== TOOLBAR ====================== */
-        .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem; gap: 1rem; flex-wrap: wrap; }
-        .toolbar-left { display: flex; align-items: center; gap: 0.5rem; background: var(--card-bg); padding: 4px; border-radius: 10px; border: 1px solid var(--border); position: relative; }
-        .filter-btn { padding: 8px 18px; border-radius: 8px; border: none; background: transparent; color: var(--text-muted); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; position: relative; z-index: 2; white-space: nowrap; }
-        .filter-btn.active { color: white; }
-        .filter-pill { position: absolute; top: 4px; left: 4px; height: calc(100% - 8px); background: linear-gradient(135deg, var(--accent), #0050cc); border-radius: 8px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; box-shadow: 0 4px 15px rgba(0,112,255,0.3); }
-
-        .toolbar-right { display: flex; align-items: center; gap: 0.75rem; }
-        .sort-select { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.03); color: var(--text-secondary); font-size: 0.8rem; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; outline: none; transition: all 0.3s; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238888a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
-        .sort-select:hover { border-color: var(--border-hover); color: var(--text-primary); }
-        .sort-select option { background: var(--bg-secondary); color: var(--text-primary); }
-        .library-search { position: relative; }
-        .library-search input { padding: 8px 14px 8px 36px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.03); color: var(--text-primary); font-size: 0.8rem; font-family: 'Inter', sans-serif; outline: none; width: 220px; transition: all 0.3s; }
-        .library-search input::placeholder { color: var(--text-muted); }
-        .library-search input:focus { border-color: rgba(0, 112, 255, 0.4); background: rgba(0, 112, 255, 0.04); width: 280px; }
-        .library-search i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.75rem; pointer-events: none; transition: color 0.3s; }
-        .library-search input:focus + i { color: var(--accent-secondary); }
-
-        /* ====================== GAME GRID ====================== */
-        .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-        
-        .game-card { background: var(--card-bg); border-radius: 14px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border); position: relative; cursor: pointer; }
-        
-        /* Rotating Border */
-        .game-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent 0%, transparent 70%, var(--accent) 80%, var(--accent-secondary) 90%, transparent 100%); z-index: 1; opacity: 0; transition: opacity 0.5s; animation: rotateBorder 4s linear infinite; }
-        .game-card:hover::before { opacity: 1; }
-        @keyframes rotateBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .game-card::after { content: ''; position: absolute; inset: 1px; background: var(--card-bg); border-radius: 13px; z-index: 1; transition: background 0.4s; }
-        .game-card:hover::after { background: var(--card-bg-hover); }
-        .game-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-
-        /* Holographic Shimmer */
-        .game-card-shimmer { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); z-index: 10; transition: 0.6s; pointer-events: none; }
-        .game-card:hover .game-card-shimmer { left: 120%; }
-
-        .game-card-img { position: relative; overflow: hidden; aspect-ratio: 16/9; z-index: 2; }
-        .game-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .game-card:hover .game-card-img img { transform: scale(1.08); }
-        .game-card-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--card-bg) 0%, transparent 50%); pointer-events: none; z-index: 3; }
-        
-        .card-badge { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; z-index: 6; text-transform: uppercase; letter-spacing: 0.5px; }
-        .badge-sale { background: var(--danger); color: white; box-shadow: 0 4px 12px rgba(255, 59, 92, 0.4); }
-        .badge-new { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(0, 112, 255, 0.4); }
-
-        .game-card-fav { position: absolute; top: 12px; left: 12px; z-index: 6; width: 32px; height: 32px; border-radius: 50%; background: rgba(5, 5, 8, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.7rem; color: var(--text-muted); }
-        .game-card-fav:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); transform: scale(1.1); }
-        .game-card-fav.favorited { color: #ff3b5c; background: rgba(255, 59, 92, 0.15); border-color: rgba(255, 59, 92, 0.3); }
-
-        .game-card-body { padding: 1.1rem 1.25rem 1.35rem; position: relative; z-index: 2; margin-top: -16px; }
-        .game-card-tag { display: inline-block; padding: 2px 8px; background: rgba(0, 112, 255, 0.1); border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-secondary); margin-bottom: 0.5rem; }
-        .game-card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
-        .price-old { font-size: 0.8rem; color: var(--text-muted); text-decoration: line-through; }
-        .price-current { font-size: 1.15rem; font-weight: 800; background: linear-gradient(135deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .price-current.on-sale { background: linear-gradient(135deg, var(--accent-secondary), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-        .game-card-actions { display: flex; gap: 0.5rem; opacity: 0; transform: translateY(8px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .game-card:hover .game-card-actions { opacity: 1; transform: translateY(0); }
-        
-        .btn-cart { background: linear-gradient(135deg, var(--accent) 0%, #0050cc 100%); color: white; box-shadow: 0 4px 15px rgba(0, 112, 255, 0.3); }
-        .btn-cart:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 112, 255, 0.5); }
-        .btn-cart.added { background: linear-gradient(135deg, var(--success) 0%, #009944 100%); box-shadow: 0 4px 15px rgba(0, 204, 102, 0.3); pointer-events: none; }
-
-        /* ====================== MODAL ====================== */
-        .modal-overlay { position: fixed; inset: 0; z-index: 9998; background: rgba(2, 2, 5, 0.85); backdrop-filter: blur(24px) saturate(1.2); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); opacity: 1; }
-        .modal-content { width: 700px; max-width: 92vw; max-height: 85vh; background: #0e0e16; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 80px rgba(0,112,255,0.08); transform: translateY(-20px) scale(0.95); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .modal-hero { position: relative; height: 300px; overflow: hidden; }
-        .modal-hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6) saturate(1.2); }
-        .modal-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #0e0e16 0%, rgba(14,14,22,0.4) 50%, transparent 100%); }
-        .modal-close { position: absolute; top: 16px; right: 16px; z-index: 5; width: 36px; height: 36px; border-radius: 50%; background: rgba(5,5,8,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.8rem; }
-        .modal-close:hover { background: rgba(255,59,92,0.2); border-color: rgba(255,59,92,0.3); color: #ff3b5c; }
-        .modal-body { padding: 0 2rem 2rem; margin-top: -60px; position: relative; z-index: 2; overflow-y: auto; flex: 1; }
-        .modal-game-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.15; }
-        .modal-game-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem; }
-        .modal-price-row { display: flex; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
-        .modal-old-price { font-size: 1.1rem; color: var(--text-muted); text-decoration: line-through; }
-        .modal-new-price { font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, #fff, var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .modal-actions { display: flex; gap: 0.75rem; margin-bottom: 2rem; }
-
-        /* ====================== TOAST ====================== */
-        .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 99999; display: flex; flex-direction: column; gap: 0.5rem; }
-        .toast { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; font-weight: 500; box-shadow: 0 12px 40px rgba(0,0,0,0.5); animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); min-width: 260px; position: relative; overflow: hidden; }
-        .toast.hiding { animation: toastOut 0.3s ease forwards; }
-        .toast i { font-size: 0.9rem; z-index: 2; }
-        .toast.success i { color: var(--success); }
-        .toast.info i { color: var(--accent-secondary); }
-        .toast span { z-index: 2; }
-        .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent); border-radius: 0 0 12px 12px; animation: shrink 3s linear forwards; }
-        .toast.success .toast-progress { background: var(--success); }
-        @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes toastOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
-        @keyframes shrink { 0% { width: 100%; } 100% { width: 0%; } }
-
-        /* ====================== RESPONSIVE ====================== */
-        @media (max-width: 1200px) { .game-grid { grid-template-columns: repeat(3, 1fr); } .deal-card { min-width: 300px; } }
-        @media (max-width: 900px) { .game-grid { grid-template-columns: repeat(2, 1fr); } .store-hero { min-height: 400px; } .store-hero h1 { font-size: 2.5rem; } .store-hero-content { padding: 2.5rem; } .nav-links a:not(.nav-cta) { display: none; } .toolbar { flex-direction: column; align-items: stretch; } .toolbar-left { overflow-x: auto; width: 100%; } .toolbar-right { justify-content: space-between; } .library-search input { width: 100%; } .library-search input:focus { width: 100%; } }
-        @media (max-width: 640px) { .game-grid { grid-template-columns: 1fr; } .store-hero h1 { font-size: 2rem; } .countdown { gap: 0.5rem; } .cd-unit { min-width: 50px; padding: 0.5rem; } }
-
+        /* ========== FOOTER ========== */
         footer { position: relative; z-index: 2; text-align: center; padding: 3rem 5%; background: rgba(5, 5, 8, 0.9); border-top: 1px solid var(--border); margin-top: 2rem; }
         .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
@@ -241,6 +400,29 @@
         .footer-socials a { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all 0.3s; font-size: 0.9rem; }
         .footer-socials a:hover { background: rgba(0,112,255,0.15); border-color: rgba(0,112,255,0.3); color: var(--accent-secondary); transform: translateY(-2px); }
         footer p { color: var(--text-muted); font-size: 0.8rem; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1200px) {
+            .store-grid, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .store-grid, .grid-4, .grid-3 { grid-template-columns: 1fr; }
+            .sale-hero { min-height: 360px; }
+            .sale-hero h1 { font-size: 1.8rem; }
+            .sale-hero-content { padding: 2rem; }
+            .nav-links a:not(.nav-cta):not(.nav-search-btn) { display: none; }
+            .nav-search-kbd { display: none; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .filter-spacer { display: none; }
+            .edition-bar { flex-direction: column; }
+            .edition-option { min-width: auto; }
+        }
+
+        /* No-results message */
+        .no-results { text-align: center; padding: 4rem 2rem; grid-column: 1/-1; }
+        .no-results-icon { font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem; opacity: 0.3; }
+        .no-results h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.4rem; }
+        .no-results p { font-size: 0.9rem; color: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -251,7 +433,6 @@
     </div>
 
     <div class="cursor-glow" id="cursorGlow"></div>
-    <div class="toast-container" id="toastContainer"></div>
 
     <div class="ambient-bg">
         <div class="ambient-orb"></div>
@@ -260,337 +441,492 @@
     </div>
     <div class="noise-overlay"></div>
 
-    <!-- Game Detail Modal -->
-    <div class="modal-overlay" id="gameModal">
-        <div class="modal-content">
-            <div class="modal-hero">
-                <img id="modalImg" src="" alt="">
-                <div class="modal-hero-overlay"></div>
-                <button class="modal-close" id="modalClose" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> Cart <span id="cartHeaderCount"></span></h3>
+            <button class="cart-close" id="cartClose" aria-label="Close cart"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cartBody"></div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-subtotal">
+                <span class="cart-subtotal-label">Subtotal</span>
+                <span class="cart-subtotal-value" id="cartSubtotal">€0.00</span>
             </div>
-            <div class="modal-body" id="modalBody"></div>
+            <div class="cart-savings" id="cartSavings" style="display:none;">
+                <i class="fas fa-tag"></i> <span id="cartSavingsText"></span>
+            </div>
+            <button class="cart-checkout-btn" id="cartCheckout"><i class="fas fa-lock"></i> Checkout</button>
         </div>
     </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <nav id="mainNav">
         <div class="logo">UBISOFT</div>
         <div class="nav-links">
             <a href="#">Games</a>
             <a href="#">Ubisoft+</a>
-            <a href="#" class="active">Store</a>
+            <a href="#" style="color:var(--accent-secondary)">Store</a>
             <a href="#">News</a>
-            <div class="nav-icons">
-                <button class="nav-icon-btn" onclick="document.getElementById('storeSearch').focus()"><i class="fas fa-search"></i></button>
-                <button class="nav-icon-btn" id="cartBtn">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-badge" id="cartBadge">0</span>
-                </button>
-            </div>
+            <a href="#">Support</a>
+            <button class="nav-search-btn" aria-label="Search"><i class="fas fa-search"></i><span class="nav-search-kbd">/</span></button>
+            <button class="nav-cart-btn" id="navCartBtn" aria-label="Open cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
             <a href="#" class="nav-cta">Sign In</a>
         </div>
     </nav>
 
     <main>
-        <!-- Hero Sale -->
-        <section class="store-hero reveal">
-            <div class="store-hero-bg">
-                <img src="https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg?imWidth=1800" alt="Spring Sale">
-            </div>
-            <div class="store-hero-overlay"></div>
-            <div class="store-hero-content">
-                <div class="sale-badge"><i class="fas fa-bolt"></i> Spring Sale is Live</div>
-                <h1>Up to 70% Off Select Titles</h1>
-                <p>Expand your collection with massive discounts on blockbuster hits and hidden gems. Limited time only.</p>
-                <div class="countdown" id="countdown">
-                    <div class="cd-unit"><span class="cd-val" id="cdDays">00</span><span class="cd-label">Days</span></div>
-                    <div class="cd-unit"><span class="cd-val" id="cdHours">00</span><span class="cd-label">Hours</span></div>
-                    <div class="cd-unit"><span class="cd-val" id="cdMins">00</span><span class="cd-label">Mins</span></div>
-                    <div class="cd-unit"><span class="cd-val" id="cdSecs">00</span><span class="cd-label">Secs</span></div>
+
+        <!-- ===== SALE HERO ===== -->
+        <section class="sale-hero reveal" aria-label="Spring Sale">
+            <div class="sale-hero-bg"><img src="https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg" alt="Spring Sale"></div>
+            <div class="sale-hero-overlay"></div>
+            <div class="sale-hero-particles" id="saleParticles"></div>
+            <div class="sale-hero-content">
+                <div class="sale-hero-badge"><span class="pulse-dot"></span> Limited Time</div>
+                <h1>Spring Sale — Up to <span class="sale-percent">70% Off</span></h1>
+                <p>Massive discounts on your favourite Ubisoft titles. Don't miss out on these deals before they're gone.</p>
+                <div class="sale-countdown" id="saleCountdown">
+                    <div class="countdown-block"><div class="countdown-value" id="cdDays">00</div><div class="countdown-label">Days</div></div>
+                    <div class="countdown-block"><div class="countdown-value" id="cdHours">00</div><div class="countdown-label">Hours</div></div>
+                    <div class="countdown-block"><div class="countdown-value" id="cdMins">00</div><div class="countdown-label">Mins</div></div>
+                    <div class="countdown-block"><div class="countdown-value" id="cdSecs">00</div><div class="countdown-label">Secs</div></div>
                 </div>
-                <a href="#storeGrid" class="btn btn-primary"><i class="fas fa-tag"></i> Shop Deals</a>
+                <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                    <a href="#storeGrid" class="btn btn-sale"><i class="fas fa-fire"></i> Shop the Sale</a>
+                    <a href="#" class="btn btn-ghost"><i class="fas fa-crown"></i> Ubisoft+ Deals</a>
+                </div>
             </div>
         </section>
 
-        <!-- Deals Slider -->
-        <section class="reveal" style="margin-bottom: 3rem;">
+        <!-- ===== EDITION BAR ===== -->
+        <section class="reveal" aria-label="Browse by Edition">
+            <div class="section-header"><h2>Browse by Edition</h2></div>
+            <div class="edition-bar" id="editionBar">
+                <div class="edition-option active" data-edition="all">
+                    <div class="edition-option-icon standard"><i class="fas fa-th"></i></div>
+                    <div class="edition-option-info"><h4>All Editions</h4><span>Everything</span></div>
+                </div>
+                <div class="edition-option" data-edition="standard">
+                    <div class="edition-option-icon standard"><i class="fas fa-gamepad"></i></div>
+                    <div class="edition-option-info"><h4>Standard</h4><span>Base game</span></div>
+                </div>
+                <div class="edition-option" data-edition="gold">
+                    <div class="edition-option-icon gold"><i class="fas fa-star"></i></div>
+                    <div class="edition-option-info"><h4>Gold Edition</h4><span>Game + Season Pass</span></div>
+                </div>
+                <div class="edition-option" data-edition="ultimate">
+                    <div class="edition-option-icon ultimate"><i class="fas fa-gem"></i></div>
+                    <div class="edition-option-info"><h4>Ultimate Edition</h4><span>All content included</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FILTER BAR + PRODUCT GRID ===== -->
+        <section class="reveal" id="storeGrid" aria-label="All Games">
             <div class="section-header">
-                <h2>Today's Deals</h2>
-                <a href="#">View All Deals <i class="fas fa-arrow-right" style="font-size:0.7rem"></i></a>
+                <h2>All Games</h2>
+                <span class="filter-count" id="filterCount">18 games</span>
             </div>
-            <div class="deals-slider" id="dealsSlider"></div>
+            <div class="filter-bar" id="filterBar">
+                <div class="filter-chip active" data-filter="all"><i class="fas fa-th"></i> All</div>
+                <div class="filter-chip" data-filter="action"><i class="fas fa-crosshairs"></i> Action</div>
+                <div class="filter-chip" data-filter="rpg"><i class="fas fa-hat-wizard"></i> RPG</div>
+                <div class="filter-chip" data-filter="racing"><i class="fas fa-car"></i> Racing</div>
+                <div class="filter-chip" data-filter="strategy"><i class="fas fa-chess"></i> Strategy</div>
+                <div class="filter-chip" data-filter="fps"><i class="fas fa-bullseye"></i> FPS</div>
+                <div class="filter-chip" data-filter="free"><i class="fas fa-gift"></i> Free</div>
+                <div class="filter-chip" data-filter="sale"><i class="fas fa-percent"></i> On Sale</div>
+                <div class="filter-spacer"></div>
+                <select class="filter-sort" id="filterSort">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: Low → High</option>
+                    <option value="price-desc">Price: High → Low</option>
+                    <option value="discount">Biggest Discount</option>
+                    <option value="name">A → Z</option>
+                </select>
+            </div>
+            <div class="store-grid" id="productGrid"></div>
         </section>
 
-        <!-- Store Grid -->
-        <div id="storeGrid">
-            <div class="toolbar reveal">
-                <div class="toolbar-left" id="filterContainer">
-                    <div class="filter-pill" id="filterPill"></div>
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="action">Action</button>
-                    <button class="filter-btn" data-filter="rpg">RPG</button>
-                    <button class="filter-btn" data-filter="racing">Racing</button>
-                    <button class="filter-btn" data-filter="strategy">Strategy</button>
-                </div>
-                <div class="toolbar-right">
-                    <div class="library-search">
-                        <input type="text" id="storeSearch" placeholder="Search store..." autocomplete="off">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <select class="sort-select" id="sortSelect">
-                        <option value="popular">Popular</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="price-high">Price: High to Low</option>
-                        <option value="discount">Biggest Discount</option>
-                        <option value="name">Name A–Z</option>
-                    </select>
+        <!-- ===== BUNDLES ===== -->
+        <section class="reveal" aria-label="Bundles">
+            <div class="section-header"><h2>Exclusive Bundles</h2><a href="#">View All <i class="fas fa-arrow-right" style="font-size:0.7rem"></i></a></div>
+            <div class="grid-3" id="bundleGrid"></div>
+        </section>
+
+        <!-- ===== UBISOFT+ ===== -->
+        <section class="ubisoft-plus reveal" aria-label="Ubisoft Plus">
+            <div class="ubisoft-plus-bg"></div>
+            <div class="ubisoft-plus-glow"></div>
+            <div class="ubisoft-plus-content">
+                <div class="ubisoft-plus-icon"><i class="fas fa-crown"></i></div>
+                <h2>Play it all with Ubisoft+</h2>
+                <p>Get instant access to 100+ games, including new releases on Day 1. Cancel anytime.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="#" class="btn btn-primary"><i class="fas fa-rocket"></i> Join now — €14.99/mo</a>
+                    <a href="#" class="btn btn-ghost"><i class="fas fa-info-circle"></i> Learn more</a>
                 </div>
             </div>
-
-            <div class="game-grid reveal" id="gameGrid"></div>
-        </div>
+        </section>
     </main>
 
     <footer>
-        <div class="footer-links"><a href="#">About</a><a href="#">Careers</a><a href="#">Legal</a><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a><a href="#">Terms of Use</a></div>
+        <div class="footer-links"><a href="#">About</a><a href="#">Careers</a><a href="#">Legal</a><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a><a href="#">Terms of Use</a><a href="#">Accessibility</a></div>
         <div class="footer-socials">
             <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
             <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
             <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="#" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
+            <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            <a href="#" aria-label="Reddit"><i class="fab fa-reddit-alien"></i></a>
         </div>
         <p>&copy; 2026 Ubisoft Entertainment. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        const storeGames = [
-            { id: 1, name: "Assassin's Creed Shadows", tag: 'rpg', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg', price: 69.99, discount: 0, isNew: true, desc: "Experience the epic story of two unlikely heroes in feudal Japan." },
-            { id: 2, name: 'Star Wars Outlaws', tag: 'action', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/51bQpXtlo48CyMrxj8F1RU/8cc9f5ae3fa67c590b7d6d2ca51e883c/swo-boxshot.jpg', price: 69.99, discount: 20, isNew: true, desc: "Discover the Star Wars underworld as scoundrel Kay Vess." },
-            { id: 3, name: 'Rainbow Six Siege', tag: 'action', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3xF5wFU6mfUv1weqYKOfgT/f5ac0ac95e362ecc094076f15a9f0576/R6_KEYART_960x540.jpg', price: 39.99, discount: 70, isNew: false, desc: "Master tactical destruction and intense close-quarters combat." },
-            { id: 4, name: 'Avatar: Frontiers of Pandora', tag: 'action', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg', price: 59.99, discount: 40, isNew: false, desc: "Explore the Western Frontier of Pandora." },
-            { id: 5, name: 'Anno 117: Pax Romana', tag: 'strategy', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3z9V5Dyj8pVxtm8zqS9foG/863e4f291cf6566a9526119acdf8646e/6638e5dcaa201a2d55bcc772.jpg', price: 59.99, discount: 0, isNew: true, desc: "Build the Roman Empire of your dreams." },
-            { id: 6, name: "Assassin's Creed Mirage", tag: 'rpg', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1IA074UBvDcfmsXNQlp8GC/5736b65e78501b89c247ef5d2bb2e660/62ea4f8e09372571f2736a71.jpg', price: 49.99, discount: 50, isNew: false, desc: "Return to the roots in 9th century Baghdad." },
-            { id: 7, name: 'The Crew Motorfest', tag: 'racing', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price: 49.99, discount: 30, isNew: false, desc: "Race through the stunning island of O'ahu." },
-            { id: 8, name: 'The Division 2', tag: 'rpg', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/47YQd7DyJH3FNTaXRPuylp/76c3cf8a9736329c64869ce4005d2c32/The_Division_Resurgence_Keyartf17e.jpg', price: 59.99, discount: 70, isNew: false, desc: "Take back Washington D.C. in this online RPG." },
-            { id: 9, name: 'Far Cry 6', tag: 'action', img: 'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_FC6f17e.jpg?imWidth=600', price: 59.99, discount: 60, isNew: false, desc: "Welcome to Yara. Join the revolution." },
-            { id: 10, name: 'Brawlhalla', tag: 'action', img: 'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_BRAWLHALLAf17e.jpg?imWidth=600', price: 0, discount: 0, isNew: false, desc: "The legendary platform fighting game." },
-            { id: 11, name: 'Trackmania', tag: 'racing', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price: 0, discount: 0, isNew: false, desc: "The ultimate track builder racing game." },
-            { id: 12, name: 'Anno 1800', tag: 'strategy', img: 'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3z9V5Dyj8pVxtm8zqS9foG/863e4f291cf6566a9526119acdf8646e/6638e5dcaa201a2d55bcc772.jpg', price: 39.99, discount: 50, isNew: false, desc: "Lead the industrial revolution." },
-        ];
+<script>
+// ===== LOADING =====
+window.addEventListener('load', () => setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 1400));
 
-        let currentFilter = 'all';
-        let currentSort = 'popular';
-        let searchQuery = '';
-        let cartCount = 0;
-        let wishlisted = new Set();
+// ===== CURSOR GLOW =====
+const cursorGlow = document.getElementById('cursorGlow');
+let mX = 0, mY = 0, gX = 0, gY = 0;
+document.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
+(function aG() { gX += (mX - gX) * 0.08; gY += (mY - gY) * 0.08; cursorGlow.style.left = gX + 'px'; cursorGlow.style.top = gY + 'px'; requestAnimationFrame(aG); })();
 
-        window.addEventListener('load', () => {
-            setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 1400);
-            renderDealsSlider();
-            renderGames();
-            moveFilterPill();
-            startCountdown();
+// ===== SCROLL REVEAL =====
+const revObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// ===== NAV SCROLL =====
+const navEl = document.getElementById('mainNav');
+window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', window.scrollY > 50));
+
+// ===== COUNTDOWN TIMER =====
+(function countdown() {
+    const end = new Date(); end.setDate(end.getDate() + 3); end.setHours(23, 59, 59);
+    function tick() {
+        const now = new Date(); let d = end - now;
+        if (d <= 0) d = 0;
+        const days = Math.floor(d / 86400000); d %= 86400000;
+        const hrs = Math.floor(d / 3600000); d %= 3600000;
+        const mins = Math.floor(d / 60000); d %= 60000;
+        const secs = Math.floor(d / 1000);
+        document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+        document.getElementById('cdHours').textContent = String(hrs).padStart(2, '0');
+        document.getElementById('cdMins').textContent = String(mins).padStart(2, '0');
+        document.getElementById('cdSecs').textContent = String(secs).padStart(2, '0');
+        if (d > 0) requestAnimationFrame(tick);
+    }
+    tick(); setInterval(tick, 1000);
+})();
+
+// ===== SALE PARTICLES =====
+const sp = document.getElementById('saleParticles');
+for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div'); p.classList.add('sale-particle');
+    p.style.left = Math.random()*100+'%'; p.style.bottom = Math.random()*20+'%';
+    p.style.animationDelay = Math.random()*5+'s'; p.style.animationDuration = (3+Math.random()*4)+'s';
+    const sz = (1+Math.random()*3)+'px'; p.style.width = sz; p.style.height = sz;
+    sp.appendChild(p);
+}
+
+// ===== PRODUCT DATA =====
+const products = [
+    { id:1, name:"Assassin's Creed Shadows", edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg', price:69.99, originalPrice:null, badge:'new', rating:4.8 },
+    { id:2, name:"Assassin's Creed Shadows", edition:'Gold Edition', editionType:'gold', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg', price:99.99, originalPrice:null, badge:'new', rating:4.8 },
+    { id:3, name:"Assassin's Creed Shadows", edition:'Ultimate Edition', editionType:'ultimate', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg', price:119.99, originalPrice:null, badge:'new', rating:4.8 },
+    { id:4, name:'Star Wars Outlaws', edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/51bQpXtlo48CyMrxj8F1RU/8cc9f5ae3fa67c590b7d6d2ca51e883c/swo-boxshot.jpg', price:48.99, originalPrice:69.99, badge:'sale', rating:4.5 },
+    { id:5, name:'Star Wars Outlaws', edition:'Gold Edition', editionType:'gold', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/51bQpXtlo48CyMrxj8F1RU/8cc9f5ae3fa67c590b7d6d2ca51e883c/swo-boxshot.jpg', price:69.99, originalPrice:99.99, badge:'sale', rating:4.5 },
+    { id:6, name:'Avatar: Frontiers of Pandora', edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg', price:29.99, originalPrice:59.99, badge:'sale', rating:4.2 },
+    { id:7, name:'Avatar: Frontiers of Pandora', edition:'Ultimate Edition', editionType:'ultimate', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg', price:44.99, originalPrice:89.99, badge:'sale', rating:4.2 },
+    { id:8, name:'Rainbow Six Siege', edition:'Standard', editionType:'standard', genre:'fps', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3xF5wFU6mfUv1weqYKOfgT/f5ac0ac95e362ecc094076f15a9f0576/R6_KEYART_960x540.jpg', price:0, originalPrice:null, badge:'free', rating:4.6 },
+    { id:9, name:'Anno 117: Pax Romana', edition:'Standard', editionType:'standard', genre:'strategy', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3z9V5Dyj8pVxtm8zqS9foG/863e4f291cf6566a9526119acdf8646e/6638e5dcaa201a2d55bcc772.jpg', price:59.99, originalPrice:null, badge:'preorder', rating:0 },
+    { id:10, name:'Anno 117: Pax Romana', edition:'Gold Edition', editionType:'gold', genre:'strategy', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3z9V5Dyj8pVxtm8zqS9foG/863e4f291cf6566a9526119acdf8646e/6638e5dcaa201a2d55bcc772.jpg', price:84.99, originalPrice:null, badge:'preorder', rating:0 },
+    { id:11, name:'The Crew Motorfest', edition:'Standard', editionType:'standard', genre:'racing', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price:24.99, originalPrice:49.99, badge:'sale', rating:4.1 },
+    { id:12, name:'The Crew Motorfest', edition:'Ultimate Edition', editionType:'ultimate', genre:'racing', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price:39.99, originalPrice:79.99, badge:'sale', rating:4.1 },
+    { id:13, name:"Assassin's Creed Mirage", edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1IA074UBvDcfmsXNQlp8GC/5736b65e78501b89c247ef5d2bb2e660/62ea4f8e09372571f2736a71.jpg', price:24.99, originalPrice:49.99, badge:'sale', rating:4.3 },
+    { id:14, name:'The Division 2', edition:'Standard', editionType:'standard', genre:'rpg', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/47YQd7DyJH3FNTaXRPuylp/76c3cf8a9736329c64869ce4005d2c32/The_Division_Resurgence_Keyartf17e.jpg', price:14.99, originalPrice:29.99, badge:'sale', rating:4.4 },
+    { id:15, name:'Brawlhalla', edition:'Free to Play', editionType:'standard', genre:'free', img:'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_BRAWLHALLAf17e.jpg?imWidth=600', price:0, originalPrice:null, badge:'free', rating:4.0 },
+    { id:16, name:'Trackmania', edition:'Free to Play', editionType:'standard', genre:'racing', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price:0, originalPrice:null, badge:'free', rating:3.9 },
+    { id:17, name:'Far Cry 6', edition:'Standard', editionType:'standard', genre:'fps', img:'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_FC6f17e.jpg?imWidth=600', price:9.99, originalPrice:59.99, badge:'sale', rating:4.0 },
+    { id:18, name:'Far Cry 6', edition:'Ultimate Edition', editionType:'ultimate', genre:'fps', img:'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_FC6f17e.jpg?imWidth=600', price:19.99, originalPrice:99.99, badge:'sale', rating:4.0 },
+];
+
+const bundles = [
+    { name:"Assassin's Creed Bundle", games:'AC Shadows + AC Mirage + AC Valhalla', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/2xigYNmkunpXzF0wLo3xmf/be9da2427ae7e897d7d9be9badc07adb/AC-FranchiseBanner_960x540_1.jpg', price:79.99, originalPrice:179.97 },
+    { name:'Rainbow Six Complete', games:'Siege + Extraction + All Operator Packs', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3xF5wFU6mfUv1weqYKOfgT/f5ac0ac95e362ecc094076f15a9f0576/R6_KEYART_960x540.jpg', price:34.99, originalPrice:89.98 },
+    { name:'Open World Mega Pack', games:'Avatar + Star Wars Outlaws + Far Cry 6', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg', price:59.99, originalPrice:159.97 },
+];
+
+// ===== STATE =====
+let cart = [];
+let wishlist = new Set();
+let activeFilter = 'all';
+let activeEdition = 'all';
+let activeSort = 'featured';
+
+// ===== RENDER BUNDLES =====
+function renderBundles() {
+    const g = document.getElementById('bundleGrid');
+    g.innerHTML = bundles.map(b => {
+        const disc = Math.round((1 - b.price / b.originalPrice) * 100);
+        return `<a href="#" class="bundle-card reveal">
+            <img src="${b.img}" alt="${b.name}" loading="lazy">
+            <div class="bundle-overlay"></div>
+            <div class="bundle-content">
+                <h3>${b.name}</h3>
+                <div class="bundle-games">${b.games}</div>
+                <div class="bundle-price">
+                    <span class="bp-original">€${b.originalPrice.toFixed(2)}</span>
+                    <span class="bp-current">€${b.price.toFixed(2)}</span>
+                    <span class="bp-save">-${disc}%</span>
+                </div>
+            </div>
+        </a>`;
+    }).join('');
+    g.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+}
+renderBundles();
+
+// ===== RENDER PRODUCTS =====
+function getFiltered() {
+    let list = [...products];
+    if (activeFilter === 'sale') list = list.filter(p => p.originalPrice && p.price > 0);
+    else if (activeFilter === 'free') list = list.filter(p => p.price === 0);
+    else if (activeFilter !== 'all') list = list.filter(p => p.genre === activeFilter);
+    if (activeEdition !== 'all') list = list.filter(p => p.editionType === activeEdition);
+
+    switch (activeSort) {
+        case 'price-asc': list.sort((a, b) => a.price - b.price); break;
+        case 'price-desc': list.sort((a, b) => b.price - a.price); break;
+        case 'discount': list.sort((a, b) => { const da = a.originalPrice ? (1 - a.price / a.originalPrice) : 0; const db = b.originalPrice ? (1 - b.price / b.originalPrice) : 0; return db - da; }); break;
+        case 'name': list.sort((a, b) => a.name.localeCompare(b.name) || a.price - b.price); break;
+        default: break;
+    }
+    return list;
+}
+
+function renderProducts() {
+    const grid = document.getElementById('productGrid');
+    const list = getFiltered();
+    document.getElementById('filterCount').textContent = list.length + ' game' + (list.length !== 1 ? 's' : '');
+
+    if (!list.length) {
+        grid.innerHTML = `<div class="no-results"><div class="no-results-icon"><i class="fas fa-search"></i></div><h3>No games found</h3><p>Try adjusting your filters or edition selection.</p></div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(p => {
+        const inCart = cart.some(c => c.id === p.id);
+        const isWish = wishlist.has(p.id);
+        const discPct = p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
+        const badgeClass = p.badge === 'sale' ? 'badge-sale' : p.badge === 'new' ? 'badge-new' : p.badge === 'free' ? 'badge-free' : 'badge-preorder';
+        const badgeLabel = p.badge === 'sale' ? `-${discPct}%` : p.badge === 'new' ? 'New' : p.badge === 'free' ? 'Free' : 'Pre-Order';
+
+        let priceHTML = '';
+        if (p.price === 0) {
+            priceHTML = `<span class="price-free"><i class="fas fa-gift" style="font-size:0.8rem;margin-right:4px"></i>Free</span>`;
+        } else if (p.originalPrice) {
+            priceHTML = `<div class="price-group"><span class="price-original">€${p.originalPrice.toFixed(2)}</span><span class="price-current discounted">€${p.price.toFixed(2)}</span></div><span class="price-discount-badge">-${discPct}%</span>`;
+        } else {
+            priceHTML = `<span class="price-current full">€${p.price.toFixed(2)}</span>`;
+        }
+
+        return `<div class="store-card" data-id="${p.id}">
+            <div class="store-card-img">
+                <img src="${p.img}" alt="${p.name}" loading="lazy">
+                <div class="store-card-img-overlay"></div>
+                <span class="store-card-badge ${badgeClass}">${badgeLabel}</span>
+                <button class="store-card-wishlist ${isWish ? 'wishlisted' : ''}" data-wish="${p.id}" aria-label="Add to wishlist" onclick="toggleWishlist(event, ${p.id})">
+                    <i class="${isWish ? 'fas' : 'far'} fa-heart"></i>
+                </button>
+            </div>
+            <div class="store-card-content">
+                <div class="store-card-tags">
+                    <span class="store-card-tag">${p.genre}</span>
+                    <span class="store-card-tag">${p.editionType}</span>
+                </div>
+                <div class="store-card-title">${p.name}</div>
+                <div class="store-card-edition">${p.edition}</div>
+                <div class="store-card-footer">
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">${priceHTML}</div>
+                    ${p.price > 0 ? `<button class="store-card-add ${inCart ? 'in-cart' : ''}" data-cart="${p.id}" aria-label="${inCart ? 'Remove from cart' : 'Add to cart'}" onclick="toggleCart(event, ${p.id})">
+                        <i class="fas ${inCart ? 'fa-check' : 'fa-plus'}"></i>
+                    </button>` : `<button class="store-card-add" onclick="showToast('${p.name} — Play for free!')" aria-label="Play free"><i class="fas fa-play"></i></button>`}
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+
+    // 3D tilt effect
+    grid.querySelectorAll('.store-card').forEach(c => {
+        c.addEventListener('mousemove', e => {
+            const r = c.getBoundingClientRect();
+            c.style.transform = `translateY(-6px) perspective(1000px) rotateX(${(e.clientY-r.top-r.height/2)/30}deg) rotateY(${(r.width/2-e.clientX+r.left)/30}deg)`;
         });
+        c.addEventListener('mouseleave', () => { c.style.transform = ''; });
+    });
+}
+renderProducts();
 
-        // Cursor & Nav
-        const cursorGlow = document.getElementById('cursorGlow');
-        let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
-        document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-        (function animGlow() { glowX += (mouseX - glowX) * 0.08; glowY += (mouseY - glowY) * 0.08; cursorGlow.style.left = glowX + 'px'; cursorGlow.style.top = glowY + 'px'; requestAnimationFrame(animGlow); })();
-        window.addEventListener('scroll', () => document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50));
+// ===== FILTER CHIPS =====
+document.getElementById('filterBar').addEventListener('click', e => {
+    const chip = e.target.closest('.filter-chip');
+    if (!chip) return;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeFilter = chip.dataset.filter;
+    renderProducts();
+});
 
-        // Reveal
-        const revealObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+document.getElementById('filterSort').addEventListener('change', e => {
+    activeSort = e.target.value;
+    renderProducts();
+});
 
-        // Countdown
-        function startCountdown() {
-            const end = new Date();
-            end.setDate(end.getDate() + 3); // 3 days from now
-            setInterval(() => {
-                const now = new Date();
-                const diff = end - now;
-                if (diff <= 0) return;
-                document.getElementById('cdDays').textContent = String(Math.floor(diff / (1000*60*60*24))).padStart(2, '0');
-                document.getElementById('cdHours').textContent = String(Math.floor((diff % (1000*60*60*24)) / (1000*60*60))).padStart(2, '0');
-                document.getElementById('cdMins').textContent = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2, '0');
-                document.getElementById('cdSecs').textContent = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2, '0');
-            }, 1000);
-        }
+// ===== EDITION BAR =====
+document.getElementById('editionBar').addEventListener('click', e => {
+    const opt = e.target.closest('.edition-option');
+    if (!opt) return;
+    document.querySelectorAll('.edition-option').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    activeEdition = opt.dataset.edition;
+    renderProducts();
+});
 
-        // Deals
-        function renderDealsSlider() {
-            const deals = storeGames.filter(g => g.discount > 0).sort((a,b) => b.discount - a.discount).slice(0, 6);
-            document.getElementById('dealsSlider').innerHTML = deals.map(g => {
-                const newPrice = (g.price * (1 - g.discount / 100)).toFixed(2);
-                return `<div class="deal-card" onclick="openGameModal(${g.id})">
-                    <div class="deal-img">
-                        <img src="${g.img}" alt="${g.name}" loading="lazy">
-                        <div class="discount-badge">-${g.discount}%</div>
-                    </div>
-                    <div class="deal-body">
-                        <div class="deal-info"><h3>${g.name}</h3><span class="tag">${g.tag}</span></div>
-                        <div class="deal-prices"><div class="price-old">€${g.price.toFixed(2)}</div><div class="price-new">€${newPrice}</div></div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
+// ===== WISHLIST =====
+function toggleWishlist(e, id) {
+    e.stopPropagation();
+    const p = products.find(x => x.id === id);
+    if (wishlist.has(id)) {
+        wishlist.delete(id);
+        showToast(`Removed "${p.name}" from wishlist`, 'fa-heart-broken');
+    } else {
+        wishlist.add(id);
+        showToast(`Added "${p.name}" to wishlist`, 'fa-heart');
+    }
+    renderProducts();
+}
 
-        // Filter & Sort
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                moveFilterPill();
-                renderGames();
-            });
-        });
+// ===== CART =====
+function toggleCart(e, id) {
+    e.stopPropagation();
+    const p = products.find(x => x.id === id);
+    const idx = cart.findIndex(c => c.id === id);
+    if (idx >= 0) {
+        cart.splice(idx, 1);
+        showToast(`Removed "${p.name}" from cart`, 'fa-cart-arrow-down');
+    } else {
+        cart.push({ id: p.id });
+        showToast(`Added "${p.name}" to cart`, 'fa-cart-plus');
+    }
+    updateCartBadge();
+    renderProducts();
+    renderCartBody();
+}
 
-        function moveFilterPill() {
-            const activeBtn = document.querySelector('.filter-btn.active');
-            const pill = document.getElementById('filterPill');
-            const container = document.getElementById('filterContainer');
-            if (!activeBtn || !pill || !container) return;
-            const btnRect = activeBtn.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-            pill.style.width = btnRect.width + 'px';
-            pill.style.left = (btnRect.left - containerRect.left) + 'px';
-        }
-        window.addEventListener('resize', moveFilterPill);
+function updateCartBadge() {
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = cart.length;
+    badge.classList.toggle('visible', cart.length > 0);
+}
 
-        document.getElementById('sortSelect').addEventListener('change', e => { currentSort = e.target.value; renderGames(); });
-        document.getElementById('storeSearch').addEventListener('input', e => { searchQuery = e.target.value.trim().toLowerCase(); renderGames(); });
+function renderCartBody() {
+    const body = document.getElementById('cartBody');
+    const footer = document.getElementById('cartFooter');
+    document.getElementById('cartHeaderCount').textContent = cart.length ? `(${cart.length})` : '';
 
-        function getFilteredGames() {
-            let filtered = [...storeGames];
-            if (currentFilter !== 'all') filtered = filtered.filter(g => g.tag === currentFilter);
-            if (searchQuery) filtered = filtered.filter(g => g.name.toLowerCase().includes(searchQuery));
-            
-            switch (currentSort) {
-                case 'price-low': filtered.sort((a,b) => a.price - b.price); break;
-                case 'price-high': filtered.sort((a,b) => b.price - a.price); break;
-                case 'discount': filtered.sort((a,b) => b.discount - a.discount); break;
-                case 'name': filtered.sort((a,b) => a.name.localeCompare(b.name)); break;
-                default: filtered.sort((a,b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0)); break;
-            }
-            return filtered;
-        }
+    if (!cart.length) {
+        body.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon"><i class="fas fa-shopping-cart"></i></div><h4>Your cart is empty</h4><p>Browse the store and add games to get started.</p></div>`;
+        footer.style.display = 'none';
+        return;
+    }
 
-        // Render Store Grid
-        function renderGames() {
-            const grid = document.getElementById('gameGrid');
-            const filtered = getFilteredGames();
+    let total = 0, savings = 0;
+    body.innerHTML = cart.map(ci => {
+        const p = products.find(x => x.id === ci.id);
+        total += p.price;
+        if (p.originalPrice) savings += p.originalPrice - p.price;
+        const priceHTML = p.originalPrice
+            ? `<span class="cip-original">€${p.originalPrice.toFixed(2)}</span>€${p.price.toFixed(2)}`
+            : p.price === 0 ? 'Free' : `€${p.price.toFixed(2)}`;
+        return `<div class="cart-item">
+            <img src="${p.img}" class="cart-item-img" alt="${p.name}" loading="lazy">
+            <div class="cart-item-info">
+                <div class="cart-item-title">${p.name}</div>
+                <div class="cart-item-edition">${p.edition}</div>
+                <div class="cart-item-price">${priceHTML}</div>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${p.id})" aria-label="Remove"><i class="fas fa-xmark"></i></button>
+        </div>`;
+    }).join('');
 
-            grid.innerHTML = filtered.map(game => {
-                const isFree = game.price === 0;
-                const newPrice = isFree ? 'Free' : `€${(game.price * (1 - game.discount / 100)).toFixed(2)}`;
-                const badgeHtml = game.discount > 0 ? `<div class="card-badge badge-sale">-${game.discount}%</div>` : 
-                                 (game.isNew ? `<div class="card-badge badge-new">New</div>` : '');
-                
-                const isWished = wishlisted.has(game.id);
+    document.getElementById('cartSubtotal').textContent = '€' + total.toFixed(2);
+    if (savings > 0) {
+        document.getElementById('cartSavings').style.display = 'flex';
+        document.getElementById('cartSavingsText').textContent = `You're saving €${savings.toFixed(2)} on this order!`;
+    } else {
+        document.getElementById('cartSavings').style.display = 'none';
+    }
+    footer.style.display = 'block';
+}
 
-                return `<article class="game-card" onclick="openGameModal(${game.id})">
-                    <div class="game-card-shimmer"></div>
-                    <div class="game-card-img">
-                        <img src="${game.img}" alt="${game.name}" loading="lazy">
-                        <div class="game-card-img-overlay"></div>
-                        ${badgeHtml}
-                        <div class="game-card-fav ${isWished ? 'favorited' : ''}" onclick="event.stopPropagation(); toggleWish(${game.id})">
-                            <i class="${isWished ? 'fas' : 'far'} fa-heart"></i>
-                        </div>
-                    </div>
-                    <div class="game-card-body">
-                        <div class="game-card-tag">${game.tag}</div>
-                        <div class="game-card-title">${game.name}</div>
-                        <div class="price-row">
-                            ${game.discount > 0 ? `<span class="price-old">€${game.price.toFixed(2)}</span>` : ''}
-                            <span class="price-current ${game.discount > 0 ? 'on-sale' : ''}">${newPrice}</span>
-                        </div>
-                        <div class="game-card-actions">
-                            ${!isFree ? `<button class="btn btn-cart btn-sm" onclick="event.stopPropagation(); addToCart(${game.id}, this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>` : `<button class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Play Free</button>`}
-                            <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openGameModal(${game.id})"><i class="fas fa-info-circle"></i></button>
-                        </div>
-                    </div>
-                </article>`;
-            }).join('');
-        }
+function removeFromCart(id) {
+    const p = products.find(x => x.id === id);
+    cart = cart.filter(c => c.id !== id);
+    updateCartBadge(); renderProducts(); renderCartBody();
+    showToast(`Removed "${p.name}"`, 'fa-cart-arrow-down');
+}
 
-        // Actions
-        function toggleWish(id) {
-            if (wishlisted.has(id)) wishlisted.delete(id);
-            else wishlisted.add(id);
-            renderGames();
-            const game = storeGames.find(g => g.id === id);
-            showToast('info', wishlisted.has(id) ? `Added ${game.name} to Wishlist` : `Removed from Wishlist`, 'fa-heart');
-        }
+// ===== CART SIDEBAR OPEN/CLOSE =====
+const cartSidebar = document.getElementById('cartSidebar');
+const cartOverlay = document.getElementById('cartOverlay');
 
-        function addToCart(id, btn) {
-            cartCount++;
-            const badge = document.getElementById('cartBadge');
-            badge.textContent = cartCount;
-            badge.classList.add('show');
-            
-            // Reset animation for bounce effect
-            badge.style.transform = 'scale(1.3)';
-            setTimeout(() => badge.style.transform = 'scale(1)', 200);
+function openCart() { cartSidebar.classList.add('active'); cartOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; renderCartBody(); }
+function closeCart() { cartSidebar.classList.remove('active'); cartOverlay.classList.remove('active'); document.body.style.overflow = ''; }
 
-            // Button feedback
-            btn.innerHTML = `<i class="fas fa-check"></i> Added`;
-            btn.classList.add('added');
+document.getElementById('navCartBtn').addEventListener('click', openCart);
+document.getElementById('cartClose').addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && cartSidebar.classList.contains('active')) closeCart(); });
 
-            const game = storeGames.find(g => g.id === id);
-            showToast('success', `${game.name} added to cart`, 'fa-shopping-bag');
-        }
+// Checkout button
+document.getElementById('cartCheckout').addEventListener('click', () => {
+    if (!cart.length) return;
+    showToast('Proceeding to checkout...', 'fa-lock');
+    setTimeout(() => { showToast('This is a demo — thanks for browsing!', 'fa-gift'); }, 1500);
+});
 
-        // Modal
-        const modal = document.getElementById('gameModal');
-        function openGameModal(id) {
-            const game = storeGames.find(g => g.id === id);
-            if (!game) return;
-            document.getElementById('modalImg').src = game.img;
-            document.getElementById('modalImg').alt = game.name;
-            
-            const isFree = game.price === 0;
-            const newPrice = isFree ? 'Free' : `€${(game.price * (1 - game.discount / 100)).toFixed(2)}`;
+// ===== TOAST =====
+function showToast(msg, icon = 'fa-check') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.classList.add('removing'); setTimeout(() => toast.remove(), 300); }, 2500);
+}
 
-            document.getElementById('modalBody').innerHTML = `
-                <div class="modal-game-title">${game.name}</div>
-                <div class="modal-game-desc">${game.desc}</div>
-                <div class="modal-price-row">
-                    ${game.discount > 0 ? `<span class="modal-old-price">€${game.price.toFixed(2)}</span>` : ''}
-                    <span class="modal-new-price">${newPrice}</span>
-                </div>
-                <div class="modal-actions">
-                    ${!isFree ? `<button class="btn btn-primary" onclick="addToCart(${game.id}, this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>` : `<button class="btn btn-primary"><i class="fas fa-play"></i> Play Free</button>`}
-                    <button class="btn btn-ghost" onclick="toggleWish(${game.id}); openGameModal(${game.id})"><i class="${wishlisted.has(game.id) ? 'fas' : 'far'} fa-heart" style="${wishlisted.has(game.id) ? 'color:#ff3b5c' : ''}"></i> ${wishlisted.has(game.id) ? 'Wishlisted' : 'Wishlist'}</button>
-                </div>
-                <div style="margin-top:1.5rem; padding: 1rem; background: rgba(0,112,255,0.05); border: 1px solid rgba(0,112,255,0.1); border-radius: 12px; display: flex; align-items: center; gap: 1rem;">
-                    <i class="fas fa-gamepad" style="font-size: 1.5rem; color: var(--accent-secondary);"></i>
-                    <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">Ubisoft+ Included</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Play this and 100+ more games with a Ubisoft+ subscription.</div>
-                    </div>
-                    <a href="#" class="btn btn-ghost btn-sm" style="margin-left: auto;">Join</a>
-                </div>
-            `;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+// ===== 3D TILT ON BUNDLES =====
+document.querySelectorAll('.bundle-card').forEach(b => {
+    b.addEventListener('mousemove', e => {
+        const x = (e.clientX - b.getBoundingClientRect().left) / b.getBoundingClientRect().width - 0.5;
+        b.querySelector('img').style.transform = `scale(1.08) translate(${x*-15}px, 0)`;
+    });
+    b.addEventListener('mouseleave', () => { b.querySelector('img').style.transform = ''; });
+});
 
-        function closeGameModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
-        document.getElementById('modalClose').addEventListener('click', closeGameModal);
-        modal.addEventListener('click', e => { if (e.target === modal) closeGameModal(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('active')) closeGameModal(); });
-
-        // Toast
-        function showToast(type, message, icon) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span><div class="toast-progress"></div>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.classList.add('hiding'); setTimeout(() => toast.remove(), 300); }, 3000);
-        }
-    </script>
+// ===== INIT CART BODY =====
+renderCartBody();
+</script>
 </body>
 </html>
