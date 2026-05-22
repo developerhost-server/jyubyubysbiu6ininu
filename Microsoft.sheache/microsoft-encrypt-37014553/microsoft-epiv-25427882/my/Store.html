@@ -1,672 +1,763 @@
 <!DOCTYPE html>
-<html lang="en-gb">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ubisoft Store — React Ready</title>
-    <link rel="icon" href="https://static-dm.ubisoft.com/1wd-ubisoft-com/prod//_next/static/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate qBittorrent Client</title>
     <style>
-        /* ========================================================================
-           1. VARIABLES & GLOBALS (Move to globals.css or index.css in React)
-           ======================================================================== */
-        :root {
-            --bg-color: #050508;
-            --bg-secondary: #0c0c12;
-            --card-bg: #12121a;
-            --card-bg-hover: #1a1a26;
-            --text-primary: #f0f0f5;
-            --text-secondary: #8888a0;
-            --text-muted: #55556a;
-            --accent: #0070ff;
-            --accent-hover: #3d94ff;
-            --accent-secondary: #00c8ff;
-            --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --glass: rgba(12, 12, 18, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --discount: #00ffaa;
-            --sale-red: #ff3355;
-            --neon-purple: #a855f7;
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #333 var(--bg-color); }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-color); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+        /* Modern CSS Variables */
+        :root {
+            --bg-primary: #0f0f1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #16213e;
+            --accent-primary: #e94560;
+            --accent-secondary: #0f3460;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --text-primary: #eee;
+            --text-secondary: #aaa;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-color); color: var(--text-primary);
-            line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
         }
 
-        /* ========================================================================
-           2. AMBIENT BACKGROUND (Move to Layout.module.css)
-           ======================================================================== */
-        .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: hidden; }
-        .ambient-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15; animation: orbFloat 20s ease-in-out infinite; }
-        .ambient-orb--1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; }
-        .ambient-orb--2 { width: 500px; height: 500px; background: #6b00ff; top: 50%; right: -150px; animation-delay: -7s; animation-duration: 25s; }
-        .ambient-orb--3 { width: 400px; height: 400px; background: var(--accent-secondary); bottom: -100px; left: 30%; animation-delay: -14s; animation-duration: 22s; }
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -30px) scale(1.1); }
-            50% { transform: translate(-20px, 40px) scale(0.95); }
-            75% { transform: translate(30px, 20px) scale(1.05); }
-        }
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
+
+        /* Header */
+        .header {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* ========================================================================
-           3. NAVBAR (Move to Navbar.module.css)
-           ======================================================================== */
-        .app-nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 5%; height: 64px;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(5, 5, 8, 0.6); backdrop-filter: blur(20px) saturate(1.5);
-            border-bottom: 1px solid var(--glass-border); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        .app-nav--scrolled { background: rgba(5, 5, 8, 0.9); border-bottom-color: rgba(0, 112, 255, 0.15); box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
-        .nav__logo { font-size: 1.3rem; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, #8888a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .nav__links { display: flex; align-items: center; }
-        .nav__link { color: var(--text-secondary); text-decoration: none; margin-left: 2rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; position: relative; transition: color 0.3s; padding: 4px 0; }
-        .nav__link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); border-radius: 1px; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .nav__link:hover { color: var(--text-primary); }
-        .nav__link:hover::after { width: 100%; }
-        .nav__link--active { color: var(--accent-secondary); }
-        .nav__cta { margin-left: 2rem !important; padding: 8px 20px !important; background: linear-gradient(135deg, var(--accent), #0050cc) !important; border-radius: 8px !important; color: white !important; font-weight: 700 !important; -webkit-text-fill-color: white !important; transition: all 0.3s !important; box-shadow: 0 2px 12px rgba(0, 112, 255, 0.3); position: relative; overflow: hidden; }
-        .nav__cta::after { display: none !important; }
-        .nav__cta:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0, 112, 255, 0.5); }
-        .nav__btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; margin-left: 1.5rem; transition: all 0.3s; font-size: 1rem; position: relative; }
-        .nav__btn:hover { background: rgba(0,112,255,0.12); border-color: rgba(0,112,255,0.3); color: var(--text-primary); box-shadow: 0 0 15px rgba(0,112,255,0.2); }
-        .nav__badge { position: absolute; top: -5px; right: -5px; width: 18px; height: 18px; border-radius: 50%; background: var(--sale-red); color: white; font-size: 0.6rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transform: scale(0); transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
-        .nav__badge--visible { transform: scale(1); }
 
-        /* ========================================================================
-           4. COMMON COMPONENTS (Move to components folder)
-           ======================================================================== */
-        .app-main { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 84px 5% 2rem; }
-        .section { margin-bottom: 5rem; }
-        .section__header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.75rem; position: relative; }
-        .section__header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
-        .section__title { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        .section__link { color: var(--accent-secondary); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; transition: gap 0.3s; }
-        .section__link:hover { gap: 10px; }
-        .section__count { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
-        
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal--visible { opacity: 1; transform: translateY(0); }
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-        .btn { padding: 14px 30px; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.3px; position: relative; overflow: hidden; }
-        .btn--primary { background: linear-gradient(135deg, var(--accent) 0%, #0050cc 100%); color: white; box-shadow: 0 4px 20px rgba(0, 112, 255, 0.3); }
-        .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(0, 112, 255, 0.5); }
-        .btn--ghost { background: rgba(255, 255, 255, 0.06); color: var(--text-primary); border: 1px solid var(--border-hover); backdrop-filter: blur(10px); }
-        .btn--ghost:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-        .btn--sale { background: linear-gradient(135deg, var(--sale-red), #cc0033); color: white; box-shadow: 0 4px 20px rgba(255, 51, 85, 0.3); }
-        .btn--sale:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(255, 51, 85, 0.5); }
+        .badge {
+            background: var(--accent-primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
 
-        .ripple { position: absolute; background: rgba(255, 255, 255, 0.3); border-radius: 50%; transform: scale(0); animation: rippleEffect 0.6s linear; pointer-events: none; }
-        @keyframes rippleEffect { to { transform: scale(4); opacity: 0; } }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
-        /* ========================================================================
-           5. SALE HERO (Move to Hero.module.css)
-           ======================================================================== */
-        .hero { position: relative; border-radius: 24px; overflow: hidden; min-height: 450px; border: 1px solid var(--glass-border); display: flex; align-items: center; user-select: none; margin-bottom: 5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-        .hero__bg { position: absolute; inset: 0; }
-        .hero__bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(1.4); transition: transform 10s ease; }
-        .hero:hover .hero__bg img { transform: scale(1.05); }
-        .hero__overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(5,5,8,0.98) 0%, rgba(5,5,8,0.8) 40%, rgba(5,5,8,0.2) 100%), linear-gradient(to top, rgba(5,5,8,0.95) 0%, transparent 40%); }
-        .hero__content { position: relative; z-index: 2; padding: 4.5rem; max-width: 680px; }
-        .hero__badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255, 51, 85, 0.15); border: 1px solid rgba(255, 51, 85, 0.4); border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--sale-red); margin-bottom: 1.25rem; backdrop-filter: blur(12px); box-shadow: 0 0 15px rgba(255,51,85,0.2); }
-        .hero__pulse { width: 6px; height: 6px; background: var(--sale-red); border-radius: 50%; animation: pulse 2s ease-in-out infinite; box-shadow: 0 0 8px var(--sale-red); }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        
-        .hero__glitch-wrapper { position: relative; display: inline-block; }
-        .hero__title { font-size: 3.2rem; font-weight: 900; line-height: 1.08; margin-bottom: 0.75rem; letter-spacing: -1px; text-shadow: 0 0 10px rgba(0,112,255,0.5); animation: glitchSkew 4s infinite linear alternate-reverse; }
-        .hero__title::before, .hero__title::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .hero__title::before { color: var(--accent-secondary); animation: glitchEffect 3s infinite linear alternate-reverse; clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); transform: translate(-2px, -2px); opacity: 0.7; }
-        .hero__title::after { color: var(--neon-purple); animation: glitchEffect2 2s infinite linear alternate-reverse; clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); transform: translate(2px, 2px); opacity: 0.7; }
-        @keyframes glitchSkew { 0% { transform: skew(0deg); } 21% { transform: skew(2deg); } 22% { transform: skew(0deg); } 81% { transform: skew(-2deg); } 82% { transform: skew(0deg); } }
-        @keyframes glitchEffect { 0% { transform: translate(0); } 20% { transform: translate(-3px, 2px); } 40% { transform: translate(-3px, -2px); } 60% { transform: translate(3px, 2px); } 80% { transform: translate(3px, -2px); } 100% { transform: translate(0); } }
-        @keyframes glitchEffect2 { 0% { transform: translate(0); } 20% { transform: translate(3px, -2px); } 40% { transform: translate(3px, 2px); } 60% { transform: translate(-3px, -2px); } 80% { transform: translate(-3px, 2px); } 100% { transform: translate(0); } }
-        .hero__percent { color: var(--sale-red); font-style: italic; text-shadow: 0 0 20px rgba(255,51,85,0.6); }
-        .hero__desc { color: var(--text-secondary); margin-bottom: 1.75rem; font-size: 1.05rem; line-height: 1.7; }
-        .hero__countdown { display: flex; gap: 12px; margin-bottom: 2rem; }
-        .countdown-block { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 64px; backdrop-filter: blur(8px); transition: border-color 0.3s, box-shadow 0.3s; }
-        .countdown-block:hover { border-color: rgba(0,112,255,0.3); box-shadow: 0 0 15px rgba(0,112,255,0.15); }
-        .countdown-block__value { font-size: 1.5rem; font-weight: 900; line-height: 1.2; background: linear-gradient(180deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .countdown-block__label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+        /* Add Section */
+        .add-section {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
 
-        /* ========================================================================
-           6. CAROUSEL (Move to Carousel.module.css)
-           ======================================================================== */
-        .carousel { perspective: 1200px; margin-top: -2rem; margin-bottom: 5rem; }
-        .carousel__track { display: flex; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); transform-style: preserve-3d; }
-        .carousel__item { flex: 0 0 300px; height: 420px; margin: 0 15px; border-radius: 16px; overflow: hidden; position: relative; border: 1px solid var(--border); transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transform: rotateY(5deg) scale(0.9); cursor: pointer; }
-        .carousel__item:hover { transform: rotateY(0deg) scale(1.05); z-index: 10; border-color: var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(0,112,255,0.3); }
-        .carousel__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
-        .carousel__item:hover img { transform: scale(1.1); }
-        .carousel__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,5,8,0.9) 0%, transparent 50%); padding: 1.5rem; display: flex; flex-direction: column; justify-content: flex-end; }
-        .carousel__item h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.25rem; transform: translateY(10px); opacity: 0; transition: all 0.3s 0.1s; }
-        .carousel__item:hover h3 { transform: translateY(0); opacity: 1; }
-        .carousel__item span { font-size: 0.9rem; font-weight: 700; color: var(--discount); transform: translateY(10px); opacity: 0; transition: all 0.3s 0.15s; }
-        .carousel__item:hover span { transform: translateY(0); opacity: 1; }
-        .carousel__controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
-        .carousel__btn { width: 44px; height: 44px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.9rem; }
-        .carousel__btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px rgba(0,112,255,0.4); }
+        .add-section input {
+            flex: 2;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
 
-        /* ========================================================================
-           7. FILTER & PRODUCT GRID (Move to StoreGrid.module.css)
-           ======================================================================== */
-        .filter-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; padding: 1rem 1.5rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; flex-wrap: wrap; backdrop-filter: blur(10px); }
-        .filter-chip { padding: 8px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-secondary); display: inline-flex; align-items: center; gap: 6px; user-select: none; }
-        .filter-chip:hover { background: rgba(0,112,255,0.08); border-color: rgba(0,112,255,0.2); color: var(--text-primary); }
-        .filter-chip--active { background: rgba(0,112,255,0.15); border-color: var(--accent); color: var(--accent-secondary); box-shadow: 0 0 10px rgba(0,112,255,0.2); }
-        .filter-chip i { font-size: 0.7rem; }
-        .filter-spacer { flex: 1; }
-        .filter-sort { padding: 8px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 500; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-secondary); cursor: pointer; outline: none; font-family: 'Inter', sans-serif; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238888a0' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; transition: all 0.3s; }
-        .filter-sort option { background: var(--card-bg); color: var(--text-primary); }
+        .add-section input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-        .grid--3 { grid-template-columns: repeat(3, 1fr); }
+        .add-section input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
 
-        .product-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border); position: relative; display: flex; flex-direction: column; cursor: pointer; }
-        .product-card::before { content: ''; position: absolute; inset: 0; border-radius: 16px; padding: 1px; background: linear-gradient(135deg, transparent 30%, var(--accent-secondary) 50%, var(--neon-purple) 70%, transparent 100%); background-size: 200% 200%; background-position: 0% 0%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s, background-position 1.5s ease; pointer-events: none; z-index: 5; }
-        .product-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 30px rgba(0,112,255,0.15); background: var(--card-bg-hover); }
-        .product-card:hover::before { opacity: 1; background-position: 100% 100%; }
+        button {
+            padding: 12px 24px;
+            background: var(--accent-primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-        .product-card__img-wrap { position: relative; overflow: hidden; aspect-ratio: 3/4; }
-        .product-card__img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .product-card:hover .product-card__img-wrap img { transform: scale(1.08); }
-        .product-card__shimmer { position: absolute; inset: 0; background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%); transform: translateX(-100%); transition: transform 0.6s; pointer-events: none; z-index: 2; }
-        .product-card:hover .product-card__shimmer { transform: translateX(100%); }
-        .product-card__img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--card-bg) 0%, transparent 40%); pointer-events: none; z-index: 1; }
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
 
-        .product-card__badge { position: absolute; top: 12px; left: 12px; z-index: 3; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; backdrop-filter: blur(8px); }
-        .product-card__badge--new { background: rgba(0, 112, 255, 0.9); color: white; box-shadow: 0 0 10px rgba(0,112,255,0.5); }
-        .product-card__badge--sale { background: rgba(255, 51, 85, 0.9); color: white; box-shadow: 0 0 10px rgba(255,51,85,0.5); }
-        .product-card__badge--free { background: rgba(0, 255, 170, 0.9); color: #050508; box-shadow: 0 0 10px rgba(0,255,170,0.5); }
-        .product-card__badge--preorder { background: rgba(160, 80, 255, 0.9); color: white; box-shadow: 0 0 10px rgba(160,80,255,0.5); }
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-        .product-card__wishlist { position: absolute; top: 12px; right: 12px; z-index: 3; width: 36px; height: 36px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(5,5,8,0.6); backdrop-filter: blur(8px); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.9rem; }
-        .product-card__wishlist:hover { background: rgba(5,5,8,0.8); color: var(--sale-red); transform: scale(1.15); border-color: rgba(255,51,85,0.3); }
-        .product-card__wishlist--active { color: var(--sale-red); }
+        .stat-card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s;
+        }
 
-        .product-card__content { padding: 1rem 1.25rem 1.25rem; flex-grow: 1; display: flex; flex-direction: column; position: relative; z-index: 2; margin-top: -20px; }
-        .product-card__tags { display: flex; gap: 6px; margin-bottom: 0.5rem; flex-wrap: wrap; }
-        .product-card__tag { padding: 2px 8px; background: rgba(0, 112, 255, 0.1); border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-secondary); }
-        .product-card__title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; line-height: 1.3; }
-        .product-card__edition { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.75rem; }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
 
-        .product-card__footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
-        .price-group { display: flex; flex-direction: column; gap: 2px; }
-        .price-original { font-size: 0.75rem; color: var(--text-muted); text-decoration: line-through; font-weight: 500; }
-        .price-current { font-size: 1.1rem; font-weight: 900; }
-        .price-current--full { background: linear-gradient(135deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .price-current--discounted { color: var(--discount); text-shadow: 0 0 8px rgba(0,255,170,0.4); }
-        .price-discount-badge { font-size: 0.7rem; font-weight: 800; color: var(--discount); background: rgba(0,255,170,0.1); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(0,255,170,0.2); }
-        .price-free { font-size: 1.1rem; font-weight: 900; color: var(--discount); text-shadow: 0 0 8px rgba(0,255,170,0.4); }
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--success);
+        }
 
-        .product-card__add { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: rgba(0,112,255,0.1); color: var(--accent-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.9rem; }
-        .product-card__add:hover { background: var(--accent); color: white; border-color: var(--accent); transform: scale(1.1); box-shadow: 0 0 20px rgba(0,112,255,0.4); }
-        .product-card__add--incart { background: var(--discount); border-color: var(--discount); color: #050508; box-shadow: 0 0 15px rgba(0,255,170,0.3); }
-        .product-card__add--incart:hover { background: var(--sale-red); border-color: var(--sale-red); color: white; box-shadow: 0 0 15px rgba(255,51,85,0.4); }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
 
-        /* ========================================================================
-           8. BUNDLE (Move to BundleCard.module.css)
-           ======================================================================== */
-        .bundle-card { position: relative; border-radius: 16px; overflow: hidden; min-height: 280px; display: flex; align-items: flex-end; text-decoration: none; color: white; border: 1px solid var(--border); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .bundle-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        .bundle-card:hover img { transform: scale(1.08); }
-        .bundle-card__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,5,8,0.98) 0%, rgba(5,5,8,0.4) 60%); z-index: 1; }
-        .bundle-card:hover .bundle-card__overlay { background: linear-gradient(to top, rgba(5,5,8,0.98) 0%, rgba(0,112,255,0.1) 60%); }
-        .bundle-card__content { position: relative; z-index: 2; padding: 1.5rem; width: 100%; }
-        .bundle-card__title { font-size: 1.4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; transition: transform 0.3s, text-shadow 0.3s; }
-        .bundle-card:hover .bundle-card__title { transform: translateX(8px); text-shadow: 0 0 15px rgba(0,112,255,0.5); }
-        .bundle-card__games { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.4rem; margin-bottom: 1rem; }
-        .bundle-card__price { display: flex; align-items: center; gap: 10px; }
-        .bundle-card__price-original { font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through; }
-        .bundle-card__price-current { font-size: 1.3rem; font-weight: 900; color: var(--discount); text-shadow: 0 0 8px rgba(0,255,170,0.4); }
-        .bundle-card__price-save { font-size: 0.7rem; font-weight: 700; color: var(--discount); background: rgba(0,255,170,0.1); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(0,255,170,0.2); }
+        /* Control Bar */
+        .control-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
 
-        /* ========================================================================
-           9. CART SIDEBAR (Move to CartSidebar.module.css)
-           ======================================================================== */
-        .cart-overlay { position: fixed; inset: 0; z-index: 9998; background: rgba(2,2,5,0.7); backdrop-filter: blur(4px); opacity: 0; visibility: hidden; transition: all 0.35s; }
-        .cart-overlay--active { opacity: 1; visibility: visible; }
-        .cart-sidebar { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 92vw; z-index: 9999; background: #08080f; border-left: 1px solid rgba(0,112,255,0.2); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -10px 0 40px rgba(0,112,255,0.1); }
-        .cart-sidebar--active { transform: translateX(0); }
-        .cart-sidebar__header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-        .cart-sidebar__title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-        .cart-sidebar__count { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
-        .cart-sidebar__close { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .cart-sidebar__close:hover { background: rgba(255,51,85,0.1); color: var(--sale-red); border-color: rgba(255,51,85,0.3); }
-        .cart-sidebar__body { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; scrollbar-width: thin; scrollbar-color: #222 transparent; }
-        
-        .cart-empty { text-align: center; padding: 3rem 1rem; }
-        .cart-empty__icon { font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem; opacity: 0.3; }
-        .cart-empty h4 { font-size: 1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; }
-        .cart-empty p { font-size: 0.85rem; color: var(--text-muted); }
+        .control-btn {
+            background: var(--info);
+            padding: 8px 16px;
+            font-size: 13px;
+        }
 
-        .cart-item { display: flex; gap: 14px; padding: 1rem 0; border-bottom: 1px solid var(--border); animation: cartItemIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes cartItemIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
-        .cart-item__img { width: 56px; height: 74px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: var(--card-bg); border: 1px solid var(--border); }
-        .cart-item__info { flex: 1; min-width: 0; }
-        .cart-item__title { font-size: 0.85rem; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .cart-item__edition { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
-        .cart-item__price { font-size: 0.9rem; font-weight: 800; color: var(--discount); }
-        .cart-item__price-original { font-size: 0.75rem; color: var(--text-muted); text-decoration: line-through; font-weight: 500; margin-right: 6px; }
-        .cart-item__remove { width: 28px; height: 28px; border-radius: 6px; border: none; background: rgba(255,51,85,0.08); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; transition: all 0.2s; flex-shrink: 0; align-self: center; }
-        .cart-item__remove:hover { background: rgba(255,51,85,0.3); color: var(--sale-red); transform: scale(1.1); }
+        .control-btn.warning { background: var(--warning); }
+        .control-btn.danger { background: var(--danger); }
+        .control-btn.success { background: var(--success); }
 
-        .cart-sidebar__footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.4); flex-shrink: 0; }
-        .cart-footer__subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-        .cart-footer__subtotal-label { font-size: 0.85rem; color: var(--text-secondary); }
-        .cart-footer__subtotal-value { font-size: 1.3rem; font-weight: 900; background: linear-gradient(135deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .cart-footer__savings { font-size: 0.75rem; color: var(--discount); font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 6px; background: rgba(0,255,170,0.1); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(0,255,170,0.2); }
-        .cart-footer__checkout { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--accent), #0050cc); color: white; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.3s; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; overflow: hidden; }
-        .cart-footer__checkout:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(0,112,255,0.5); }
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
 
-        /* ========================================================================
-           10. TOAST (Move to Toast.module.css)
-           ======================================================================== */
-        .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10001; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-        .toast { padding: 14px 22px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 10px; box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 20px rgba(0,112,255,0.15); animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(16px); border-left: 3px solid var(--discount); }
-        .toast--removing { animation: toastOut 0.3s ease forwards; }
-        .toast__icon { color: var(--discount); font-size: 1rem; }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes toastOut { to { opacity: 0; transform: translateX(40px); } }
+        .filter-btn {
+            background: var(--bg-card);
+            padding: 8px 16px;
+            font-size: 13px;
+        }
 
-        /* ========================================================================
-           11. UBISOFT PLUS & FOOTER (Move to respective components)
-           ======================================================================== */
-        .ubisoft-plus { position: relative; border-radius: 20px; padding: 4rem 3rem; text-align: center; overflow: hidden; border: 1px solid rgba(0, 112, 255, 0.2); }
-        .ubisoft-plus__bg { position: absolute; inset: 0; background: linear-gradient(135deg, #080818 0%, #0a1a3a 30%, #0c0c1a 70%, #12082a 100%); z-index: 0; }
-        .ubisoft-plus__glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(0,112,255,0.2) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; animation: plusGlow 4s ease-in-out infinite; }
-        @keyframes plusGlow { 0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); } }
-        .ubisoft-plus__content { position: relative; z-index: 2; }
-        .ubisoft-plus__icon { width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent), var(--accent-secondary)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem; box-shadow: 0 8px 30px rgba(0, 112, 255, 0.3); }
-        .ubisoft-plus__title { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.5px; }
-        .ubisoft-plus__desc { color: var(--text-secondary); margin-bottom: 2rem; max-width: 550px; margin-left: auto; margin-right: auto; font-size: 1.05rem; }
+        .filter-btn.active {
+            background: var(--accent-primary);
+        }
 
-        .loading-screen { position: fixed; inset: 0; z-index: 10000; background: var(--bg-color); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.5rem; transition: opacity 0.6s, visibility 0.6s; }
-        .loading-screen--hidden { opacity: 0; visibility: hidden; }
-        .loading-screen__logo { font-size: 2rem; font-weight: 900; letter-spacing: 6px; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: loadPulse 1.5s ease-in-out infinite; }
-        @keyframes loadPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        .loading-screen__bar { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 1px; overflow: hidden; }
-        .loading-screen__bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); border-radius: 1px; animation: loadBar 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        @keyframes loadBar { 0% { width: 0%; } 100% { width: 100%; } }
+        /* Search Box */
+        .search-box {
+            margin-bottom: 20px;
+        }
 
-        .app-footer { position: relative; z-index: 2; text-align: center; padding: 3rem 5%; background: rgba(5, 5, 8, 0.9); border-top: 1px solid var(--border); margin-top: 2rem; }
-        .footer__links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-        .footer__link { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
-        .footer__link:hover { color: var(--text-primary); }
-        .footer__socials { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
-        .footer__social-link { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all 0.3s; font-size: 0.9rem; }
-        .footer__social-link:hover { background: rgba(0,112,255,0.15); border-color: rgba(0,112,255,0.3); color: var(--accent-secondary); transform: translateY(-2px); }
-        .footer__copy { color: var(--text-muted); font-size: 0.8rem; }
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
 
-        .no-results { text-align: center; padding: 4rem 2rem; grid-column: 1/-1; }
-        .no-results__icon { font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem; opacity: 0.3; }
-        .no-results h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.4rem; }
-        .no-results p { font-size: 0.9rem; color: var(--text-muted); }
+        /* Torrent Panel */
+        .torrent-panel {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-        @media (max-width: 1200px) { .grid { grid-template-columns: repeat(2, 1fr); } .grid--3 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 900px) {
-            .grid, .grid--3 { grid-template-columns: 1fr; }
-            .hero { min-height: 360px; }
-            .hero__title { font-size: 2rem; }
-            .hero__content { padding: 2rem; }
-            .nav__link:not(.nav__cta) { display: none; }
-            .filter-bar { flex-direction: column; align-items: stretch; }
-            .filter-spacer { display: none; }
-            .carousel__item { flex: 0 0 260px; height: 360px; transform: rotateY(0deg) scale(0.95); }
+        .torrent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        /* Custom Scrollbar */
+        .torrent-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .torrent-list::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .torrent-list::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 10px;
+        }
+
+        /* Torrent Card */
+        .torrent-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .torrent-card:hover {
+            transform: translateX(5px);
+            background: #1a2744;
+        }
+
+        .torrent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .torrent-name {
+            font-weight: bold;
+            font-size: 16px;
+            word-break: break-word;
+            flex: 1;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status-downloading { background: var(--accent-primary); }
+        .status-complete { background: var(--success); }
+        .status-paused { background: var(--warning); }
+        .status-uploading { background: var(--info); }
+        .status-error { background: var(--danger); }
+
+        .progress-section {
+            margin: 12px 0;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .torrent-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 10px 0;
+        }
+
+        .torrent-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            font-size: 11px;
+        }
+
+        .action-btn.danger { background: var(--danger); }
+        .action-btn.warning { background: var(--warning); }
+        .action-btn.success { background: var(--success); }
+        .action-btn.info { background: var(--info); }
+
+        /* Expanded Details */
+        .torrent-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+
+        .torrent-card.expanded .torrent-details {
+            display: block;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .details-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+
+        .details-label {
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+
+        .details-value {
+            color: var(--text-primary);
+        }
+
+        .file-list {
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 11px;
+        }
+
+        .file-item {
+            padding: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-body input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .torrent-stats { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <div class="title-section">
+                    🚀 Ultimate qBittorrent Client
+                    <span class="badge" id="connectionStatus">Connected</span>
+                </div>
+                <button class="control-btn" onclick="openUploadModal()" style="background: var(--success);">📁 Upload .torrent</button>
+            </h1>
 
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-screen__logo">UBISOFT</div>
-        <div class="loading-screen__bar"><div class="loading-screen__bar-fill"></div></div>
+            <div class="add-section">
+                <input type="text" id="magnetInput" placeholder="Magnet link or torrent URL...">
+                <button onclick="addTorrent()">➕ Add</button>
+            </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card"><div class="stat-value" id="dlSpeed">0</div><div class="stat-label">Download (KB/s)</div></div>
+            <div class="stat-card"><div class="stat-value" id="upSpeed">0</div><div class="stat-label">Upload (KB/s)</div></div>
+            <div class="stat-card"><div class="stat-value" id="dlTotal">0</div><div class="stat-label">Downloaded (GB)</div></div>
+            <div class="stat-card"><div class="stat-value" id="upTotal">0</div><div class="stat-label">Uploaded (GB)</div></div>
+            <div class="stat-card"><div class="stat-value" id="torrentCount">0</div><div class="stat-label">Active Torrents</div></div>
+            <div class="stat-card"><div class="stat-value" id="ratio">0</div><div class="stat-label">Global Ratio</div></div>
+        </div>
+
+        <div class="control-bar">
+            <button class="control-btn" onclick="pauseAll()">⏸️ Pause All</button>
+            <button class="control-btn" onclick="resumeAll()">▶️ Resume All</button>
+            <button class="control-btn" onclick="openLimitsModal()">⚙️ Speed Limits</button>
+            <button class="control-btn" onclick="refreshData()">🔄 Refresh</button>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="setFilter('all')">All</button>
+            <button class="filter-btn" onclick="setFilter('downloading')">Downloading</button>
+            <button class="filter-btn" onclick="setFilter('completed')">Completed</button>
+            <button class="filter-btn" onclick="setFilter('active')">Active</button>
+            <button class="filter-btn" onclick="setFilter('paused')">Paused</button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Search torrents..." onkeyup="searchTorrents()">
+        </div>
+
+        <div class="torrent-panel">
+            <div id="torrentsList" class="torrent-list">
+                <div class="loading"><div class="spinner"></div><div style="margin-top: 15px;">Loading torrents...</div></div>
+            </div>
+        </div>
     </div>
 
-    <div class="ambient-bg">
-        <div class="ambient-orb ambient-orb--1"></div>
-        <div class="ambient-orb ambient-orb--2"></div>
-        <div class="ambient-orb ambient-orb--3"></div>
-    </div>
-    <div class="noise-overlay"></div>
-
-    <div class="cart-overlay" id="cartOverlay"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-sidebar__header">
-            <h3 class="cart-sidebar__title"><i class="fas fa-shopping-cart" style="color:var(--accent-secondary)"></i> Cart <span class="cart-sidebar__count" id="cartHeaderCount"></span></h3>
-            <button class="cart-sidebar__close" id="cartClose" aria-label="Close cart"><i class="fas fa-xmark"></i></button>
-        </div>
-        <div class="cart-sidebar__body" id="cartBody"></div>
-        <div class="cart-sidebar__footer" id="cartFooter" style="display:none;">
-            <div class="cart-footer__subtotal">
-                <span class="cart-footer__subtotal-label">Subtotal</span>
-                <span class="cart-footer__subtotal-value" id="cartSubtotal">€0.00</span>
+    <!-- Speed Limits Modal -->
+    <div id="limitsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Speed Limits (KB/s)</h3>
+                <button onclick="closeLimitsModal()">✕</button>
             </div>
-            <div class="cart-footer__savings" id="cartSavings" style="display:none;">
-                <i class="fas fa-tag"></i> <span id="cartSavingsText"></span>
+            <div class="modal-body">
+                <label>Download Limit:</label>
+                <input type="number" id="dlLimit" placeholder="0 = Unlimited">
+                <label>Upload Limit:</label>
+                <input type="number" id="upLimit" placeholder="0 = Unlimited">
             </div>
-            <button class="cart-footer__checkout btn" id="cartCheckout"><i class="fas fa-lock"></i> Secure Checkout</button>
+            <button onclick="setSpeedLimits()">Apply</button>
         </div>
     </div>
 
-    <div class="toast-container" id="toastContainer"></div>
-
-    <nav class="app-nav" id="mainNav">
-        <div class="nav__logo">UBISOFT</div>
-        <div class="nav__links">
-            <a href="#" class="nav__link">Games</a>
-            <a href="#" class="nav__link">Ubisoft+</a>
-            <a href="#" class="nav__link nav__link--active">Store</a>
-            <a href="#" class="nav__link">News</a>
-            <a href="#" class="nav__link">Support</a>
-            <button class="nav__btn" id="navCartBtn" aria-label="Open cart">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="nav__badge" id="cartBadge">0</span>
-            </button>
-            <a href="#" class="nav__link nav__cta">Sign In</a>
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upload .torrent File</h3>
+                <button onclick="closeUploadModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="file" id="torrentFile" accept=".torrent">
+            </div>
+            <button onclick="uploadTorrentFile()">Upload & Add</button>
         </div>
-    </nav>
+    </div>
 
-    <main class="app-main">
-        <!-- SALE HERO -->
-        <section class="hero reveal" aria-label="Spring Sale">
-            <div class="hero__bg"><img src="https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg" alt="Spring Sale"></div>
-            <div class="hero__overlay"></div>
-            <div class="hero__content">
-                <div class="hero__badge"><span class="hero__pulse"></span> Limited Time Offer</div>
-                <div class="hero__glitch-wrapper">
-                    <h1 class="hero__title" data-text="SPRING SALE — UP TO 70% OFF">SPRING SALE — UP TO <span class="hero__percent">70% OFF</span></h1>
+    <script>
+        let currentFilter = 'all';
+        let refreshInterval;
+        let torrentsData = [];
+
+        // Initialize
+        refreshInterval = setInterval(refreshData, CONFIG_AUTO_REFRESH);
+        refreshData();
+
+        function refreshData() {
+            loadTorrents();
+            loadStats();
+        }
+
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/transfer');
+                const stats = await res.json();
+                if (!stats.error) {
+                    document.getElementById('dlSpeed').textContent = stats.dl_speed;
+                    document.getElementById('upSpeed').textContent = stats.up_speed;
+                    document.getElementById('dlTotal').textContent = stats.dl_data;
+                    document.getElementById('upTotal').textContent = stats.up_data;
+                    document.getElementById('torrentCount').textContent = stats.total_torrents || 0;
+
+                    // Calculate global ratio
+                    if (stats.dl_data > 0) {
+                        const ratio = (stats.up_data / stats.dl_data).toFixed(2);
+                        document.getElementById('ratio').textContent = ratio;
+                    }
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        async function loadTorrents() {
+            try {
+                const res = await fetch(`/api/torrents?filter=${currentFilter}`);
+                const torrents = await res.json();
+                if (torrents.error) throw new Error(torrents.error);
+                torrentsData = torrents;
+                renderTorrents(torrents);
+            } catch(e) {
+                document.getElementById('torrentsList').innerHTML = `<div class="empty-state">⚠️ ${e.message}</div>`;
+            }
+        }
+
+        function renderTorrents(torrents) {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = torrents;
+
+            if (searchTerm) {
+                filtered = torrents.filter(t => t.name.toLowerCase().includes(searchTerm));
+            }
+
+            if (filtered.length === 0) {
+                document.getElementById('torrentsList').innerHTML = '<div class="empty-state">📭 No torrents found</div>';
+                return;
+            }
+
+            document.getElementById('torrentsList').innerHTML = filtered.map(t => `
+                <div class="torrent-card" onclick="toggleDetails('${t.hash}')">
+                    <div class="torrent-header">
+                        <div class="torrent-name">📁 ${escapeHtml(t.name)}</div>
+                        <span class="status-badge status-${getStatusClass(t.state)}">${t.state}</span>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${t.progress}%">
+                                ${t.progress}%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="torrent-stats">
+                        <span>⬇️ ${t.download_speed} KB/s</span>
+                        <span>⬆️ ${t.upload_speed} KB/s</span>
+                        <span>📦 ${t.size} GB</span>
+                        <span>📊 Ratio: ${t.ratio}</span>
+                        <span>👥 ${t.num_seeds} seeds / ${t.num_leechs} peers</span>
+                        <span>📅 Added: ${t.added_on}</span>
+                    </div>
+
+                    <div class="torrent-actions" onclick="event.stopPropagation()">
+                        <button class="action-btn" onclick="pauseTorrent('${t.hash}')">⏸️ Pause</button>
+                        <button class="action-btn success" onclick="resumeTorrent('${t.hash}')">▶️ Resume</button>
+                        <button class="action-btn info" onclick="sequentialDownload('${t.hash}')">📺 Sequential</button>
+                        <button class="action-btn" onclick="recheckTorrent('${t.hash}')">🔍 Recheck</button>
+                        <button class="action-btn" onclick="openFolder('${t.hash}')">📂 Open Folder</button>
+                        <button class="action-btn danger" onclick="removeTorrent('${t.hash}')">🗑️ Remove</button>
+                    </div>
+
+                    <div class="torrent-details" id="details-${t.hash}">
+                        <div class="details-grid">
+                            <div class="details-item"><span class="details-label">Downloaded:</span><span class="details-value">${t.downloaded} GB</span></div>
+                            <div class="details-item"><span class="details-label">Uploaded:</span><span class="details-value">${t.uploaded} GB</span></div>
+                            <div class="details-item"><span class="details-label">Save Path:</span><span class="details-value">${t.save_path}</span></div>
+                            <div class="details-item"><span class="details-label">Completed:</span><span class="details-value">${t.completion_on}</span></div>
+                            <div class="details-item"><span class="details-label">Trackers:</span><span class="details-value">${t.trackers.join(', ')}</span></div>
+                            <div class="details-item"><span class="details-label">Category:</span><span class="details-value">${t.category}</span></div>
+                        </div>
+                        <div id="files-${t.hash}" class="file-list">
+                            <button class="action-btn info" style="margin-top: 10px;" onclick="loadFiles('${t.hash}')">📄 Show Files</button>
+                        </div>
+                    </div>
                 </div>
-                <p class="hero__desc">Massive discounts on your favourite Ubisoft titles. Don't miss out on these deals before they're gone.</p>
-                <div class="hero__countdown" id="saleCountdown">
-                    <div class="countdown-block"><div class="countdown-block__value" id="cdDays">00</div><div class="countdown-block__label">Days</div></div>
-                    <div class="countdown-block"><div class="countdown-block__value" id="cdHours">00</div><div class="countdown-block__label">Hours</div></div>
-                    <div class="countdown-block"><div class="countdown-block__value" id="cdMins">00</div><div class="countdown-block__label">Mins</div></div>
-                    <div class="countdown-block"><div class="countdown-block__value" id="cdSecs">00</div><div class="countdown-block__label">Secs</div></div>
-                </div>
-                <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-                    <a href="#storeGrid" class="btn btn--sale"><i class="fas fa-fire"></i> Shop the Sale</a>
-                    <a href="#" class="btn btn--ghost"><i class="fas fa-crown"></i> Ubisoft+ Deals</a>
-                </div>
-            </div>
-        </section>
+            `).join('');
+        }
 
-        <!-- 3D CAROUSEL -->
-        <section class="carousel reveal" aria-label="Trending">
-            <div class="section__header"><h2 class="section__title">Trending Now</h2></div>
-            <div style="overflow:hidden; padding: 20px 0;">
-                <div class="carousel__track" id="carouselTrack"></div>
-            </div>
-            <div class="carousel__controls">
-                <button class="carousel__btn" id="carPrev"><i class="fas fa-chevron-left"></i></button>
-                <button class="carousel__btn" id="carNext"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </section>
+        async function loadFiles(hash) {
+            const container = document.getElementById(`files-${hash}`);
+            if (container.innerHTML.includes('Show Files')) {
+                try {
+                    const res = await fetch(`/api/torrents/${hash}/files`);
+                    const files = await res.json();
+                    container.innerHTML = files.map(f => `
+                        <div class="file-item">
+                            📄 ${escapeHtml(f.name)} - ${f.size_mb} MB (${f.progress}%)
+                        </div>
+                    `).join('');
+                } catch(e) {
+                    container.innerHTML = '<div class="file-item">Failed to load files</div>';
+                }
+            }
+        }
 
-        <!-- FILTERS + GRID -->
-        <section class="section reveal" id="storeGrid" aria-label="All Games">
-            <div class="section__header">
-                <h2 class="section__title">All Games</h2>
-                <span class="section__count" id="filterCount">18 games</span>
-            </div>
-            <div class="filter-bar" id="filterBar">
-                <div class="filter-chip filter-chip--active" data-filter="all"><i class="fas fa-th"></i> All</div>
-                <div class="filter-chip" data-filter="action"><i class="fas fa-crosshairs"></i> Action</div>
-                <div class="filter-chip" data-filter="rpg"><i class="fas fa-hat-wizard"></i> RPG</div>
-                <div class="filter-chip" data-filter="racing"><i class="fas fa-car"></i> Racing</div>
-                <div class="filter-chip" data-filter="strategy"><i class="fas fa-chess"></i> Strategy</div>
-                <div class="filter-chip" data-filter="fps"><i class="fas fa-bullseye"></i> FPS</div>
-                <div class="filter-chip" data-filter="free"><i class="fas fa-gift"></i> Free</div>
-                <div class="filter-chip" data-filter="sale"><i class="fas fa-percent"></i> On Sale</div>
-                <div class="filter-spacer"></div>
-                <select class="filter-sort" id="filterSort">
-                    <option value="featured">Featured</option>
-                    <option value="price-asc">Price: Low → High</option>
-                    <option value="price-desc">Price: High → Low</option>
-                    <option value="discount">Biggest Discount</option>
-                    <option value="name">A → Z</option>
-                </select>
-            </div>
-            <div class="grid" id="productGrid"></div>
-        </section>
+        function toggleDetails(hash) {
+            const card = document.querySelector(`.torrent-card .torrent-details#details-${hash}`).parentElement;
+            card.classList.toggle('expanded');
+        }
 
-        <!-- BUNDLES -->
-        <section class="section reveal" aria-label="Bundles">
-            <div class="section__header"><h2 class="section__title">Exclusive Bundles</h2><a href="#" class="section__link">View All <i class="fas fa-arrow-right" style="font-size:0.7rem"></i></a></div>
-            <div class="grid grid--3" id="bundleGrid"></div>
-        </section>
+        function getStatusClass(state) {
+            if (state === 'downloading' || state === 'stalledDL') return 'downloading';
+            if (state === 'uploading' || state === 'stalledUP') return 'uploading';
+            if (state === 'pausedDL' || state === 'pausedUP') return 'paused';
+            if (state === 'completed') return 'complete';
+            return 'error';
+        }
 
-        <!-- UBISOFT+ -->
-        <section class="ubisoft-plus reveal" aria-label="Ubisoft Plus">
-            <div class="ubisoft-plus__bg"></div>
-            <div class="ubisoft-plus__glow"></div>
-            <div class="ubisoft-plus__content">
-                <div class="ubisoft-plus__icon"><i class="fas fa-crown"></i></div>
-                <h2 class="ubisoft-plus__title">Play it all with Ubisoft+</h2>
-                <p class="ubisoft-plus__desc">Get instant access to 100+ games, including new releases on Day 1. Cancel anytime.</p>
-                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-                    <a href="#" class="btn btn--primary"><i class="fas fa-rocket"></i> Join now — €14.99/mo</a>
-                    <a href="#" class="btn btn--ghost"><i class="fas fa-info-circle"></i> Learn more</a>
-                </div>
-            </div>
-        </section>
-    </main>
+        async function addTorrent() {
+            const magnet = document.getElementById('magnetInput').value;
+            if (!magnet) return alert('Enter a magnet link or URL');
 
-    <footer class="app-footer">
-        <div class="footer__links"><a href="#" class="footer__link">About</a><a href="#" class="footer__link">Careers</a><a href="#" class="footer__link">Legal</a><a href="#" class="footer__link">Privacy Policy</a><a href="#" class="footer__link">Cookie Policy</a><a href="#" class="footer__link">Terms of Use</a><a href="#" class="footer__link">Accessibility</a></div>
-        <div class="footer__socials">
-            <a href="#" class="footer__social-link" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-            <a href="#" class="footer__social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="#" class="footer__social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="footer__social-link" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-            <a href="#" class="footer__social-link" aria-label="Discord"><i class="fab fa-discord"></i></a>
-        </div>
-        <p class="footer__copy">&copy; 2026 Ubisoft Entertainment. All Rights Reserved.</p>
-    </footer>
+            const res = await fetch('/api/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({magnet})
+            });
+            const data = await res.json();
+            if (data.error) alert(data.error);
+            else {
+                document.getElementById('magnetInput').value = '';
+                refreshData();
+            }
+        }
 
-<script>
-// ===== REACT EQUIVALENT LOGIC (State & Effects) =====
-window.addEventListener('load', () => setTimeout(() => document.getElementById('loadingScreen').classList.add('loading-screen--hidden'), 1000));
+        async function pauseTorrent(hash) { await fetch(`/api/pause/${hash}`, {method: 'POST'}); refreshData(); }
+        async function resumeTorrent(hash) { await fetch(`/api/resume/${hash}`, {method: 'POST'}); refreshData(); }
+        async function sequentialDownload(hash) { await fetch(`/api/sequential/${hash}`, {method: 'POST'}); alert('Sequential mode enabled for streaming'); }
+        async function recheckTorrent(hash) { await fetch(`/api/recheck/${hash}`, {method: 'POST'}); alert('Recheck started'); }
+        async function openFolder(hash) { await fetch(`/api/open_folder/${hash}`, {method: 'POST'}); }
 
-const revObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal--visible'); }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+        async function removeTorrent(hash) {
+            if (confirm('Remove torrent? Files will NOT be deleted.')) {
+                await fetch(`/api/remove/${hash}`, {method: 'DELETE'});
+                refreshData();
+            }
+        }
 
-window.addEventListener('scroll', () => document.getElementById('mainNav').classList.toggle('app-nav--scrolled', window.scrollY > 50));
+        async function pauseAll() { await fetch('/api/pause/all', {method: 'POST'}); refreshData(); }
+        async function resumeAll() { await fetch('/api/resume/all', {method: 'POST'}); refreshData(); }
 
-function createRipple(event) {
-    const button = event.currentTarget;
-    const circle = document.createElement("span");
-    const diameter = Math.max(button.clientWidth, button.clientHeight);
-    const radius = diameter / 2;
-    circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
-    circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
-    circle.classList.add("ripple");
-    const existing = button.getElementsByClassName("ripple")[0];
-    if (existing) existing.remove();
-    button.appendChild(circle);
-}
-document.querySelectorAll('.btn').forEach(b => b.addEventListener('click', createRipple));
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadTorrents();
+        }
 
-(function countdown() {
-    const end = new Date(); end.setDate(end.getDate() + 3); end.setHours(23, 59, 59);
-    function tick() {
-        const now = new Date(); let d = end - now; if (d <= 0) d = 0;
-        document.getElementById('cdDays').textContent = String(Math.floor(d / 86400000)).padStart(2, '0'); d %= 86400000;
-        document.getElementById('cdHours').textContent = String(Math.floor(d / 3600000)).padStart(2, '0'); d %= 3600000;
-        document.getElementById('cdMins').textContent = String(Math.floor(d / 60000)).padStart(2, '0'); d %= 60000;
-        document.getElementById('cdSecs').textContent = String(Math.floor(d / 1000)).padStart(2, '0');
-        if (d > 0) requestAnimationFrame(tick);
-    }
-    tick(); setInterval(tick, 1000);
-})();
+        function searchTorrents() { renderTorrents(torrentsData); }
 
-const products = [
-    { id:1, name:"Assassin's Creed Shadows", edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg', price:69.99, originalPrice:null, badge:'new' },
-    { id:2, name:"Assassin's Creed Shadows", edition:'Gold Edition', editionType:'gold', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg', price:99.99, originalPrice:null, badge:'new' },
-    { id:3, name:"Assassin's Creed Shadows", edition:'Ultimate Edition', editionType:'ultimate', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg', price:119.99, originalPrice:null, badge:'new' },
-    { id:4, name:'Star Wars Outlaws', edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/51bQpXtlo48CyMrxj8F1RU/8cc9f5ae3fa67c590b7d6d2ca51e883c/swo-boxshot.jpg', price:48.99, originalPrice:69.99, badge:'sale' },
-    { id:5, name:'Star Wars Outlaws', edition:'Gold Edition', editionType:'gold', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/51bQpXtlo48CyMrxj8F1RU/8cc9f5ae3fa67c590b7d6d2ca51e883c/swo-boxshot.jpg', price:69.99, originalPrice:99.99, badge:'sale' },
-    { id:6, name:'Avatar: Frontiers of Pandora', edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg', price:29.99, originalPrice:59.99, badge:'sale' },
-    { id:7, name:'Avatar: Frontiers of Pandora', edition:'Ultimate Edition', editionType:'ultimate', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg', price:44.99, originalPrice:89.99, badge:'sale' },
-    { id:8, name:'Rainbow Six Siege', edition:'Standard', editionType:'standard', genre:'fps', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3xF5wFU6mfUv1weqYKOfgT/f5ac0ac95e362ecc094076f15a9f0576/R6_KEYART_960x540.jpg', price:0, originalPrice:null, badge:'free' },
-    { id:9, name:'Anno 117: Pax Romana', edition:'Standard', editionType:'standard', genre:'strategy', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3z9V5Dyj8pVxtm8zqS9foG/863e4f291cf6566a9526119acdf8646e/6638e5dcaa201a2d55bcc772.jpg', price:59.99, originalPrice:null, badge:'preorder' },
-    { id:10, name:'Anno 117: Pax Romana', edition:'Gold Edition', editionType:'gold', genre:'strategy', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3z9V5Dyj8pVxtm8zqS9foG/863e4f291cf6566a9526119acdf8646e/6638e5dcaa201a2d55bcc772.jpg', price:84.99, originalPrice:null, badge:'preorder' },
-    { id:11, name:'The Crew Motorfest', edition:'Standard', editionType:'standard', genre:'racing', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price:24.99, originalPrice:49.99, badge:'sale' },
-    { id:12, name:'The Crew Motorfest', edition:'Ultimate Edition', editionType:'ultimate', genre:'racing', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price:39.99, originalPrice:79.99, badge:'sale' },
-    { id:13, name:"Assassin's Creed Mirage", edition:'Standard', editionType:'standard', genre:'action', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1IA074UBvDcfmsXNQlp8GC/5736b65e78501b89c247ef5d2bb2e660/62ea4f8e09372571f2736a71.jpg', price:24.99, originalPrice:49.99, badge:'sale' },
-    { id:14, name:'The Division 2', edition:'Standard', editionType:'standard', genre:'rpg', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/47YQd7DyJH3FNTaXRPuylp/76c3cf8a9736329c64869ce4005d2c32/The_Division_Resurgence_Keyartf17e.jpg', price:14.99, originalPrice:29.99, badge:'sale' },
-    { id:15, name:'Brawlhalla', edition:'Free to Play', editionType:'standard', genre:'free', img:'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_BRAWLHALLAf17e.jpg?imWidth=600', price:0, originalPrice:null, badge:'free' },
-    { id:16, name:'Trackmania', edition:'Free to Play', editionType:'standard', genre:'racing', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg', price:0, originalPrice:null, badge:'free' },
-    { id:17, name:'Far Cry 6', edition:'Standard', editionType:'standard', genre:'fps', img:'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_FC6f17e.jpg?imWidth=600', price:9.99, originalPrice:59.99, badge:'sale' },
-    { id:18, name:'Far Cry 6', edition:'Ultimate Edition', editionType:'ultimate', genre:'fps', img:'https://static-news.ubisoft.com/news/content/prod/_UBC_News2023/New_Client_Play_for_free/FTP_960x540_Image_cover_FC6f17e.jpg?imWidth=600', price:19.99, originalPrice:99.99, badge:'sale' },
-];
+        function openLimitsModal() { document.getElementById('limitsModal').classList.add('active'); }
+        function closeLimitsModal() { document.getElementById('limitsModal').classList.remove('active'); }
 
-const bundles = [
-    { name:"Assassin's Creed Bundle", games:'AC Shadows + AC Mirage + AC Valhalla', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/2xigYNmkunpXzF0wLo3xmf/be9da2427ae7e897d7d9be9badc07adb/AC-FranchiseBanner_960x540_1.jpg', price:79.99, originalPrice:179.97 },
-    { name:'Rainbow Six Complete', games:'Siege + Extraction + All Operator Packs', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3xF5wFU6mfUv1weqYKOfgT/f5ac0ac95e362ecc094076f15a9f0576/R6_KEYART_960x540.jpg', price:34.99, originalPrice:89.98 },
-    { name:'Open World Mega Pack', games:'Avatar + Star Wars Outlaws + Far Cry 6', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/6dZvTGdkFQqDXrWk5VMZAM/c746326c3356624aeb730bf6b354da42/60c30ca40d253c1914049e93.jpg', price:59.99, originalPrice:159.97 },
-];
+        async function setSpeedLimits() {
+            const dl = parseInt(document.getElementById('dlLimit').value) || 0;
+            const up = parseInt(document.getElementById('upLimit').value) || 0;
+            await fetch('/api/limits', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({download_limit: dl, upload_limit: up})
+            });
+            closeLimitsModal();
+            alert('Speed limits updated');
+        }
 
-let cart = []; let wishlist = new Set(); let activeFilter = 'all'; let activeSort = 'featured';
+        function openUploadModal() { document.getElementById('uploadModal').classList.add('active'); }
+        function closeUploadModal() { document.getElementById('uploadModal').classList.remove('active'); }
 
-const track = document.getElementById('carouselTrack');
-const trending = [products[0], products[3], products[8], products[10], products[13], products[16]];
-trending.forEach((p) => {
-    const item = document.createElement('div'); item.className = 'carousel__item';
-    const priceHTML = p.price === 0 ? 'Free' : p.originalPrice ? `€${p.price.toFixed(2)}` : `€${p.price.toFixed(2)}`;
-    item.innerHTML = `<img src="${p.img}" alt="${p.name}" loading="lazy"><div class="carousel__overlay"><h3>${p.name}</h3><span>${priceHTML}</span></div>`;
-    track.appendChild(item);
-});
-let carPos = 0;
-document.getElementById('carNext').addEventListener('click', () => { carPos -= 330; if (carPos < -(trending.length-3)*330) carPos = 0; track.style.transform = `translateX(${carPos}px)`; });
-document.getElementById('carPrev').addEventListener('click', () => { carPos += 330; if (carPos > 0) carPos = -(trending.length-3)*330; track.style.transform = `translateX(${carPos}px)`; });
+        async function uploadTorrentFile() {
+            const fileInput = document.getElementById('torrentFile');
+            if (!fileInput.files.length) return alert('Select a .torrent file');
 
-function renderBundles() {
-    document.getElementById('bundleGrid').innerHTML = bundles.map(b => {
-        const disc = Math.round((1 - b.price / b.originalPrice) * 100);
-        return `<a href="#" class="bundle-card reveal">
-            <img src="${b.img}" alt="${b.name}" loading="lazy">
-            <div class="bundle-card__overlay"></div>
-            <div class="bundle-card__content">
-                <h3 class="bundle-card__title">${b.name}</h3>
-                <div class="bundle-card__games">${b.games}</div>
-                <div class="bundle-card__price">
-                    <span class="bundle-card__price-original">€${b.originalPrice.toFixed(2)}</span>
-                    <span class="bundle-card__price-current">€${b.price.toFixed(2)}</span>
-                    <span class="bundle-card__price-save">-${disc}%</span>
-                </div>
-            </div>
-        </a>`;
-    }).join('');
-    document.querySelectorAll('.bundle-card').forEach(el => revObs.observe(el));
-}
-renderBundles();
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
 
-function getFiltered() {
-    let list = [...products];
-    if (activeFilter === 'sale') list = list.filter(p => p.originalPrice && p.price > 0);
-    else if (activeFilter === 'free') list = list.filter(p => p.price === 0);
-    else if (activeFilter !== 'all') list = list.filter(p => p.genre === activeFilter);
-    switch (activeSort) {
-        case 'price-asc': list.sort((a, b) => a.price - b.price); break;
-        case 'price-desc': list.sort((a, b) => b.price - a.price); break;
-        case 'discount': list.sort((a, b) => { const da = a.originalPrice ? (1 - a.price / a.originalPrice) : 0; const db = b.originalPrice ? (1 - b.price / b.originalPrice) : 0; return db - da; }); break;
-        case 'name': list.sort((a, b) => a.name.localeCompare(b.name) || a.price - b.price); break;
-    }
-    return list;
-}
+            const res = await fetch('/api/add/file', {method: 'POST', body: formData});
+            const data = await res.json();
+            if (data.error) alert(data.error);
+            else {
+                closeUploadModal();
+                refreshData();
+            }
+        }
 
-function renderProducts() {
-    const grid = document.getElementById('productGrid');
-    const list = getFiltered();
-    document.getElementById('filterCount').textContent = list.length + ' game' + (list.length !== 1 ? 's' : '');
-    if (!list.length) { grid.innerHTML = `<div class="no-results"><div class="no-results__icon"><i class="fas fa-search"></i></div><h3>No games found</h3><p>Try adjusting your filters.</p></div>`; return; }
-    grid.innerHTML = list.map(p => {
-        const inCart = cart.some(c => c.id === p.id); const isWish = wishlist.has(p.id);
-        const discPct = p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
-        const badgeClass = p.badge === 'sale' ? 'product-card__badge--sale' : p.badge === 'new' ? 'product-card__badge--new' : p.badge === 'free' ? 'product-card__badge--free' : 'product-card__badge--preorder';
-        const badgeLabel = p.badge === 'sale' ? `-${discPct}%` : p.badge === 'new' ? 'New' : p.badge === 'free' ? 'Free' : 'Pre-Order';
-        let priceHTML = '';
-        if (p.price === 0) priceHTML = `<span class="price-free"><i class="fas fa-gift" style="font-size:0.8rem;margin-right:4px"></i>Free</span>`;
-        else if (p.originalPrice) priceHTML = `<div class="price-group"><span class="price-original">€${p.originalPrice.toFixed(2)}</span><span class="price-current price-current--discounted">€${p.price.toFixed(2)}</span></div><span class="price-discount-badge">-${discPct}%</span>`;
-        else priceHTML = `<span class="price-current price-current--full">€${p.price.toFixed(2)}</span>`;
-        return `<div class="product-card" data-id="${p.id}">
-            <div class="product-card__img-wrap">
-                <img src="${p.img}" alt="${p.name}" loading="lazy">
-                <div class="product-card__shimmer"></div>
-                <div class="product-card__img-overlay"></div>
-                <span class="product-card__badge ${badgeClass}">${badgeLabel}</span>
-                <button class="product-card__wishlist ${isWish ? 'product-card__wishlist--active' : ''}" onclick="toggleWishlist(event, ${p.id})">
-                    <i class="${isWish ? 'fas' : 'far'} fa-heart"></i>
-                </button>
-            </div>
-            <div class="product-card__content">
-                <div class="product-card__tags"><span class="product-card__tag">${p.genre}</span><span class="product-card__tag">${p.editionType}</span></div>
-                <div class="product-card__title">${p.name}</div>
-                <div class="product-card__edition">${p.edition}</div>
-                <div class="product-card__footer">
-                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">${priceHTML}</div>
-                    ${p.price > 0 ? `<button class="product-card__add ${inCart ? 'product-card__add--incart' : ''}" onclick="toggleCart(event, ${p.id})"><i class="fas ${inCart ? 'fa-check' : 'fa-plus'}"></i></button>` : `<button class="product-card__add" onclick="showToast('${p.name} — Play for free!')"><i class="fas fa-play"></i></button>`}
-                </div>
-            </div>
-        </div>`;
-    }).join('');
-    grid.querySelectorAll('.product-card').forEach(c => {
-        c.addEventListener('mousemove', e => { const r = c.getBoundingClientRect(); c.style.transform = `translateY(-8px) scale(1.02) perspective(1000px) rotateX(${(e.clientY-r.top-r.height/2)/25}deg) rotateY(${(r.width/2-e.clientX+r.left)/25}deg)`; });
-        c.addEventListener('mouseleave', () => { c.style.transform = ''; });
-    });
-}
-renderProducts();
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => ({'&':'&amp;', '<':'&lt;', '>':'&gt;'})[m]);
+        }
 
-document.getElementById('filterBar').addEventListener('click', e => { const chip = e.target.closest('.filter-chip'); if (!chip) return; document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('filter-chip--active')); chip.classList.add('filter-chip--active'); activeFilter = chip.dataset.filter; renderProducts(); });
-document.getElementById('filterSort').addEventListener('change', e => { activeSort = e.target.value; renderProducts(); });
-
-function toggleWishlist(e, id) { e.stopPropagation(); const p = products.find(x => x.id === id); if (wishlist.has(id)) { wishlist.delete(id); showToast(`Removed from wishlist`, 'fa-heart-crack'); } else { wishlist.add(id); showToast(`Added to wishlist`, 'fa-heart'); } renderProducts(); }
-function toggleCart(e, id) { e.stopPropagation(); const p = products.find(x => x.id === id); const idx = cart.findIndex(c => c.id === id); if (idx >= 0) { cart.splice(idx, 1); showToast(`Removed "${p.name}"`, 'fa-cart-arrow-down'); } else { cart.push({ id: p.id }); showToast(`Added "${p.name}"`, 'fa-cart-plus'); } updateCartBadge(); renderProducts(); renderCartBody(); }
-function updateCartBadge() { const badge = document.getElementById('cartBadge'); badge.textContent = cart.length; badge.classList.toggle('nav__badge--visible', cart.length > 0); }
-
-function renderCartBody() {
-    const body = document.getElementById('cartBody'); const footer = document.getElementById('cartFooter');
-    document.getElementById('cartHeaderCount').textContent = cart.length ? `(${cart.length})` : '';
-    if (!cart.length) { body.innerHTML = `<div class="cart-empty"><div class="cart-empty__icon"><i class="fas fa-shopping-cart"></i></div><h4>Your cart is empty</h4><p>Browse the store and add games.</p></div>`; footer.style.display = 'none'; return; }
-    let total = 0, savings = 0;
-    body.innerHTML = cart.map(ci => {
-        const p = products.find(x => x.id === ci.id); total += p.price; if (p.originalPrice) savings += p.originalPrice - p.price;
-        const priceHTML = p.originalPrice ? `<span class="cart-item__price-original">€${p.originalPrice.toFixed(2)}</span>€${p.price.toFixed(2)}` : p.price === 0 ? 'Free' : `€${p.price.toFixed(2)}`;
-        return `<div class="cart-item"><img src="${p.img}" class="cart-item__img" alt="${p.name}" loading="lazy"><div class="cart-item__info"><div class="cart-item__title">${p.name}</div><div class="cart-item__edition">${p.edition}</div><div class="cart-item__price">${priceHTML}</div></div><button class="cart-item__remove" onclick="removeFromCart(${p.id})"><i class="fas fa-xmark"></i></button></div>`;
-    }).join('');
-    document.getElementById('cartSubtotal').textContent = '€' + total.toFixed(2);
-    if (savings > 0) { document.getElementById('cartSavings').style.display = 'flex'; document.getElementById('cartSavingsText').textContent = `You're saving €${savings.toFixed(2)}!`; } else document.getElementById('cartSavings').style.display = 'none';
-    footer.style.display = 'block';
-}
-
-function removeFromCart(id) { const p = products.find(x => x.id === id); cart = cart.filter(c => c.id !== id); updateCartBadge(); renderProducts(); renderCartBody(); showToast(`Removed "${p.name}"`, 'fa-cart-arrow-down'); }
-
-const cartSidebar = document.getElementById('cartSidebar'); const cartOverlay = document.getElementById('cartOverlay');
-function openCart() { cartSidebar.classList.add('cart-sidebar--active'); cartOverlay.classList.add('cart-overlay--active'); document.body.style.overflow = 'hidden'; renderCartBody(); }
-function closeCart() { cartSidebar.classList.remove('cart-sidebar--active'); cartOverlay.classList.remove('cart-overlay--active'); document.body.style.overflow = ''; }
-document.getElementById('navCartBtn').addEventListener('click', openCart);
-document.getElementById('cartClose').addEventListener('click', closeCart);
-cartOverlay.addEventListener('click', closeCart);
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && cartSidebar.classList.contains('cart-sidebar--active')) closeCart(); });
-document.getElementById('cartCheckout').addEventListener('click', () => { if (!cart.length) return; showToast('Proceeding to secure checkout...', 'fa-lock'); setTimeout(() => { showToast('Demo mode — thanks for browsing!', 'fa-gift'); }, 1500); });
-
-function showToast(msg, icon = 'fa-check') { const container = document.getElementById('toastContainer'); const toast = document.createElement('div'); toast.className = 'toast'; toast.innerHTML = `<i class="toast__icon fas ${icon}"></i> ${msg}`; container.appendChild(toast); setTimeout(() => { toast.classList.add('toast--removing'); setTimeout(() => toast.remove(), 300); }, 2500); }
-
-renderCartBody();
-</script>
+        // Refresh interval from Python config
+        const CONFIG_AUTO_REFRESH = {{ auto_refresh }};
+    </script>
 </body>
 </html>
