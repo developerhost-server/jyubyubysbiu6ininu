@@ -1,141 +1,1301 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>qBittorrent Client8888888</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GameVault — Ultimate Game Download Hub</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
+        :root {
+            /* ===== COLOR SCHEME from 4_template.html ===== */
+            --bg-color: #050508;
+            --bg-secondary: #0c0c12;
+            --card-bg: #12121a;
+            --card-bg-hover: #1a1a26;
+            --text-primary: #f0f0f5;
+            --text-secondary: #8888a0;
+            --text-muted: #55556a;
+            --accent: #0070ff;
+            --accent-hover: #3d94ff;
+            --accent-secondary: #00c8ff;
+            --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --discount: #00ffaa;
+            --sale-red: #ff3355;
+            --neon-purple: #a855f7;
+            --warning: #ffc800;
+
+            /* Legacy compatibility */
+            --primary: var(--accent);
+            --primary-glow: rgba(0, 112, 255, 0.5);
+            --secondary: var(--accent-secondary);
+            --accent-cyan: var(--accent-secondary);
+            --accent-green: var(--discount);
+            --accent-red: var(--sale-red);
+            --accent-yellow: var(--warning);
+            --accent-blue: var(--accent);
+            --bg-dark: var(--bg-color);
+            --bg-card: var(--card-bg);
+            --bg-card-hover: var(--card-bg-hover);
+            --border-subtle: var(--border);
+            --border-glow: rgba(0, 112, 255, 0.5);
+            --text-dim: var(--text-muted);
+            --text-mid: var(--text-secondary);
+            --text-bright: var(--text-primary);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #eee;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h1 { margin-bottom: 20px; }
-        .add-section {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+
+        /* ============ ANIMATED BACKGROUND ============ */
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; overflow: hidden; pointer-events: none;
         }
-        input {
-            flex: 1;
-            padding: 10px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 5px;
-            color: white;
+        .bg-orb {
+            position: absolute; border-radius: 50%; filter: blur(100px);
+            animation: orbDrift 20s ease-in-out infinite;
         }
-        button {
-            padding: 10px 20px;
-            background: #e94560;
-            border: none;
-            border-radius: 5px;
-            color: white;
+        .bg-orb--1 { width: 600px; height: 600px; background: rgba(0,112,255,0.12); top: -15%; left: -10%; animation-duration: 22s; }
+        .bg-orb--2 { width: 500px; height: 500px; background: rgba(0,200,255,0.08); top: 40%; right: -12%; animation-delay: -7s; animation-duration: 28s; }
+        .bg-orb--3 { width: 400px; height: 400px; background: rgba(168,85,247,0.07); bottom: -10%; left: 25%; animation-delay: -14s; animation-duration: 24s; }
+        @keyframes orbDrift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(60px, -40px) scale(1.1); }
+            66% { transform: translate(-30px, 50px) scale(0.95); }
+        }
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.03;
+            background-image:
+                linear-gradient(rgba(0,112,255,0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,112,255,0.5) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* ============ PARTICLES ============ */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .particle {
+            position: absolute; border-radius: 50%;
+            animation: particleFloat linear infinite;
+        }
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* ============ CONTAINER ============ */
+        .container {
+            max-width: 1440px; margin: 0 auto; padding: 20px;
+            position: relative; z-index: 1;
+        }
+
+        /* ============ NAVBAR ============ */
+        .app-nav {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px; height: 64px; margin: -20px -20px 24px; width: calc(100% + 40px);
+            background: rgba(5, 5, 8, 0.75); backdrop-filter: blur(24px) saturate(1.5);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: all 0.4s;
+        }
+        .app-nav--scrolled { background: rgba(5,5,8,0.92); box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+        .nav-logo {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+        }
+        .nav-logo-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: white; box-shadow: 0 0 20px var(--primary-glow);
+        }
+        .nav-logo-text {
+            font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 800;
+            background: linear-gradient(135deg, #fff, var(--secondary));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            letter-spacing: 3px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-link {
+            color: var(--text-mid); text-decoration: none; font-size: 0.82rem;
+            font-weight: 600; padding: 8px 16px; border-radius: 8px;
+            text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s;
+        }
+        .nav-link:hover { color: #fff; background: rgba(0,112,255,0.1); }
+        .nav-link--active { color: var(--primary); background: rgba(0,112,255,0.12); }
+        .nav-btn {
+            width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.03); color: var(--text-mid);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.3s; margin-left: 4px; font-size: 0.9rem;
+        }
+        .nav-btn:hover { background: rgba(0,112,255,0.12); border-color: var(--primary); color: #fff; }
+
+        /* ============ HERO BANNER ============ */
+        .hero-banner {
+            position: relative; border-radius: 24px; overflow: hidden;
+            min-height: 400px; margin-bottom: 30px;
+            border: 1px solid var(--border-subtle);
+            display: flex; align-items: center; user-select: none;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .hero-banner::before {
+            content: ''; position: absolute; inset: 0; z-index: 10; pointer-events: none;
+            border-radius: 24px; padding: 2px;
+            background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(0,112,255,0.5), rgba(0,200,255,0.3), transparent 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .hero-banner:hover::before { opacity: 1; }
+        .hero-banner::after {
+            content: ''; position: absolute; inset: 0; z-index: 5; pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+        }
+        .hero-bg { position: absolute; inset: 0; }
+        .hero-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.3) saturate(1.3); }
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(100deg, rgba(5,5,8,0.97) 0%, rgba(5,5,8,0.85) 40%, rgba(5,5,8,0.3) 100%),
+                        linear-gradient(to top, rgba(5,5,8,0.98) 0%, transparent 50%);
+        }
+        .hero-content { position: relative; z-index: 6; padding: 3.5rem 4rem; max-width: 680px; }
+        .hero-content > * {
+            opacity: 0; transform: translateY(25px);
+            animation: heroReveal 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        .hero-content > *:nth-child(1) { animation-delay: 0.15s; }
+        .hero-content > *:nth-child(2) { animation-delay: 0.3s; }
+        .hero-content > *:nth-child(3) { animation-delay: 0.45s; }
+        .hero-content > *:nth-child(4) { animation-delay: 0.6s; }
+        .hero-content > *:nth-child(5) { animation-delay: 0.75s; }
+        @keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 1.25rem; backdrop-filter: blur(12px);
+        }
+        .hero-badge--live { background: rgba(0,255,170,0.15); border: 1px solid rgba(0,255,170,0.4); color: var(--accent-green); }
+        .hero-badge--hot { background: rgba(255,51,85,0.15); border: 1px solid rgba(255,51,85,0.4); color: var(--accent-red); }
+        .hero-pulse {
+            width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+            animation: pulseDot 2s ease-in-out infinite; box-shadow: 0 0 8px currentColor;
+        }
+        @keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace; font-size: 2.8rem; font-weight: 900;
+            line-height: 1.1; margin-bottom: 0.75rem; letter-spacing: -0.5px;
+        }
+        .hero-title span { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
+        .hero-desc { color: var(--text-mid); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem; }
+        .hero-meta { display: flex; gap: 1.5rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+        .hero-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--text-mid); }
+        .hero-meta-item i { color: var(--primary); }
+        .hero-meta-item strong { color: var(--text-bright); }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 13px 28px; border: none; border-radius: 10px; font-size: 0.88rem;
+            font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            transition: all 0.3s; letter-spacing: 0.3px; position: relative; overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn--primary { background: linear-gradient(135deg, var(--primary), #0050cc); color: white; box-shadow: 0 4px 20px var(--primary-glow); }
+        .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 10px 35px var(--primary-glow); }
+        .btn--secondary { background: linear-gradient(135deg, var(--secondary), #0099cc); color: white; box-shadow: 0 4px 20px rgba(0,200,255,0.3); }
+        .btn--secondary:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(0,200,255,0.5); }
+        .btn--ghost { background: rgba(255,255,255,0.06); color: var(--text-bright); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .btn--ghost:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
+        .btn--green { background: linear-gradient(135deg, var(--accent-green), #00aa77); color: white; box-shadow: 0 4px 20px rgba(0,255,170,0.3); }
+        .btn--green:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(0,255,170,0.5); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+        /* ============ STATUS CARD ============ */
+        .status-card {
+            background: linear-gradient(135deg, rgba(18,18,26,0.9), rgba(18,18,26,0.7));
+            border-radius: 16px; padding: 20px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 15px; margin-bottom: 24px;
+            border: 1px solid var(--border-subtle); border-left: 4px solid;
+            backdrop-filter: blur(16px); transition: all 0.3s;
+        }
+        .status-card.connected { border-left-color: var(--accent-green); }
+        .status-card.disconnected { border-left-color: var(--accent-red); }
+        .status-card.demo { border-left-color: var(--accent-cyan); }
+        .status-info { display: flex; align-items: center; gap: 15px; }
+        .status-icon {
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+        }
+        .status-icon.connected { background: rgba(0,255,170,0.15); color: var(--accent-green); }
+        .status-icon.disconnected { background: rgba(255,51,85,0.15); color: var(--accent-red); animation: blink 1s infinite; }
+        .status-icon.demo { background: rgba(0,200,255,0.15); color: var(--accent-cyan); }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .status-text h3 { font-size: 15px; font-weight: 700; }
+        .status-text p { font-size: 12px; color: var(--text-dim); }
+
+        /* ============ ADD GAME ============ */
+        .add-game-section {
+            background: var(--bg-card); border-radius: 20px; padding: 24px;
+            margin-bottom: 24px; border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(16px);
+        }
+        .section-title {
+            font-family: 'Orbitron', monospace; font-size: 16px; margin-bottom: 18px;
+            display: flex; align-items: center; gap: 10px; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        .section-title i { color: var(--primary); }
+        .input-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .game-input {
+            flex: 1; min-width: 250px; padding: 14px 20px;
+            background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle);
+            border-radius: 12px; color: white; font-size: 14px; transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .game-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
+        .game-input::placeholder { color: var(--text-dim); }
+
+        /* ============ STATS GRID ============ */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px; margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--bg-card); backdrop-filter: blur(10px);
+            border-radius: 16px; padding: 20px 16px; text-align: center;
+            border: 1px solid var(--border-subtle); transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .stat-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-4px); border-color: var(--border-glow); }
+        .stat-card:hover::before { opacity: 1; }
+        .stat-icon { font-size: 28px; color: var(--primary); margin-bottom: 8px; }
+        .stat-value { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+        .stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ============ CONTROLS + FILTERS ============ */
+        .controls-row {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .control-btn {
+            background: rgba(18,18,26,0.8); border: 1px solid var(--border-subtle);
+            padding: 9px 18px; border-radius: 10px; color: white; cursor: pointer;
+            transition: all 0.3s; font-size: 12px; font-weight: 600;
+            display: flex; align-items: center; gap: 7px; font-family: 'Inter', sans-serif;
+        }
+        .control-btn:hover { background: rgba(0,112,255,0.15); border-color: var(--primary); transform: translateY(-2px); }
+        .controls-spacer { flex: 1; }
+        .filter-btn {
+            background: rgba(18,18,26,0.6); border: 1px solid var(--border-subtle);
+            padding: 7px 18px; border-radius: 20px; color: var(--text-mid); cursor: pointer;
+            transition: all 0.3s; font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
+        }
+        .filter-btn:hover { background: rgba(0,112,255,0.15); color: white; }
+        .filter-btn.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-color: transparent; }
+
+        .search-input {
+            width: 100%; padding: 12px 20px; margin-bottom: 20px;
+            background: rgba(18,18,26,0.6); border: 1px solid var(--border-subtle);
+            border-radius: 12px; color: white; font-size: 14px; transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+
+        /* ============ GAMES GRID ============ */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+            max-height: 75vh;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        .games-grid::-webkit-scrollbar { width: 6px; }
+        .games-grid::-webkit-scrollbar-track { background: transparent; }
+        .games-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+        /* ============ GAME CARD - STYLED EXACTLY LIKE 4_TEMPLATE ============ */
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border);
+            position: relative;
             cursor: pointer;
         }
-        .torrent-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 10px;
+        .game-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent 30%, var(--accent-secondary) 50%, var(--neon-purple) 70%, transparent 100%);
+            background-size: 200% 200%;
+            background-position: 0% 0%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s, background-position 1.5s ease;
+            pointer-events: none;
+            z-index: 5;
         }
-        .progress-bar {
-            background: rgba(255,255,255,0.2);
-            height: 20px;
-            border-radius: 10px;
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 30px rgba(0,112,255,0.15);
+            background: var(--card-bg-hover);
+        }
+        .game-card:hover::before {
+            opacity: 1;
+            background-position: 100% 100%;
+        }
+
+        .game-card__img-wrap {
+            position: relative;
             overflow: hidden;
-            margin: 10px 0;
+            aspect-ratio: 16/9;
         }
-        .progress-fill {
-            background: #e94560;
+        .game-card__img {
+            width: 100%;
             height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s;
+            filter: brightness(0.7) saturate(1.1);
+        }
+        .game-card:hover .game-card__img {
+            transform: scale(1.08);
+            filter: brightness(0.9) saturate(1.2);
+        }
+        .game-card__shimmer {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .game-card:hover .game-card__shimmer {
+            transform: translateX(100%);
+        }
+        .game-card__img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--card-bg) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .game-card__badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 3;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge-downloading { background: rgba(0, 112, 255, 0.9); color: white; box-shadow: 0 0 12px rgba(0,112,255,0.6); }
+        .badge-completed { background: rgba(0, 255, 170, 0.9); color: #050508; box-shadow: 0 0 12px rgba(0,255,170,0.6); }
+        .badge-paused { background: rgba(255, 200, 0, 0.9); color: #050508; box-shadow: 0 0 12px rgba(255,200,0,0.6); }
+        .badge-uploading { background: rgba(168, 85, 247, 0.9); color: white; box-shadow: 0 0 12px rgba(168,85,247,0.6); }
+
+        .game-card__content {
+            padding: 16px 20px 20px;
+            position: relative;
+            z-index: 2;
+            margin-top: -20px;
+        }
+        .game-card__title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .game-card__progress {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .game-card__progress-fill {
+            height: 100%;
+            border-radius: 2px;
             transition: width 0.3s;
+            position: relative;
         }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            font-size: 12px;
-            margin: 10px 0;
+        .progress-downloading { background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); }
+        .progress-downloading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 1.5s infinite;
         }
-        .empty-state {
+        .progress-completed { background: linear-gradient(90deg, var(--discount), #00cc88); }
+        .progress-paused { background: var(--warning); }
+        .progress-uploading { background: linear-gradient(90deg, var(--neon-purple), #c084fc); }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .game-card__stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .game-card__stats i {
+            color: var(--accent-secondary);
+            margin-right: 4px;
+            font-size: 0.7rem;
+        }
+
+        .game-card__actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .action-btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
+        .btn-pause { background: rgba(255, 200, 0, 0.15); color: var(--warning); border: 1px solid rgba(255,200,0,0.2); }
+        .btn-resume { background: rgba(0, 255, 170, 0.15); color: var(--discount); border: 1px solid rgba(0,255,170,0.2); }
+        .btn-remove { background: rgba(255, 51, 85, 0.1); color: var(--sale-red); border: 1px solid rgba(255,51,85,0.15); width: 44px; flex: none; }
+
+        /* Expanded details */
+        .expanded-details {
+            padding: 0 20px 20px;
+            display: none;
+        }
+        .game-card.expanded .expanded-details { display: block; }
+        .expanded-inner {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 8px;
+            border: 1px solid rgba(0,112,255,0.1);
+        }
+        .expanded-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.78rem; border-bottom: 1px solid rgba(0,112,255,0.06); }
+        .expanded-row:last-child { border-bottom: none; }
+        .expanded-label { color: var(--text-dim); }
+        .expanded-value { color: var(--text-bright); font-weight: 600; }
+
+        /* ============ CONFIRM POPUP MODAL (from 4_template) ============ */
+        .confirm-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+        .confirm-dialog {
+            background: linear-gradient(135deg, var(--card-bg), var(--bg-secondary));
+            border-radius: 20px;
+            padding: 28px;
+            max-width: 380px;
+            width: 90%;
             text-align: center;
-            padding: 40px;
-            color: #aaa;
+            border: 1px solid var(--border);
+            animation: slideUp 0.3s ease;
+        }
+        .confirm-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,51,85,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .confirm-icon i {
+            font-size: 28px;
+            color: var(--sale-red);
+        }
+        .confirm-dialog h3 {
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .confirm-dialog p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+        }
+        .confirm-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .confirm-cancel, .confirm-remove {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .confirm-cancel {
+            background: rgba(255,255,255,0.08);
+            color: var(--text-secondary);
+        }
+        .confirm-cancel:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+        .confirm-remove {
+            background: var(--sale-red);
+            color: white;
+        }
+        .confirm-remove:hover {
+            background: #ff1133;
+            transform: translateY(-2px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .empty-state {
+            text-align: center; padding: 60px 20px; grid-column: 1/-1;
+            background: rgba(18,18,26,0.5); border-radius: 20px;
+            border: 1px dashed rgba(0,112,255,0.3);
+        }
+        .empty-state i { font-size: 48px; color: var(--primary); margin-bottom: 16px; opacity: 0.4; }
+        .empty-state h3 { font-family: 'Orbitron', monospace; font-size: 16px; margin-bottom: 8px; }
+        .empty-state p { color: var(--text-dim); font-size: 14px; }
+
+        .loading { text-align: center; padding: 40px; grid-column: 1/-1; }
+        .spinner {
+            width: 44px; height: 44px; border: 3px solid rgba(0,112,255,0.2);
+            border-top-color: var(--primary); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading p { color: var(--text-dim); font-size: 13px; }
+
+        .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+        .toast {
+            padding: 14px 22px; background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: #fff;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 20px rgba(0,112,255,0.15);
+            animation: toastIn 0.4s cubic-bezier(0.16,1,0.3,1); backdrop-filter: blur(16px);
+            border-left: 3px solid var(--accent-green);
+        }
+        .toast--removing { animation: toastOut 0.3s ease forwards; }
+        .toast__icon { color: var(--accent-green); }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateX(40px); } }
+
+        .app-footer {
+            text-align: center; padding: 2rem 5%; margin-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .footer-copy { color: var(--text-dim); font-size: 0.78rem; }
+
+        @media (max-width: 900px) {
+            .hero-content { padding: 2rem; }
+            .hero-title { font-size: 1.8rem; }
+            .games-grid { grid-template-columns: 1fr; max-height: none; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-link { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 qBittorrent 888Client <span style="font-size: 12px;">(Fallback Mode)</span></h1>
-        <div class="add-section">
-            <input type="text" id="magnetInput" placeholder="Magnet link or torrent URL...">
-            <button onclick="addTorrent()">Add</button>
+
+<div class="bg-animation">
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+</div>
+<div class="bg-grid"></div>
+<div class="noise-overlay"></div>
+<div class="particles" id="particles"></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="container">
+    <!-- NAVBAR -->
+    <nav class="app-nav" id="mainNav">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon"><i class="fas fa-gamepad"></i></div>
+            <span class="nav-logo-text">GAMEVAULT</span>
+        </a>
+        <div class="nav-links">
+            <a href="#" class="nav-link nav-link--active">Library</a>
+            <a href="#" class="nav-link">Discover</a>
+            <a href="#" class="nav-link">Community</a>
+            <a href="#" class="nav-link">Pro</a>
+            <button class="nav-btn" aria-label="Notifications"><i class="fas fa-bell"></i></button>
+            <button class="nav-btn" aria-label="Settings"><i class="fas fa-cog"></i></button>
         </div>
-        <div id="torrentsList">
-            <div class="empty-state">Loading torrents...</div>
+    </nav>
+
+    <!-- HERO BANNER -->
+    <section class="hero-banner" id="heroBanner">
+        <div class="hero-bg"><img src="https://picsum.photos/seed/cyberpunk-city-neon/1600/600.jpg" alt="Featured Game"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge hero-badge--hot"><span class="hero-pulse"></span> Trending Now</div>
+            <h2 class="hero-title">CYBER <span>NEXUS</span> 2087</h2>
+            <p class="hero-desc">The most anticipated open-world RPG of the year. Hack the system. Rewrite reality. 4K Ultra HD with ray tracing support.</p>
+            <div class="hero-meta">
+                <span class="hero-meta-item"><i class="fas fa-hdd"></i> <strong>92.4 GB</strong></span>
+                <span class="hero-meta-item"><i class="fas fa-users"></i> <strong>1-4 Co-Op</strong></span>
+                <span class="hero-meta-item"><i class="fas fa-star"></i> <strong>9.4 / 10</strong></span>
+            </div>
+            <div class="hero-actions">
+                <button class="btn btn--primary" onclick="addDemoGame('Cyber Nexus 2087','https://picsum.photos/seed/cyberpunk-city-neon/800/450.jpg',92.4,'RPG')"><i class="fas fa-download"></i> Download Now</button>
+                <button class="btn btn--ghost"><i class="fas fa-play"></i> Watch Trailer</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATUS CARD -->
+    <div class="status-card demo" id="statusCard">
+        <div class="status-info">
+            <div class="status-icon demo"><i class="fas fa-flask"></i></div>
+            <div class="status-text">
+                <h3 id="statusTitle">Demo Mode Active</h3>
+                <p id="statusMessage">Showing sample games — connect to qBittorrent for real downloads</p>
+            </div>
+        </div>
+        <button class="btn btn--primary" style="padding:10px 22px;font-size:0.8rem;" onclick="reconnect()"><i class="fas fa-sync-alt"></i> Connect</button>
+    </div>
+
+    <!-- ADD GAME -->
+    <div class="add-game-section">
+        <div class="section-title"><i class="fas fa-plus-circle"></i> Add New Game</div>
+        <div class="input-group">
+            <input type="text" id="magnetInput" class="game-input" placeholder="Paste magnet link or game torrent URL...">
+            <button class="btn btn--secondary" id="addBtn" onclick="addTorrent()"><i class="fas fa-download"></i> Download</button>
         </div>
     </div>
 
-    <script>
-        let refreshInterval = setInterval(loadTorrents, 1000);
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-download"></i></div><div class="stat-value" id="dlSpeed">0</div><div class="stat-label">Down (KB/s)</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-upload"></i></div><div class="stat-value" id="upSpeed">0</div><div class="stat-label">Up (KB/s)</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-hdd"></i></div><div class="stat-value" id="dlTotal">0</div><div class="stat-label">Downloaded (GB)</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-cloud-upload-alt"></i></div><div class="stat-value" id="upTotal">0</div><div class="stat-label">Uploaded (GB)</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-gamepad"></i></div><div class="stat-value" id="totalGames">0</div><div class="stat-label">Games</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-bolt"></i></div><div class="stat-value" id="activeDownloads">0</div><div class="stat-label">Active</div></div>
+    </div>
 
-        async function addTorrent() {
-            const magnet = document.getElementById('magnetInput').value;
-            if (!magnet) return alert('Enter a magnet link');
+    <!-- CONTROLS + FILTERS -->
+    <div class="controls-row">
+        <button class="control-btn" onclick="pauseAll()"><i class="fas fa-pause"></i> Pause All</button>
+        <button class="control-btn" onclick="resumeAll()"><i class="fas fa-play"></i> Resume All</button>
+        <button class="control-btn" onclick="refreshData()"><i class="fas fa-sync-alt"></i> Refresh</button>
+        <div class="controls-spacer"></div>
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" data-filter="downloading" onclick="setFilter('downloading',this)">Downloading</button>
+        <button class="filter-btn" data-filter="completed" onclick="setFilter('completed',this)">Completed</button>
+        <button class="filter-btn" data-filter="paused" onclick="setFilter('paused',this)">Paused</button>
+        <button class="filter-btn" data-filter="seeding" onclick="setFilter('seeding',this)">Seeding</button>
+    </div>
 
-            await fetch('/api/add', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({magnet: magnet})
-            });
-            document.getElementById('magnetInput').value = '';
-            loadTorrents();
-        }
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search games by name..." oninput="renderGames()">
 
-        async function loadTorrents() {
-            try {
-                const res = await fetch('/api/torrents');
-                const torrents = await res.json();
-                if (torrents.error) throw new Error(torrents.error);
+    <!-- GAMES GRID -->
+    <div class="games-grid" id="gamesGrid">
+        <div class="loading"><div class="spinner"></div><p>Loading your game library...</p></div>
+    </div>
 
-                if (torrents.length === 0) {
-                    document.getElementById('torrentsList').innerHTML = '<div class="empty-state">No torrents. Add a magnet link!</div>';
-                    return;
-                }
+    <footer class="app-footer">
+        <p class="footer-copy">&copy; 2025 GameVault. All rights reserved. Built for gamers, by gamers.</p>
+    </footer>
+</div>
 
-                document.getElementById('torrentsList').innerHTML = torrents.map(t => `
-                    <div class="torrent-card">
-                        <strong>${escapeHtml(t.name)}</strong>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${t.progress}%"></div>
-                        </div>
-                        <div class="stats">
-                            <span>⬇️ ${t.download_speed} KB/s</span>
-                            <span>⬆️ ${t.upload_speed} KB/s</span>
-                            <span>📦 ${t.size} GB</span>
-                        </div>
-                        <button onclick="pauseTorrent('${t.hash}')">Pause</button>
-                        <button onclick="resumeTorrent('${t.hash}')">Resume</button>
-                        <button onclick="removeTorrent('${t.hash}')">Remove</button>
-                    </div>
-                `).join('');
-            } catch(e) {
-                console.error(e);
+<script>
+// ========== JAVASCRIPT WITH CONFIRM POPUP FOR REMOVE TORRENT ==========
+let currentFilter = 'all';
+let isConnected = false;
+let gamesData = [];
+let refreshTimer = null;
+let demoTickTimer = null;
+
+const demoGames = [
+    { hash:'d1', name:'Cyber Nexus 2087', genre:'RPG', size:92.4, img:'https://picsum.photos/seed/cyberpunk-neon-city/800/450.jpg', state:'downloading', progress:67, dlSpeed:14200, upSpeed:2100, ratio:0.42, seeds:847, leechs:124, downloaded:61.9, uploaded:26.0, savePath:'D:/Games/CyberNexus2087', addedOn:'2025-06-10', eta:'24 min' },
+    { hash:'d2', name:'Shadow Realm: Eclipse', genre:'Action', size:67.2, img:'https://picsum.photos/seed/dark-fantasy-sword/800/450.jpg', state:'downloading', progress:34, dlSpeed:8600, upSpeed:1200, ratio:0.18, seeds:523, leechs:89, downloaded:22.8, uploaded:4.1, savePath:'D:/Games/ShadowRealm', addedOn:'2025-06-11', eta:'1h 12min' },
+    { hash:'d3', name:'Velocity Overdrive', genre:'Racing', size:45.8, img:'https://picsum.photos/seed/racing-car-speed/800/450.jpg', state:'completed', progress:100, dlSpeed:0, upSpeed:3400, ratio:2.81, seeds:12, leechs:67, downloaded:45.8, uploaded:128.7, savePath:'D:/Games/VelocityOverdrive', addedOn:'2025-06-08', eta:'—' },
+    { hash:'d4', name:'Stellar Warfare', genre:'FPS', size:78.1, img:'https://picsum.photos/seed/space-battle-ship/800/450.jpg', state:'paused', progress:52, dlSpeed:0, upSpeed:0, ratio:0.31, seeds:312, leechs:78, downloaded:40.6, uploaded:12.6, savePath:'D:/Games/StellarWarfare', addedOn:'2025-06-09', eta:'Paused' },
+    { hash:'d5', name:'Arcane Legends Online', genre:'MMO', size:34.5, img:'https://picsum.photos/seed/fantasy-magic-castle/800/450.jpg', state:'downloading', progress:89, dlSpeed:22100, upSpeed:4500, ratio:0.67, seeds:1244, leechs:201, downloaded:30.7, uploaded:20.6, savePath:'D:/Games/ArcaneLegends', addedOn:'2025-06-11', eta:'3 min' },
+    { hash:'d6', name:'Dungeon Core', genre:'Strategy', size:22.3, img:'https://picsum.photos/seed/dungeon-dark-cave/800/450.jpg', state:'completed', progress:100, dlSpeed:0, upSpeed:1800, ratio:4.12, seeds:8, leechs:34, downloaded:22.3, uploaded:91.9, savePath:'D:/Games/DungeonCore', addedOn:'2025-06-05', eta:'—' },
+    { hash:'d7', name:'Neon Drift', genre:'Racing', size:38.7, img:'https://picsum.photos/seed/neon-car-drift/800/450.jpg', state:'seeding', progress:100, dlSpeed:0, upSpeed:5600, ratio:6.24, seeds:4, leechs:42, downloaded:38.7, uploaded:241.5, savePath:'D:/Games/NeonDrift', addedOn:'2025-06-03', eta:'—' },
+    { hash:'d8', name:'Phantom Protocol', genre:'Stealth', size:55.9, img:'https://picsum.photos/seed/stealth-agent-night/800/450.jpg', state:'downloading', progress:12, dlSpeed:5400, upSpeed:800, ratio:0.05, seeds:198, leechs:56, downloaded:6.7, uploaded:0.3, savePath:'D:/Games/PhantomProtocol', addedOn:'2025-06-12', eta:'3h 45min' },
+    { hash:'d9', name:'Titan Siege', genre:'Action', size:104.2, img:'https://picsum.photos/seed/giant-titan-battle/800/450.jpg', state:'downloading', progress:5, dlSpeed:3200, upSpeed:400, ratio:0.02, seeds:89, leechs:210, downloaded:5.2, uploaded:0.1, savePath:'D:/Games/TitanSiege', addedOn:'2025-06-12', eta:'8h 20min' },
+    { hash:'d10', name:'Pixel Warriors', genre:'Indie', size:4.2, img:'https://picsum.photos/seed/pixel-art-retro/800/450.jpg', state:'completed', progress:100, dlSpeed:0, upSpeed:900, ratio:12.4, seeds:3, leechs:18, downloaded:4.2, uploaded:52.1, savePath:'D:/Games/PixelWarriors', addedOn:'2025-06-01', eta:'—' },
+    { hash:'d11', name:'Frost Empire', genre:'Strategy', size:41.6, img:'https://picsum.photos/seed/ice-snow-fortress/800/450.jpg', state:'paused', progress:78, dlSpeed:0, upSpeed:0, ratio:0.54, seeds:267, leechs:45, downloaded:32.4, uploaded:17.5, savePath:'D:/Games/FrostEmpire', addedOn:'2025-06-07', eta:'Paused' },
+    { hash:'d12', name:'Mecha Strike Force', genre:'Action', size:86.3, img:'https://picsum.photos/seed/mecha-robot-fight/800/450.jpg', state:'downloading', progress:45, dlSpeed:11800, upSpeed:2800, ratio:0.28, seeds:634, leechs:112, downloaded:38.8, uploaded:10.9, savePath:'D:/Games/MechaStrike', addedOn:'2025-06-10', eta:'52 min' },
+];
+
+function createParticles() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 3 + 1;
+        p.style.cssText = `left:${Math.random()*100}%;width:${size}px;height:${size}px;
+            background:${Math.random()>0.5?'rgba(0,112,255,0.5)':'rgba(0,200,255,0.4)'};
+            animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*8}s;`;
+        container.appendChild(p);
+    }
+}
+
+window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('app-nav--scrolled', window.scrollY > 30);
+});
+
+const heroBanner = document.getElementById('heroBanner');
+if (heroBanner) {
+    heroBanner.addEventListener('mousemove', (e) => {
+        const r = heroBanner.getBoundingClientRect();
+        heroBanner.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        heroBanner.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+}
+
+function initDemoMode() {
+    gamesData = JSON.parse(JSON.stringify(demoGames));
+    updateStats();
+    renderGames();
+    demoTickTimer = setInterval(demoTick, 2000);
+    tryConnection();
+}
+
+function demoTick() {
+    let changed = false;
+    gamesData.forEach(g => {
+        if (g.state === 'downloading') {
+            const inc = Math.random() * 2.5 + 0.3;
+            g.progress = Math.min(g.progress + inc, 100);
+            g.dlSpeed = Math.floor(Math.random() * 15000 + 3000);
+            g.upSpeed = Math.floor(Math.random() * 3000 + 500);
+            g.downloaded = +(g.size * g.progress / 100).toFixed(1);
+            g.uploaded = +(g.uploaded + Math.random() * 0.3).toFixed(1);
+            g.ratio = +(g.uploaded / g.downloaded).toFixed(2);
+            if (g.progress >= 100) {
+                g.progress = 100; g.state = 'completed'; g.dlSpeed = 0;
+                showToast(`${g.name} download complete!`, 'fa-circle-check');
             }
+            changed = true;
+        } else if (g.state === 'seeding') {
+            g.upSpeed = Math.floor(Math.random() * 4000 + 1000);
+            g.uploaded = +(g.uploaded + Math.random() * 0.5).toFixed(1);
+            g.ratio = +(g.uploaded / g.downloaded).toFixed(2);
+            changed = true;
+        }
+    });
+    if (changed) { updateStats(); renderGames(); }
+}
+
+function updateStats() {
+    const downloading = gamesData.filter(g => g.state === 'downloading');
+    const totalDl = downloading.reduce((s, g) => s + g.dlSpeed, 0);
+    const totalUp = gamesData.reduce((s, g) => s + g.upSpeed, 0);
+    const totalDlData = gamesData.reduce((s, g) => s + g.downloaded, 0);
+    const totalUpData = gamesData.reduce((s, g) => s + g.uploaded, 0);
+    document.getElementById('dlSpeed').textContent = totalDl > 1000 ? (totalDl/1000).toFixed(1)+'M' : totalDl;
+    document.getElementById('upSpeed').textContent = totalUp > 1000 ? (totalUp/1000).toFixed(1)+'M' : totalUp;
+    document.getElementById('dlTotal').textContent = totalDlData.toFixed(1);
+    document.getElementById('upTotal').textContent = totalUpData.toFixed(1);
+    document.getElementById('totalGames').textContent = gamesData.length;
+    document.getElementById('activeDownloads').textContent = downloading.length;
+}
+
+async function tryConnection() {
+    try {
+        const res = await fetch('/api/status', { signal: AbortSignal.timeout(2000) });
+        const data = await res.json();
+        if (data.connected) {
+            isConnected = true;
+            clearInterval(demoTickTimer);
+            updateStatusUI(true);
+            refreshTimer = setInterval(refreshData, 1000);
+            refreshData();
+            showToast('Connected to GameVault!', 'fa-plug');
+        }
+    } catch(e) { /* stay in demo mode */ }
+}
+
+async function reconnect() {
+    const card = document.getElementById('statusCard');
+    card.className = 'status-card demo';
+    document.getElementById('statusTitle').textContent = 'Connecting...';
+    document.getElementById('statusMessage').textContent = 'Attempting to reach qBittorrent...';
+    try {
+        const res = await fetch('/api/reconnect', { method: 'POST', signal: AbortSignal.timeout(4000) });
+        const data = await res.json();
+        if (data.connected) {
+            isConnected = true; clearInterval(demoTickTimer);
+            updateStatusUI(true);
+            refreshTimer = setInterval(refreshData, 1000);
+            refreshData();
+            showToast('Connected to qBittorrent!', 'fa-plug');
+        } else { stayDemo(); }
+    } catch(e) { stayDemo(); }
+}
+
+function stayDemo() {
+    isConnected = false;
+    const card = document.getElementById('statusCard');
+    card.className = 'status-card demo';
+    document.getElementById('statusTitle').textContent = 'Demo Mode Active';
+    document.getElementById('statusMessage').textContent = 'Showing sample games — connect to qBittorrent for real downloads';
+    showToast('qBittorrent not found — demo mode', 'fa-flask');
+}
+
+function updateStatusUI(connected) {
+    const card = document.getElementById('statusCard');
+    if (connected) {
+        card.className = 'status-card connected';
+        document.getElementById('statusTitle').textContent = 'Connected to GameVault';
+        document.getElementById('statusMessage').textContent = 'Live sync active — managing real downloads';
+        document.getElementById('addBtn').disabled = false;
+    } else {
+        card.className = 'status-card disconnected';
+        document.getElementById('statusTitle').textContent = 'Connection Lost';
+        document.getElementById('statusMessage').textContent = 'Unable to reach qBittorrent Web UI';
+        document.getElementById('addBtn').disabled = true;
+    }
+}
+
+async function refreshData() {
+    if (!isConnected) return;
+    await Promise.all([loadStatus(), loadTorrents(), loadStats()]);
+}
+
+async function loadStatus() {
+    try {
+        const res = await fetch('/api/status'); const data = await res.json();
+        isConnected = data.connected; updateStatusUI(data.connected);
+        document.getElementById('addBtn').disabled = !data.connected;
+    } catch(e) {}
+}
+
+async function loadStats() {
+    try {
+        const res = await fetch('/api/transfer'); const s = await res.json();
+        if (s.connected !== false) {
+            document.getElementById('dlSpeed').textContent = s.dl_speed;
+            document.getElementById('upSpeed').textContent = s.up_speed;
+            document.getElementById('dlTotal').textContent = s.dl_data;
+            document.getElementById('upTotal').textContent = s.up_data;
+        }
+    } catch(e) {}
+}
+
+async function loadTorrents() {
+    try {
+        const res = await fetch(`/api/torrents?filter=${currentFilter}`);
+        const data = await res.json();
+        if (data.error) return;
+        const torrents = data.torrents || [];
+        gamesData = torrents.map(t => ({
+            hash: t.hash, name: t.name, genre: detectGenre(t.name),
+            size: t.size, img: getGameImage(t.name),
+            state: t.state, progress: t.progress,
+            dlSpeed: parseSpeed(t.download_speed), upSpeed: parseSpeed(t.upload_speed),
+            ratio: t.ratio, seeds: t.num_seeds, leechs: t.num_leechs,
+            downloaded: t.downloaded || t.size * t.progress / 100,
+            uploaded: t.uploaded || 0,
+            savePath: t.save_path, addedOn: t.added_on, eta: t.eta || '—'
+        }));
+        updateStats(); renderGames();
+    } catch(e) {}
+}
+
+function parseSpeed(s) { return typeof s === 'string' ? parseInt(s) || 0 : s || 0; }
+function detectGenre(name) {
+    const n = name.toLowerCase();
+    if (n.includes('rpg') || n.includes('cyber') || n.includes('arcane') || n.includes('legend')) return 'RPG';
+    if (n.includes('rac') || n.includes('drift') || n.includes('velocity') || n.includes('need')) return 'Racing';
+    if (n.includes('fps') || n.includes('war') || n.includes('strike') || n.includes('combat')) return 'FPS';
+    if (n.includes('strat') || n.includes('dungeon') || n.includes('frost') || n.includes('anno')) return 'Strategy';
+    if (n.includes('stealth') || n.includes('phantom') || n.includes('hitman') || n.includes('solid')) return 'Stealth';
+    if (n.includes('mmo') || n.includes('online') || n.includes('wow')) return 'MMO';
+    if (n.includes('pixel') || n.includes('indie') || n.includes('hollow')) return 'Indie';
+    return 'Action';
+}
+function getGameImage(name) {
+    const seeds = {
+        'cyber': 'cyberpunk-neon-city', 'shadow': 'dark-fantasy-sword', 'velocity': 'racing-car-speed',
+        'stellar': 'space-battle-ship', 'arcane': 'fantasy-magic-castle', 'dungeon': 'dungeon-dark-cave',
+        'neon': 'neon-car-drift', 'phantom': 'stealth-agent-night', 'titan': 'giant-titan-battle',
+        'pixel': 'pixel-art-retro', 'frost': 'ice-snow-fortress', 'mecha': 'mecha-robot-fight',
+    };
+    const n = name.toLowerCase();
+    for (const [k, v] of Object.entries(seeds)) { if (n.includes(k)) return `https://picsum.photos/seed/${v}/800/450.jpg`; }
+    return `https://picsum.photos/seed/${name.replace(/\s+/g,'-').toLowerCase()}/800/450.jpg`;
+}
+
+// ========== CONFIRM POPUP FUNCTION (from 4_template) ==========
+function confirmDialog(title, message) {
+    return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        overlay.className = 'confirm-overlay';
+        overlay.innerHTML = `
+            <div class="confirm-dialog">
+                <div class="confirm-icon"><i class="fas fa-trash-alt"></i></div>
+                <h3>${escapeHtml(title)}</h3>
+                <p>${escapeHtml(message)}</p>
+                <div class="confirm-buttons">
+                    <button class="confirm-cancel">Cancel</button>
+                    <button class="confirm-remove">Remove</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        const cancelBtn = overlay.querySelector('.confirm-cancel');
+        const removeBtn = overlay.querySelector('.confirm-remove');
+        const cleanup = () => overlay.remove();
+        cancelBtn.onclick = () => { cleanup(); resolve(false); };
+        removeBtn.onclick = () => { cleanup(); resolve(true); };
+        overlay.onclick = (e) => { if (e.target === overlay) { cleanup(); resolve(false); } };
+    });
+}
+
+function renderGames() {
+    const grid = document.getElementById('gamesGrid');
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    let list = gamesData;
+
+    if (currentFilter !== 'all') {
+        if (currentFilter === 'completed') list = list.filter(g => g.state === 'completed' || g.state === 'uploading' || g.state === 'seeding' || g.state === 'stalledUP');
+        else if (currentFilter === 'downloading') list = list.filter(g => g.state === 'downloading' || g.state === 'stalledDL' || g.state === 'metaDL' || g.state === 'forcedDL');
+        else if (currentFilter === 'paused') list = list.filter(g => g.state === 'paused' || g.state === 'pausedDL' || g.state === 'pausedUP');
+        else if (currentFilter === 'seeding') list = list.filter(g => g.state === 'seeding' || g.state === 'uploading' || g.state === 'stalledUP');
+    }
+    if (search) list = list.filter(g => g.name.toLowerCase().includes(search));
+
+    if (!list.length) {
+        grid.innerHTML = `<div class="empty-state"><i class="fas fa-gamepad"></i><h3>No Games Found</h3><p>Add a game using a magnet link above, or adjust your filters.</p></div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(g => {
+        const stateClass = (g.state === 'downloading' || g.state === 'stalledDL') ? 'downloading' :
+                           (g.state === 'uploading' || g.state === 'stalledUP' || g.state === 'completed') ? 'completed' :
+                           (g.state === 'paused' || g.state === 'pausedDL') ? 'paused' : 'downloading';
+        const badgeClass = `badge-${stateClass === 'completed' ? 'completed' : stateClass === 'paused' ? 'paused' : 'downloading'}`;
+        const progressClass = `progress-${stateClass}`;
+        const isComplete = stateClass === 'completed';
+
+        let etaText = '';
+        if (g.eta && g.eta > 0 && !isComplete) {
+            const hours = Math.floor(g.eta / 3600);
+            const minutes = Math.floor((g.eta % 3600) / 60);
+            etaText = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
         }
 
-        async function pauseTorrent(hash) { await fetch(`/api/pause/${hash}`, {method: 'POST'}); loadTorrents(); }
-        async function resumeTorrent(hash) { await fetch(`/api/resume/${hash}`, {method: 'POST'}); loadTorrents(); }
-        async function removeTorrent(hash) { if(confirm('Remove?')) await fetch(`/api/remove/${hash}`, {method: 'DELETE'}); loadTorrents(); }
+        const speedText = isComplete ?
+            `<i class="fas fa-arrow-up"></i> ${g.upSpeed > 1000 ? (g.upSpeed/1000).toFixed(1)+' MB/s' : g.upSpeed+' KB/s'}` :
+            `<i class="fas fa-arrow-down"></i> ${g.dlSpeed > 1000 ? (g.dlSpeed/1000).toFixed(1)+' MB/s' : g.dlSpeed+' KB/s'}`;
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, m => ({'&':'&amp;', '<':'&lt;', '>':'&gt;'})[m]);
+        let actionBtns = '';
+        if (isComplete) {
+            actionBtns = `<button class="action-btn btn-resume" onclick="event.stopPropagation()"><i class="fas fa-play"></i> Play</button>`;
+        } else if (stateClass === 'paused') {
+            actionBtns = `<button class="action-btn btn-resume" onclick="resumeTorrent('${g.hash}')"><i class="fas fa-play"></i> Resume</button>`;
+        } else {
+            actionBtns = `<button class="action-btn btn-pause" onclick="pauseTorrent('${g.hash}')"><i class="fas fa-pause"></i> Pause</button>`;
         }
 
-        loadTorrents();
-    </script>
+        const imgSeed = (g.name || 'game').replace(/\s+/g, '-').toLowerCase();
+
+        return `
+            <div class="game-card" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
+                <div class="game-card__img-wrap">
+                    <img class="game-card__img" src="https://picsum.photos/seed/${imgSeed}/400/225.jpg" alt="${escapeHtml(g.name)}" loading="lazy">
+                    <div class="game-card__shimmer"></div>
+                    <div class="game-card__img-overlay"></div>
+                    <span class="game-card__badge ${badgeClass}">
+                        <i class="fas ${isComplete ? 'fa-check-circle' : stateClass === 'paused' ? 'fa-pause' : 'fa-download'}"></i>
+                        ${g.state || 'unknown'}
+                    </span>
+                </div>
+                <div class="game-card__content">
+                    <div class="game-card__title">${escapeHtml(g.name)}</div>
+                    <div class="game-card__progress">
+                        <div class="game-card__progress-fill ${progressClass}" style="width: ${g.progress || 0}%"></div>
+                    </div>
+                    <div class="game-card__stats">
+                        <span>${speedText}</span>
+                        <span><i class="fas fa-database"></i> ${g.size || 0} GB</span>
+                        <span><i class="fas fa-users"></i> ${g.seeds || 0}/${g.leechs || 0}</span>
+                        ${etaText ? `<span><i class="fas fa-clock"></i> ${etaText}</span>` : ''}
+                    </div>
+                    <div class="game-card__actions">
+                        ${actionBtns}
+                        <button class="action-btn btn-remove" onclick="confirmRemoveTorrent('${g.hash}', '${escapeHtml(g.name)}')"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="expanded-details" id="details-${g.hash}">
+                    <div class="expanded-inner">
+                        <div class="expanded-row"><span class="expanded-label">Save Path</span><span class="expanded-value">${escapeHtml(g.savePath || 'N/A')}</span></div>
+                        <div class="expanded-row"><span class="expanded-label">Downloaded</span><span class="expanded-value">${g.downloaded || 0} GB / ${g.size} GB</span></div>
+                        <div class="expanded-row"><span class="expanded-label">Uploaded</span><span class="expanded-value">${g.uploaded || 0} GB</span></div>
+                        <div class="expanded-row"><span class="expanded-label">Share Ratio</span><span class="expanded-value">${g.ratio || 0}</span></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    document.querySelectorAll('.game-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.action-btn')) return;
+            card.classList.toggle('expanded');
+        });
+    });
+}
+
+// ========== CONFIRM REMOVE TORRENT FUNCTION with popup ==========
+async function confirmRemoveTorrent(hash, name) {
+    const confirmed = await confirmDialog(`Remove "${name}"?`, 'The game files will remain on your disk. You can re-add the torrent later.');
+    if (!confirmed) return;
+
+    // Find the remove button and show loading state
+    const btns = document.querySelectorAll('.btn-remove');
+    let targetBtn = null;
+    for (let btn of btns) {
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes(hash)) {
+            targetBtn = btn;
+            break;
+        }
+    }
+
+    if (targetBtn) {
+        targetBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+        targetBtn.disabled = true;
+    }
+
+    if (isConnected) {
+        try {
+            const res = await fetch(`/api/remove/${hash}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ delete_files: false })
+            });
+            const data = await res.json();
+            if (data.error) {
+                showToast(data.error, 'fa-exclamation-triangle');
+            } else {
+                showToast(`"${name}" removed from library`, 'fa-check');
+                await loadTorrents();
+            }
+        } catch(e) {
+            showToast('Failed to remove: ' + e.message, 'fa-exclamation-triangle');
+        }
+    } else {
+        // Demo mode removal
+        gamesData = gamesData.filter(x => x.hash !== hash);
+        updateStats();
+        renderGames();
+        showToast(`"${name}" removed from library`, 'fa-check');
+    }
+
+    if (targetBtn) {
+        targetBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        targetBtn.disabled = false;
+    }
+}
+
+function tiltCard(e, el) {
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -5;
+    const rotateY = ((x - centerX) / centerX) * 5;
+    el.style.transform = `translateY(-8px) scale(1.02) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+}
+
+function resetCard(el) {
+    el.style.transform = '';
+}
+
+async function addTorrent() {
+    const input = document.getElementById('magnetInput');
+    const magnet = input.value.trim();
+    if (!magnet) { showToast('Please enter a magnet link or URL', 'fa-exclamation-circle'); return; }
+
+    if (isConnected) {
+        const btn = document.getElementById('addBtn');
+        btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Adding...'; btn.disabled = true;
+        try {
+            const res = await fetch('/api/add', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({magnet}) });
+            const data = await res.json();
+            if (data.error) { showToast(data.error, 'fa-exclamation-triangle'); }
+            else { input.value = ''; await loadTorrents(); showToast('Game added to downloads!', 'fa-check'); }
+        } catch(e) { showToast('Failed to add: '+e.message, 'fa-exclamation-triangle'); }
+        finally { btn.innerHTML = '<i class="fas fa-download"></i> Download'; btn.disabled = false; }
+    } else {
+        const names = ['Quantum Break','Halo Infinite','Elden Ring','God of War Ragnarok','Horizon Forbidden West','Resident Evil 4','Dead Space Remake','Final Fantasy XVI','Starfield','Baldurs Gate 3','Diablo IV','Street Fighter 6'];
+        const name = names[Math.floor(Math.random()*names.length)];
+        addDemoGame(name, null, +(Math.random()*80+10).toFixed(1), detectGenre(name));
+        input.value = '';
+    }
+}
+
+function addDemoGame(name, img, size, genre) {
+    const hash = 'demo-' + Date.now();
+    gamesData.unshift({
+        hash, name, genre, size, img: img || getGameImage(name),
+        state:'downloading', progress:0, dlSpeed: Math.floor(Math.random()*12000+2000),
+        upSpeed: Math.floor(Math.random()*1500+200), ratio:0,
+        seeds: Math.floor(Math.random()*500+50), leechs: Math.floor(Math.random()*80+10),
+        downloaded:0, uploaded:0,
+        savePath:'D:/Games/'+name.replace(/\s+/g,''), addedOn: new Date().toISOString().split('T')[0],
+        eta: 'Calculating...'
+    });
+    updateStats(); renderGames();
+    showToast(`Started downloading ${name}`, 'fa-download');
+}
+
+async function pauseTorrent(hash) {
+    if (isConnected) {
+        await fetch(`/api/pause/${hash}`, {method:'POST'}); await loadTorrents();
+    } else {
+        const g = gamesData.find(x=>x.hash===hash);
+        if (g && g.state === 'downloading') {
+            g.state = 'paused'; g.dlSpeed = 0; g.eta = 'Paused';
+            updateStats(); renderGames(); showToast(`${g.name} paused`, 'fa-pause');
+        }
+    }
+}
+
+async function resumeTorrent(hash) {
+    if (isConnected) {
+        await fetch(`/api/resume/${hash}`, {method:'POST'}); await loadTorrents();
+    } else {
+        const g = gamesData.find(x=>x.hash===hash);
+        if (g && (g.state === 'paused' || g.state === 'pausedDL')) {
+            g.state = 'downloading'; g.dlSpeed = Math.floor(Math.random()*10000+2000);
+            g.eta = 'Calculating...';
+            updateStats(); renderGames(); showToast(`${g.name} resumed`, 'fa-play');
+        }
+    }
+}
+
+// Legacy remove function kept for compatibility but not used directly anymore
+async function removeTorrent(hash, name) {
+    await confirmRemoveTorrent(hash, name);
+}
+
+async function enableSequential(hash) {
+    showToast('Sequential streaming enabled! Play while downloading.', 'fa-stream');
+}
+
+async function pauseAll() {
+    if (isConnected) { await fetch('/api/pause/all',{method:'POST'}); await loadTorrents(); }
+    else {
+        gamesData.forEach(g => { if(g.state==='downloading'){g.state='paused';g.dlSpeed=0;g.eta='Paused';} });
+        updateStats(); renderGames(); showToast('All downloads paused', 'fa-pause');
+    }
+}
+
+async function resumeAll() {
+    if (isConnected) { await fetch('/api/resume/all',{method:'POST'}); await loadTorrents(); }
+    else {
+        gamesData.forEach(g => { if(g.state==='paused'){g.state='downloading';g.dlSpeed=Math.floor(Math.random()*8000+2000);g.eta='Calculating...';} });
+        updateStats(); renderGames(); showToast('All downloads resumed', 'fa-play');
+    }
+}
+
+function setFilter(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    if (isConnected) loadTorrents(); else renderGames();
+}
+
+function showToast(msg, icon='fa-check') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="toast__icon fas ${icon}"></i> ${escapeHtml(msg)}`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.classList.add('toast--removing'); setTimeout(() => toast.remove(), 300); }, 2800);
+}
+
+function escapeHtml(s) { if(!s) return ''; return s.replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+
+createParticles();
+initDemoMode();
+</script>
 </body>
 </html>
