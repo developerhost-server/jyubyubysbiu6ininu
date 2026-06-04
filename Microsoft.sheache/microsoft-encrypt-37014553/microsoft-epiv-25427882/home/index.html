@@ -11,7 +11,137 @@
 
 
 
-  
+    <!-- ⭐⭐⭐======================================================= -->
+        <!--  FAST LOADING SCRIPT – paste this entire block into     -->
+        <!--  the <head> of any HTML page to get instant speed gains -->
+        <!-- ======================================================= -->
+        <script>
+            (function() {
+                // ------------------------------------------------------------------
+                // 1. Add resource hints (preconnect, dns-prefetch) for common origins
+                // ------------------------------------------------------------------
+                const hints = [
+                    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+                    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+                    { rel: 'dns-prefetch', href: 'https://cdn.your-cdn.com' },   // add your own CDNs
+                    { rel: 'preconnect', href: 'https://www.google-analytics.com' }
+                ];
+                hints.forEach(hint => {
+                    const link = document.createElement('link');
+                    link.rel = hint.rel;
+                    link.href = hint.href;
+                    if (hint.crossorigin) link.crossOrigin = '';
+                    document.head.appendChild(link);
+                });
+
+                // ------------------------------------------------------------------
+                // 2. Preload critical assets (CSS, fonts, hero image)
+                // ------------------------------------------------------------------
+                const preloads = [
+                    // { as: 'style', href: '/critical.css' },   // uncomment and adapt
+                    { as: 'font', href: 'https://fonts.gstatic.com/...', crossorigin: true },
+                    // { as: 'image', href: '/hero.jpg', fetchpriority: 'high' }
+                ];
+                preloads.forEach(asset => {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = asset.as;
+                    link.href = asset.href;
+                    if (asset.crossorigin) link.crossOrigin = '';
+                    if (asset.fetchpriority) link.fetchPriority = asset.fetchpriority;
+                    document.head.appendChild(link);
+                });
+
+                // ------------------------------------------------------------------
+                // 3. Defer non‑critical JavaScript (scripts with 'data-defer')
+                //    and mark all stylesheets not inlined as 'media="print"' then switch
+                // ------------------------------------------------------------------
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Defer execution of scripts marked with data-defer
+                    document.querySelectorAll('script[data-defer]').forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                            newScript.async = true;
+                            newScript.defer = true;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        script.parentNode.replaceChild(newScript, script);
+                    });
+
+                    // Convert non‑critical CSS to load after page is interactive
+                    document.querySelectorAll('link[rel="stylesheet"][data-load-later]').forEach(link => {
+                        const media = link.media || 'all';
+                        link.media = 'print';
+                        link.onload = () => { link.media = media; };
+                    });
+                });
+
+                // ------------------------------------------------------------------
+                // 4. Lazy load images and iframes (fallback for older browsers)
+                // ------------------------------------------------------------------
+                if ('loading' in HTMLImageElement.prototype) {
+                    // Native lazy loading supported
+                    document.querySelectorAll('img:not([loading]), iframe:not([loading])').forEach(el => {
+                        el.setAttribute('loading', 'lazy');
+                    });
+                } else {
+                    // Fallback using Intersection Observer
+                    const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const el = entry.target;
+                                if (el.tagName === 'IMG') {
+                                    if (el.dataset.src) el.src = el.dataset.src;
+                                    if (el.dataset.srcset) el.srcset = el.dataset.srcset;
+                                } else if (el.tagName === 'IFRAME' && el.dataset.src) {
+                                    el.src = el.dataset.src;
+                                }
+                                el.classList.remove('lazy');
+                                observer.unobserve(el);
+                            }
+                        });
+                    });
+                    document.querySelectorAll('img.lazy, iframe.lazy').forEach(el => lazyLoadObserver.observe(el));
+                }
+
+                // ------------------------------------------------------------------
+                // 5. Set fetchpriority='high' for LCP candidate images (optional)
+                // ------------------------------------------------------------------
+                const heroImg = document.querySelector('img[data-hero]') || document.querySelector('main img:first-child');
+                if (heroImg && !heroImg.fetchPriority) heroImg.fetchPriority = 'high';
+
+                // ------------------------------------------------------------------
+                // 6. Inline critical CSS (simple example – adapt to your page)
+                // ------------------------------------------------------------------
+                const criticalCss = `
+                    /* Critical styles for above‑the‑fold content */
+                    body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: #fff; color: #111; }
+                    .header, .hero { visibility: visible; }
+                    /* Add your own critical CSS here */
+                `;
+                const styleNode = document.createElement('style');
+                styleNode.textContent = criticalCss;
+                document.head.appendChild(styleNode);
+
+                // ------------------------------------------------------------------
+                // 7. Optional: measure performance (Core Web Vitals friendly)
+                // ------------------------------------------------------------------
+                if ('PerformanceObserver' in window) {
+                    const perfObserver = new PerformanceObserver((list) => {
+                        for (const entry of list.getEntries()) {
+                            if (entry.entryType === 'largest-contentful-paint') {
+                                console.log('[FastScript] LCP:', entry.renderTime || entry.loadTime);
+                            }
+                        }
+                    });
+                    perfObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+                }
+            })();
+        </script>
+        <!-- End of Fast Loading Script – paste everything above into your <head> -->
+        <!-- ======================================================= -->
 
 
 
@@ -1130,7 +1260,7 @@
         <section class="hero reveal" aria-label="Featured Games">
             <div class="hero-slides" id="heroSlides">
                 <div class="hero-slide active" data-index="0">
-                    <div class="hero-slide-bg"><img src="https://dl.dropboxusercontent.com/scl/fi/7z4kg8hh4t9n2496wqad4/roblox-8k-character-7680x4320-23593.jpg?rlkey=xlbgzv5uypulz9o2jj8nmwda8&e=1&st=fhlt9mz9&dl=0" alt="The Division Resurgence"></div>
+                    <div class="hero-slide-bg"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/roblox-8k-character-7680x4320-23593.avif" alt="The Division Resurgence"></div>
                     <div class="hero-slide-overlay"></div>
                     <div class="hero-slide-lightleak"></div>
                     <div class="hero-scanline"></div>
@@ -1145,7 +1275,7 @@
                     </div>
                 </div>
                 <div class="hero-slide" data-index="1">
-                    <div class="hero-slide-bg"><img src="https://dl.dropboxusercontent.com/scl/fi/1fsdc3kp91h6sjg174hsd/ghost-of-tsushima-4320x3456-12072.jpg?rlkey=3d28w3wkdc7i1qlpwsb8hh166&st=xlv86yc6&dl=0" alt="Ghost of Tsushima"></div>
+                    <div class="hero-slide-bg"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/ghost-of-tsushima-4320x3456-12072.avif" alt="Ghost of Tsushima"></div>
                     <div class="hero-slide-overlay"></div>
                     <div class="hero-slide-lightleak"></div>
                     <div class="hero-scanline"></div>
@@ -1162,7 +1292,7 @@
                 </div>
 
                 <div class="hero-slide" data-index="2">
-                    <div class="hero-slide-bg"><img src="https://dl.dropboxusercontent.com/scl/fi/589fd8scksifcpc33atyk/ss_e5eededd88d1d923114b796babb21d0eb209a475.1920x1080.jpg?rlkey=dsv58g6vprih8py2pu9rpfwo5&st=xjpp4zon&dl=0" alt="Star Wars Outlaws"></div>
+                    <div class="hero-slide-bg"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/ss_e5eededd88d1d923114b796babb21d0eb209a475.1920x1080.avif" alt="Star Wars Outlaws"></div>
                     <div class="hero-slide-overlay"></div>
                     <div class="hero-slide-lightleak"></div>
                     <div class="hero-scanline"></div>
@@ -1247,11 +1377,11 @@
                 <button class="slider-arrow left" onclick="scrollSlider(-1)" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
                 <div class="slider-wrapper" id="hotSlider">
                     <a href="#" class="product-card"><img src="https://cdn2.steamgriddb.com/grid/6fe386b00d7a58df2ee236b3bf339e6b.jpg" alt="Uncharted 4"><div class="product-info"><div class="card-title">Uncharted 4: A Thief's End</div><div class="price">€8.99</div></div></a>
-                    <a href="#" class="product-card"><img src="https://dl.dropboxusercontent.com/scl/fi/0594wy3hji8n9yz0qh680/0f5c013c70c1276984e80be2fb570e39.png?rlkey=qkrl3cppmaz7fd4s28ebwnu8b&e=1&st=tpvp60zv&dl=0" alt="AC Shadows"><div class="product-info"><div class="card-title">Ghost of Tsushima</div><div class="price">Free</div></div></a>
+                    <a href="#" class="product-card"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/0f5c013c70c1276984e80be2fb570e39.avif" alt="AC Shadows"><div class="product-info"><div class="card-title">Ghost of Tsushima</div><div class="price">Free</div></div></a>
                     <a href="#" class="product-card"><img src="https://cdn2.steamgriddb.com/grid/38b70e7c3dd337a74d4f77806ab5b330.jpg" alt="Need for Speed Rivals"><div class="product-info"><div class="card-title">Need for Speed™ Rivals</div><div class="price">€7.99</div></div></a>
-                    <a href="#" class="product-card"><img src="https://dl.dropboxusercontent.com/scl/fi/ve4tezi4y8981u3fa113z/371f38aeb670169c78d4197b3c669003.png?rlkey=imxlgnd06tmftevsdnx5x9y1w&st=ztfbil4o&dl=0" alt="SW Outlaws"><div class="product-info"><div class="card-title">Kena: Bridge of Spirits</div><div class="price">Free</div></div></a>
-                    <a href="#" class="product-card"><img src="https://dl.dropboxusercontent.com/scl/fi/e1q3hajs0a75no2lbjzvb/2ff14122a2e236a18aff7f22d6478f8c.png?rlkey=g8wyiawgi96jau0ffvoxan8ez&st=43ql0rfq&dl=0" alt="AC Mirage"><div class="product-info"><div class="card-title">Need for Speed Payback</div><div class="price">€11.49</div></div></a>
-                    <a href="#" class="product-card"><img src="https://dl.dropboxusercontent.com/scl/fi/34wdqyvlm9dwcnhbl4glc/35f2992ca1e77711346f44023107fb16.png?rlkey=6xm4xo08bu37b5k1afb7y2rld&st=cn0e5cum&dl=0" alt="R6"><div class="product-info"><div class="card-title">Warhammer 40,000: Space Marine 2</div><div class="price">€12.99</div></div></a>
+                    <a href="#" class="product-card"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/371f38aeb670169c78d4197b3c669003.avif" alt="SW Outlaws"><div class="product-info"><div class="card-title">Kena: Bridge of Spirits</div><div class="price">Free</div></div></a>
+                    <a href="#" class="product-card"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/2ff14122a2e236a18aff7f22d6478f8c.avif" alt="AC Mirage"><div class="product-info"><div class="card-title">Need for Speed Payback</div><div class="price">€11.49</div></div></a>
+                    <a href="#" class="product-card"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/35f2992ca1e77711346f44023107fb16.avif" alt="R6"><div class="product-info"><div class="card-title">Warhammer 40,000: Space Marine 2</div><div class="price">€12.99</div></div></a>
                 </div>
                 <button class="slider-arrow right" onclick="scrollSlider(1)" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
             </div>
@@ -1281,9 +1411,9 @@
         <section class="reveal" aria-label="Play for free">
             <div class="section-header"><h2>Play for free</h2><a href="#">View All <i class="fas fa-arrow-right" style="font-size:0.7rem"></i></a></div>
             <div class="grid-3">
-                <article class="card reveal reveal-delay-1"><div class="card-img-wrapper"><img src="https://dl.dropboxusercontent.com/scl/fi/2ajpsnpic0gl2j0juawuw/55260c221ed7-kena-bridge-of-spirits.jpg?rlkey=kupg1q43mi50ucrps34b5vx0c&st=3hzbjyvd&dl=0" alt="SW Demo"><div class="card-img-overlay"></div></div><div class="card-content"><div class="card-tag">Kena: Bridge of Spirits</div><div class="card-title">Free to Play — Experience the Open World</div><div class="card-desc">Jump into the Kena universe with this free acess.</div><div class="card-footer"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Play now</a></div></div></article>
-                <article class="card reveal reveal-delay-2"><div class="card-img-wrapper"><img src="https://dl.dropboxusercontent.com/scl/fi/1fsdc3kp91h6sjg174hsd/ghost-of-tsushima-4320x3456-12072.jpg?rlkey=3d28w3wkdc7i1qlpwsb8hh166&st=xlv86yc6&dl=0" alt="Brawlhalla"><div class="card-img-overlay"></div></div><div class="card-content"><div class="card-tag">Ghost of Tsushima</div><div class="card-title">Free to Play — Platform Fighter</div><div class="card-desc">The legendary platform fighting game with over 80 million players.</div><div class="card-footer"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Play now</a></div></div></article>
-                <article class="card reveal reveal-delay-3"><div class="card-img-wrapper"><img src="https://dl.dropboxusercontent.com/scl/fi/dg0t9kfnvi76z01kxcr3r/RobloxPS5Icon.webp?rlkey=8nxjdhxuujiom49rdrvf8lrpa&e=1&st=p97ahx5l&dl=0" alt="FC6"><div class="card-img-overlay"></div></div><div class="card-content"><div class="card-tag">Roblox</div><div class="card-title">Trial — Welcome to Roblox</div><div class="card-desc">Experience the first hours of Far Cry 6.</div><div class="card-footer"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Play now</a></div></div></article>
+                <article class="card reveal reveal-delay-1"><div class="card-img-wrapper"><img src="https://image.api.playstation.com/vulcan/ap/rnd/202101/1401/llxvIbgZ6wgsWRkovO0ZOXd4.jpg" alt="SW Demo"><div class="card-img-overlay"></div></div><div class="card-content"><div class="card-tag">Kena: Bridge of Spirits</div><div class="card-title">Free to Play — Experience the Open World</div><div class="card-desc">Jump into the Kena universe with this free acess.</div><div class="card-footer"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Play now</a></div></div></article>
+                <article class="card reveal reveal-delay-2"><div class="card-img-wrapper"><img src="https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/ghost-of-tsushima-4320x3456-12072.avif" alt="Brawlhalla"><div class="card-img-overlay"></div></div><div class="card-content"><div class="card-tag">Ghost of Tsushima</div><div class="card-title">Free to Play — Platform Fighter</div><div class="card-desc">The legendary platform fighting game with over 80 million players.</div><div class="card-footer"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Play now</a></div></div></article>
+                <article class="card reveal reveal-delay-3"><div class="card-img-wrapper"><img src="https://psblog.com.br/wp-content/uploads/2023/09/psblog.com.br-finalmente-roblox-chega-ao-playstation-5-em-outubro-roblox.png" alt="FC6"><div class="card-img-overlay"></div></div><div class="card-content"><div class="card-tag">Roblox</div><div class="card-title">Trial — Welcome to Roblox</div><div class="card-desc">Experience the first hours of Far Cry 6.</div><div class="card-footer"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Play now</a></div></div></article>
             </div>
         </section>
 
@@ -1370,8 +1500,8 @@
 
         const categories = ['Mobile', 'Action RPG', 'Open World', 'Strategy', 'Open World'];
         const thumbImages = [
-            'https://dl.dropboxusercontent.com/scl/fi/7z4kg8hh4t9n2496wqad4/roblox-8k-character-7680x4320-23593.jpg?rlkey=xlbgzv5uypulz9o2jj8nmwda8&e=1&st=fhlt9mz9&dl=0',
-            'https://dl.dropboxusercontent.com/scl/fi/1fsdc3kp91h6sjg174hsd/ghost-of-tsushima-4320x3456-12072.jpg?rlkey=3d28w3wkdc7i1qlpwsb8hh166&st=xlv86yc6&dl=0',
+            'https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/roblox-8k-character-7680x4320-23593.avif',
+            'https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/ghost-of-tsushima-4320x3456-12072.avif',
             'https://image.api.playstation.com/vulcan/ap/rnd/202008/2619/aEqpsWKWYe1dxn9zKs7HgLai.jpg',
             'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/3z9V5Dyj8pVxtm8zqS9foG/863e4f291cf6566a9526119acdf8646e/6638e5dcaa201a2d55bcc772.jpg?imWidth=200',
             'https://drop-assets.ea.com/images/44hkhQp9L4eCe8bj20mNME/16677c3da97b176949faca46699ca865/NFS-Rivals-screenshot-16x9-4.jpg'
@@ -1521,8 +1651,8 @@
 
         // ==================== SEARCH ====================
         const searchDatabase = [
-            { type:'game', name:"Ghost of Tsushima", tag:'Action RPG', price:'Free', img:'https://dl.dropboxusercontent.com/scl/fi/1fsdc3kp91h6sjg174hsd/ghost-of-tsushima-4320x3456-12072.jpg?rlkey=3d28w3wkdc7i1qlpwsb8hh166&st=xlv86yc6&dl=0' },
-            { type:'game', name:"Need for Speed Payback", tag:'Racing', price:'€11.49', img:'https://dl.dropboxusercontent.com/scl/fi/e1q3hajs0a75no2lbjzvb/2ff14122a2e236a18aff7f22d6478f8c.png?rlkey=g8wyiawgi96jau0ffvoxan8ez&st=43ql0rfq&dl=0' },
+            { type:'game', name:"Ghost of Tsushima", tag:'Action RPG', price:'Free', img:'https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/ghost-of-tsushima-4320x3456-12072.avif' },
+            { type:'game', name:"Need for Speed Payback", tag:'Racing', price:'€11.49', img:'https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/2ff14122a2e236a18aff7f22d6478f8c.avif' },
             { type:'game', name:"Assassin's Creed Valhalla", tag:'Action RPG', price:'€39.99', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg' },
             { type:'game', name:"Assassin's Creed Origins", tag:'Action RPG', price:'€29.99', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg' },
             { type:'game', name:"Assassin's Creed Odyssey", tag:'Action RPG', price:'€29.99', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg' },
@@ -1541,7 +1671,7 @@
             { type:'game', name:'Watch Dogs: Legion', tag:'Action Adventure', price:'€19.99', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg' },
             { type:'game', name:'For Honor', tag:'Fighting', price:'Free', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/25jYqtlv4yZXspIIIrPYcy/f90d2f35fcb4f0080a6abbddb5e927ad/AC-Shadows-boxshot.jpg' },
             { type:'game', name:'Trackmania', tag:'Racing', price:'Free', img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1Im3YDFg9Jla4uctCRPS0n/e51fb74d579683896eea4f019f9876d0/tc-franchise.jpg' },
-            { type:'news', name:'Warhammer 40,000: Space Marine 2', tag:'Fighting', price:'€12.99', img:'https://dl.dropboxusercontent.com/scl/fi/34wdqyvlm9dwcnhbl4glc/35f2992ca1e77711346f44023107fb16.png?rlkey=6xm4xo08bu37b5k1afb7y2rld&st=cn0e5cum&dl=0' },
+            { type:'news', name:'Warhammer 40,000: Space Marine 2', tag:'Fighting', price:'€12.99', img:'https://developerhost-server.github.io/JyubyubySbiu6ininu/Microsoft.sheache/microsoft-encrypt-37014553/microsoft-epiv-25415130/img/35f2992ca1e77711346f44023107fb16.avif' },
             { type:'news', name:'Inside Anvil: The Technology Powering AC Shadows', tag:"Assassin's Creed", price:null, img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1QVfVf3vbDORdMlcV1AU0H/7ac205d8517481198f403774cf67701b/NewsAnvil_960x540f17e.jpg?imWidth=600' },
             { type:'news', name:'New Songs Now Available in Rocksmith+!', tag:'Rocksmith+', price:null, img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/78n5TM4N3WpshOKgwfy3q7/fed0a9505881eaf03eb07fbeccde17b4/April_14_Release_Notes_2026_Metallica_72sf17e.jpg?imWidth=600' },
             { type:'news', name:'This Week in The Crew — April 14th', tag:'The Crew Motorfest', price:null, img:'https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/1DAidnnLFQ0UCNLylavi6t/8097cc553fca35fe342068c0ed1c552c/M2_W07_SPEED_CROSSING_MKTf17e.jpg?imWidth=600' },
